@@ -80,7 +80,6 @@ def cli(*args, **kwargs):
 @click.option("--cognito-user-pool-id", prompt="Cognito User Pool ID")
 @click.option("--idp-id", prompt="(SSO) IDP ID", default="")
 @click.option("--auth-url", prompt="(SSO) Auth Url", default="")
-@click.option("--cubejs", prompt="Stacklet cube.js endpoint", default="")
 @click.option(
     "--location", prompt="Config File Location", default=DEFAULT_PATH
 )  # noqa
@@ -93,7 +92,6 @@ def configure(
     cognito_user_pool_id,
     idp_id,
     auth_url,
-    cubejs,
     location,
 ):
     """
@@ -106,7 +104,6 @@ def configure(
         "cognito_user_pool_id": cognito_user_pool_id,
         "idp_id": idp_id,
         "auth_url": auth_url,
-        "cubejs": cubejs,
     }
 
     StackletConfig.validate(config)
