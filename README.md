@@ -20,10 +20,16 @@ Create a config file at `~/.stacklet/sinistral/config.json`:
 }
 ```
 
-Login with a cognito user (SSO support coming soon):
+Login with a cognito user:
 
 ```
 $ sinistral login --username $USER --password $PASSWORD
+```
+
+Or, login with SSO:
+
+```
+$ sinistral login
 ```
 
 Run your first command:
