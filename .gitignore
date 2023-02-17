@@ -1,0 +1,4 @@
+
+pkg-build.secret
+*.pyc
+*__pycache__*
