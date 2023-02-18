@@ -36,5 +36,5 @@ $ sinistral login
 Run your first command:
 
 ```
-$ sinistral projects get
+$ sinistral projects list
 ```
