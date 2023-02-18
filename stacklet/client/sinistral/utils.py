@@ -9,7 +9,7 @@ _DEFAULT_OPTIONS = {
     "config": {"default": "", "help": ""},
     "output": {
         "type": click.Choice(list(Formatter.registry.keys()), case_sensitive=False),
-        "default": "",
+        "default": "yaml",
         "help": "Output type",
     },
     "cognito_user_pool_id": {

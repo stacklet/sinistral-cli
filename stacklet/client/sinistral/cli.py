@@ -10,6 +10,9 @@ from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.formatter import Formatter
 from stacklet.client.sinistral.utils import click_group_entry, default_options
 
+import stacklet.client.sinistral.output  # noqa
+import stacklet.client.sinistral.client  # noqa
+
 
 @click.group()
 @default_options()

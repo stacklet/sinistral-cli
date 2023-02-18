@@ -16,10 +16,10 @@ class RestExecutor:
         self.session = requests.Session()
         self.session.headers.update({"Authorization": f"Bearer {self.token}"})
 
-    def get(self, path, json):
+    def get(self, path, json=None):
         return self.session.get(self.api + path)
 
-    def post(self, path, json):
+    def post(self, path, json=None):
         return self.session.post(self.api + path, json=json)
 
 

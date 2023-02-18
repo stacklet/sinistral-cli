@@ -1,81 +1,22 @@
-import json
 import logging
 import sys
 
 from tempfile import TemporaryDirectory
 
 import click
-import jmespath
 import yaml
 
 from c7n_left.cli import run as left_run
-from c7n_left.output import Json, report_outputs, RichCli, JSONEncoder
 
-from stacklet.client.sinistral.executor import make_request
-from stacklet.client.sinistral.commands.projects import _get as get_project
-from stacklet.client.sinistral.commands.policy_collection import (
-    _get_policies as get_policies,
-)
+# from stacklet.client.sinistral.commands.projects import _get as get_project
+# from stacklet.client.sinistral.commands.policy_collection import (
+#     _get_policies as get_policies,
+# )
+from stacklet.client.sinistral.output import SinistralFormat
+from stacklet.client.sinistral.client import sinistral_client
 
 
 log = logging.getLogger("sinistral.run")
-
-global project, dryrun, ctx
-
-
-@report_outputs.register("sinistral")
-class SinistralOutput(Json):
-    """
-    Outputs to sinistral/rich cli
-    """
-
-    def __init__(self, ctx, config):
-        super().__init__(ctx, config)
-        self.rich_cli = RichCli(ctx, config)
-
-    def on_execution_started(self, policies, graph):
-        super().on_execution_started(policies, graph)
-        self.rich_cli.on_execution_started(policies, graph)
-
-    def on_results(self, results):
-        super().on_results(results)
-        self.rich_cli.on_results(results)
-
-    def on_execution_ended(self):
-        global project, dryrun, ctx
-
-        self.rich_cli.on_execution_ended()
-        formatted_results = [self.format_result(r) for r in self.results]
-        if self.config.output_query:
-            formatted_results = jmespath.search(
-                self.config.output_query, formatted_results
-            )
-
-        status = None
-
-        results = json.loads(
-            json.dumps({"results": formatted_results}, cls=JSONEncoder)
-        )["results"]
-
-        if not results:
-            status = "PASSED"
-
-        if results:
-            status = "FAILED"
-
-        # sinistral expects a name for each resource, which we may not have for
-        # data, provider terraform objects for example. hot fix here for now
-        for r in results:
-            if (
-                r["resource"].get("name") is None
-                and r["resource"]["__tfmeta"]["type"] != "resource"
-            ):
-                r["resource"]["name"] = r["resource"]["__tfmeta"]["path"]
-
-        if not dryrun:
-            payload = {"project_name": project, "results": results, "status": status}
-            res = make_request(ctx, "post", "/scans", json=payload)
-            click.echo(res)
 
 
 class LeftWrapper(click.core.Command):
@@ -97,22 +38,28 @@ class LeftWrapper(click.core.Command):
 @click.option("--project", required=True)
 @click.option("--dryrun", is_flag=True)
 @click.pass_context
-def run(_ctx, *args, **kwargs):
+def run(ctx, *args, **kwargs):
     """
     Run a policy and report to sinistral
     """
-    global project, dryrun, ctx
-    _ctx.params["output"] = "sinistral"
-    ctx = _ctx
+    ctx.params["output"] = "sinistral"
 
-    project = ctx.params.pop("project")
-    dryrun = ctx.params.pop("dryrun")
+    # afaics there's no way for us to pass this info into the output
+    # string like we do for other c7n outputs, e.g. s3://foo, if
+    # we did url lookup like sinistral://$project we could drop this
+    SinistralFormat.project = ctx.params.pop("project")
+    SinistralFormat.dryrun = ctx.params.pop("dryrun")
+    SinistralFormat.cli_ctx = ctx
+
+    sinistral = sinistral_client()
+
+    projects_client = sinistral.client("projects")
+    policy_collections_client = sinistral.client("policy-collections")
 
     results = []
-
-    project_data = get_project(ctx, project)
+    project_data = projects_client.get(name=SinistralFormat.project)
     for c in project_data["collections"]:
-        policies = get_policies(ctx, c)
+        policies = policy_collections_client.get_policies(name=c)
         raw_policies = [p["raw_policy"] for p in policies]
         with TemporaryDirectory() as tempdir:
             with open(f"{tempdir}/policy.yaml", "w+") as f:

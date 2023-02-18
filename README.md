@@ -38,3 +38,13 @@ Run your first command:
 ```
 $ sinistral projects list
 ```
+
+Python client:
+
+```python
+from stacklet.client.sinistral.client import sinistral_client
+
+sinistral = sinistral_client()
+policy_client = sinistral.client('policies')
+print(policy_client.list())
+```

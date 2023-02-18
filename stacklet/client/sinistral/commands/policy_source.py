@@ -1,21 +1,19 @@
-from stacklet.client.sinistral.utils import default_options, click_group_entry
-from stacklet.client.sinistral.executor import make_request
-
-import click
+from stacklet.client.sinistral.client import client_registry, ClientCommand, Client
+from stacklet.client.sinistral.registry import PluginRegistry
 
 
-@click.group(short_help="Policy sources command")
-@default_options()
-@click.pass_context
-def policy_sources(*args, **kwargs):
-    click_group_entry(*args, **kwargs)
+@client_registry.register("policy-sources")
+class PolicySources(Client):
+    """
+    Policy Sources Client
+    """
+
+    commands = PluginRegistry("commands")
 
 
-def _list(ctx, raw=True):
-    return make_request(ctx, "get", "/policy-sources", raw=raw)
-
-
-@policy_sources.command()
-@click.pass_context
-def list(ctx, *args, **kwargs):
-    click.echo(_list(ctx, raw=False))
+@PolicySources.commands.register("list")
+class ListPolicy(ClientCommand):
+    command = "list"
+    method = "get"
+    path = "/policy-sources"
+    params = {}

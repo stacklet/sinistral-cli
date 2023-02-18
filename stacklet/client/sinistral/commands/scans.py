@@ -1,21 +1,31 @@
-from stacklet.client.sinistral.utils import default_options, click_group_entry
-from stacklet.client.sinistral.executor import make_request
-
-import click
+from stacklet.client.sinistral.client import client_registry, ClientCommand, Client
+from stacklet.client.sinistral.registry import PluginRegistry
 
 
-@click.group(short_help="Scans command")
-@default_options()
-@click.pass_context
-def scans(*args, **kwargs):
-    click_group_entry(*args, **kwargs)
+@client_registry.register("scans")
+class Scans(Client):
+    """
+    Scans Client
+    """
+
+    commands = PluginRegistry("commands")
 
 
-def _list(ctx, raw=True):
-    return make_request(ctx, "get", "/scans", raw=raw)
+@Scans.commands.register("list")
+class ListScans(ClientCommand):
+    command = "list"
+    method = "get"
+    path = "/scans"
+    params = {}
 
 
-@scans.command()
-@click.pass_context
-def list(ctx, *args, **kwargs):
-    click.echo(_list(ctx, raw=False))
+@Scans.commands.register("create")
+class CreateScan(ClientCommand):
+    command = "create"
+    method = "get"
+    path = "/scans"
+    params = {
+        "--project-name": {"required": True},
+        "--results": {},
+        "--status": {"required": True},
+    }
