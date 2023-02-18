@@ -11,7 +11,11 @@ def policies(*args, **kwargs):
     click_group_entry(*args, **kwargs)
 
 
+def _list(ctx, raw=True):
+    return make_request(ctx, 'get', '/policies', raw=raw)
+
+
 @policies.command()
 @click.pass_context
-def get(ctx, *args, **kwargs):
-    click.echo(make_request(ctx, 'get', '/policies',))
+def list(ctx, *args, **kwargs):
+    click.echo(_list(ctx, raw=False))

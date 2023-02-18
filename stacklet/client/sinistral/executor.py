@@ -27,11 +27,13 @@ class RestExecutor:
         return self.session.post(self.api + path, json=json)
 
 
-def make_request(ctx, method, path, json={}):
+def make_request(ctx, method, path, json={}, raw=True):
     with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
         token = get_token()
         executor = RestExecutor(context, token)
         func = getattr(executor, method)
         res = func(path, json).json()
+        if raw:
+            return res
         fmt = Formatter.registry.get(ctx.obj["output"])()
     return fmt(res)

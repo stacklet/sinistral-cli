@@ -2,13 +2,18 @@ import json
 import logging
 import sys
 
+from tempfile import TemporaryDirectory
+
 import click
 import jmespath
+import yaml
 
 from c7n_left.cli import run as left_run
 from c7n_left.output import Json, report_outputs, RichCli, JSONEncoder
 
 from stacklet.client.sinistral.executor import make_request
+from stacklet.client.sinistral.commands.projects import _get as get_project
+from stacklet.client.sinistral.commands.policy_collection import _get_policies as get_policies
 
 
 log = logging.getLogger('sinistral.run')
@@ -80,6 +85,10 @@ class LeftWrapper(click.core.Command):
     """
     def make_parser(self, ctx):
         for param in left_run.params:
+            # skip policy dir as we pull policies from the collection
+            # at runtime from sinistral
+            if param == 'policy_dir':
+                param.required = False
             self.params.append(param)
         return super().make_parser(ctx)
 
@@ -95,6 +104,20 @@ def run(_ctx, *args, **kwargs):
     global project, dryrun, ctx
     _ctx.params['output'] = 'sinistral'
     ctx = _ctx
+
     project = ctx.params.pop('project')
     dryrun = ctx.params.pop('dryrun')
-    sys.exit(int(left_run.invoke(ctx)))
+
+    results = []
+
+    project_data = get_project(ctx, project)
+    for c in project_data['collections']:
+        policies = get_policies(ctx, c)
+        raw_policies = [p['raw_policy'] for p in policies]
+        with TemporaryDirectory() as tempdir:
+            with open(f'{tempdir}/policy.yaml', 'w+') as f:
+                yaml.dump({'policies': raw_policies}, f)
+                ctx.params['policy_dir'] = tempdir
+                results.append(int(left_run.invoke(ctx)))
+
+    sys.exit(int(sorted(results)[-1]))

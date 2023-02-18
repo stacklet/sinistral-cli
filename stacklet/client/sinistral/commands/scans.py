@@ -11,7 +11,11 @@ def scans(*args, **kwargs):
     click_group_entry(*args, **kwargs)
 
 
+def _list(ctx, raw=True):
+    return make_request(ctx, 'get', '/scans', raw=raw)
+
+
 @scans.command()
 @click.pass_context
-def get(ctx, *args, **kwargs):
-    click.echo(make_request(ctx, 'get', '/scans',))
+def list(ctx, *args, **kwargs):
+    click.echo(_list(ctx, raw=False))
