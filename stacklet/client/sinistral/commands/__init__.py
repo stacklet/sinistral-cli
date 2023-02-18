@@ -1,6 +1,4 @@
 from click.core import Group, Command, Option
-from click import pass_context
-
 
 from .run import run
 
@@ -27,6 +25,5 @@ for k, v in client_registry.items():
                 options.append(option)
         command = Command(name=i, help=j.help, callback=j.cli_run, params=options)
         command = default_options()(command)
-        # command = pass_context(command)
         group.add_command(command)
         commands.append(group)
