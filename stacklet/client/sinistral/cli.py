@@ -80,9 +80,7 @@ def cli(*args, **kwargs):
 @click.option("--cognito-user-pool-id", prompt="Cognito User Pool ID")
 @click.option("--idp-id", prompt="(SSO) IDP ID", default="")
 @click.option("--auth-url", prompt="(SSO) Auth Url", default="")
-@click.option(
-    "--location", prompt="Config File Location", default=DEFAULT_PATH
-)  # noqa
+@click.option("--location", prompt="Config File Location", default=DEFAULT_PATH)  # noqa
 @click.pass_context
 def configure(
     ctx,

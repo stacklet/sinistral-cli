@@ -4,7 +4,7 @@ from stacklet.client.sinistral.executor import make_request
 import click
 
 
-@click.group(short_help='Policy command')
+@click.group(short_help="Policy command")
 @default_options()
 @click.pass_context
 def policies(*args, **kwargs):
@@ -12,7 +12,7 @@ def policies(*args, **kwargs):
 
 
 def _list(ctx, raw=True):
-    return make_request(ctx, 'get', '/policies', raw=raw)
+    return make_request(ctx, "get", "/policies", raw=raw)
 
 
 @policies.command()

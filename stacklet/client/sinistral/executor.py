@@ -12,13 +12,9 @@ class RestExecutor:
         self.context = context
         self.api = self.context.config.api
         self.token = token
-        self.log = logging.getLogger('stacklet.client.sinistral.executor')
+        self.log = logging.getLogger("stacklet.client.sinistral.executor")
         self.session = requests.Session()
-        self.session.headers.update(
-            {
-                'Authorization': f'Bearer {self.token}'
-            }
-        )
+        self.session.headers.update({"Authorization": f"Bearer {self.token}"})
 
     def get(self, path, json):
         return self.session.get(self.api + path)

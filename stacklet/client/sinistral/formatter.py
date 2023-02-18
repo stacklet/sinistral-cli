@@ -5,7 +5,6 @@ from stacklet.client.sinistral.registry import PluginRegistry
 
 
 class Formatter:
-
     registry = PluginRegistry("formats")
 
 

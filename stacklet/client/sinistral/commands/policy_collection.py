@@ -4,7 +4,7 @@ from stacklet.client.sinistral.executor import make_request
 import click
 
 
-@click.group(short_help='Policy Collections command')
+@click.group(short_help="Policy Collections command")
 @default_options()
 @click.pass_context
 def policy_collections(*args, **kwargs):
@@ -12,7 +12,7 @@ def policy_collections(*args, **kwargs):
 
 
 def _list(ctx, raw=True):
-    return make_request(ctx, 'get', '/policy-collections', raw=raw)
+    return make_request(ctx, "get", "/policy-collections", raw=raw)
 
 
 @policy_collections.command()
@@ -22,22 +22,22 @@ def list(ctx, *args, **kwargs):
 
 
 def _get(ctx, name, raw=True):
-    return make_request(ctx, 'get', f'/policy-collections/{name}', raw=raw)
+    return make_request(ctx, "get", f"/policy-collections/{name}", raw=raw)
 
 
 @policy_collections.command()
-@click.option('--name', required=True)
+@click.option("--name", required=True)
 @click.pass_context
 def get(ctx, *args, **kwargs):
-    click.echo(_get(ctx, kwargs['name'], raw=False))
+    click.echo(_get(ctx, kwargs["name"], raw=False))
 
 
 def _get_policies(ctx, name, raw=True):
-    return make_request(ctx, 'get', f'/policy-collections/{name}/policies', raw=raw)
+    return make_request(ctx, "get", f"/policy-collections/{name}/policies", raw=raw)
 
 
 @policy_collections.command()
-@click.option('--name', required=True)
+@click.option("--name", required=True)
 @click.pass_context
 def get_policies(ctx, *args, **kwargs):
-    click.echo(_get_policies(ctx, kwargs['name'], raw=False))
+    click.echo(_get_policies(ctx, kwargs["name"], raw=False))

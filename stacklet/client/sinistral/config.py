@@ -12,7 +12,6 @@ DEFAULT_PATH = "~/.stacklet/sinistral/config.json"
 
 
 class StackletConfig:
-
     schema = {
         "type": "object",
         "properties": {

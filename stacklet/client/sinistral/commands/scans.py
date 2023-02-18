@@ -4,7 +4,7 @@ from stacklet.client.sinistral.executor import make_request
 import click
 
 
-@click.group(short_help='Scans command')
+@click.group(short_help="Scans command")
 @default_options()
 @click.pass_context
 def scans(*args, **kwargs):
@@ -12,7 +12,7 @@ def scans(*args, **kwargs):
 
 
 def _list(ctx, raw=True):
-    return make_request(ctx, 'get', '/scans', raw=raw)
+    return make_request(ctx, "get", "/scans", raw=raw)
 
 
 @scans.command()

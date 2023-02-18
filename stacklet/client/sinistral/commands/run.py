@@ -13,15 +13,17 @@ from c7n_left.output import Json, report_outputs, RichCli, JSONEncoder
 
 from stacklet.client.sinistral.executor import make_request
 from stacklet.client.sinistral.commands.projects import _get as get_project
-from stacklet.client.sinistral.commands.policy_collection import _get_policies as get_policies
+from stacklet.client.sinistral.commands.policy_collection import (
+    _get_policies as get_policies,
+)
 
 
-log = logging.getLogger('sinistral.run')
+log = logging.getLogger("sinistral.run")
 
 global project, dryrun, ctx
 
 
-@report_outputs.register('sinistral')
+@report_outputs.register("sinistral")
 class SinistralOutput(Json):
     """
     Outputs to sinistral/rich cli
@@ -52,30 +54,27 @@ class SinistralOutput(Json):
         status = None
 
         results = json.loads(
-            json.dumps({"results": formatted_results}, cls=JSONEncoder))
+            json.dumps({"results": formatted_results}, cls=JSONEncoder)
+        )["results"]
 
         if not results:
-            status = 'PASSED'
+            status = "PASSED"
 
         if results:
-            status = 'FAILED'
+            status = "FAILED"
 
         # sinistral expects a name for each resource, which we may not have for
         # data, provider terraform objects for example. hot fix here for now
-        for r in results['results']:
+        for r in results:
             if (
-                r['resource'].get('name') is None
-                and r['resource']['__tfmeta']['type'] != 'resource'
+                r["resource"].get("name") is None
+                and r["resource"]["__tfmeta"]["type"] != "resource"
             ):
-                r['resource']['name'] = r['resource']['__tfmeta']['path']
+                r["resource"]["name"] = r["resource"]["__tfmeta"]["path"]
 
         if not dryrun:
-            payload = {
-                'project_name': project,
-                'results': results['results'],
-                'status': status
-            }
-            res = make_request(ctx, 'post', '/scans', json=payload)
+            payload = {"project_name": project, "results": results, "status": status}
+            res = make_request(ctx, "post", "/scans", json=payload)
             click.echo(res)
 
 
@@ -83,41 +82,42 @@ class LeftWrapper(click.core.Command):
     """
     Wrapper for the c7n-left run command
     """
+
     def make_parser(self, ctx):
         for param in left_run.params:
             # skip policy dir as we pull policies from the collection
             # at runtime from sinistral
-            if param == 'policy_dir':
+            if param == "policy_dir":
                 param.required = False
             self.params.append(param)
         return super().make_parser(ctx)
 
 
-@click.command(name='run', cls=LeftWrapper)
-@click.option('--project', required=True)
-@click.option('--dryrun', is_flag=True)
+@click.command(name="run", cls=LeftWrapper)
+@click.option("--project", required=True)
+@click.option("--dryrun", is_flag=True)
 @click.pass_context
 def run(_ctx, *args, **kwargs):
     """
     Run a policy and report to sinistral
     """
     global project, dryrun, ctx
-    _ctx.params['output'] = 'sinistral'
+    _ctx.params["output"] = "sinistral"
     ctx = _ctx
 
-    project = ctx.params.pop('project')
-    dryrun = ctx.params.pop('dryrun')
+    project = ctx.params.pop("project")
+    dryrun = ctx.params.pop("dryrun")
 
     results = []
 
     project_data = get_project(ctx, project)
-    for c in project_data['collections']:
+    for c in project_data["collections"]:
         policies = get_policies(ctx, c)
-        raw_policies = [p['raw_policy'] for p in policies]
+        raw_policies = [p["raw_policy"] for p in policies]
         with TemporaryDirectory() as tempdir:
-            with open(f'{tempdir}/policy.yaml', 'w+') as f:
-                yaml.dump({'policies': raw_policies}, f)
-                ctx.params['policy_dir'] = tempdir
+            with open(f"{tempdir}/policy.yaml", "w+") as f:
+                yaml.dump({"policies": raw_policies}, f)
+                ctx.params["policy_dir"] = tempdir
                 results.append(int(left_run.invoke(ctx)))
 
     sys.exit(int(sorted(results)[-1]))
