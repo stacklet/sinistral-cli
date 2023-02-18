@@ -20,18 +20,18 @@ class RestExecutor:
             }
         )
 
-    def get(self, path, data):
+    def get(self, path, json):
         return self.session.get(self.api + path)
 
-    def post(self, path, data):
-        return self.session.post(self.api + path, data=data)
+    def post(self, path, json):
+        return self.session.post(self.api + path, json=json)
 
 
-def make_request(ctx, method, path, data={}):
+def make_request(ctx, method, path, json={}):
     with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
         token = get_token()
         executor = RestExecutor(context, token)
         func = getattr(executor, method)
-        res = func(path, data).json()
+        res = func(path, json).json()
         fmt = Formatter.registry.get(ctx.obj["output"])()
     return fmt(res)
