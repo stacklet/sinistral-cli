@@ -15,8 +15,9 @@ Create a config file at `~/.stacklet/sinistral/config.json`:
   "region": "us-east-1",
   "cognito_client_id": "5bogrjv9om1tjhfsd1c8d2kouo",
   "cognito_user_pool_id": "us-east-1_F4Ca4BFQS",
-  "idp_id": "JumpCloud",
-  "auth_url": "https://sso.jumpcloud.com/saml2/sinistral",
+  "idp_id": "idp-4a301a48-cd63-4c6c-caf7-419c5b0ee737",
+  "auth_url": "https://auth.sinistral.stacklet.io",
+  "cubejs": ""
 }
 ```
 
@@ -35,5 +36,15 @@ $ sinistral login
 Run your first command:
 
 ```
-$ sinistral projects get
+$ sinistral projects list
+```
+
+Python client:
+
+```python
+from stacklet.client.sinistral.client import sinistral_client
+
+sinistral = sinistral_client()
+policy_client = sinistral.client('policies')
+print(policy_client.list())
 ```

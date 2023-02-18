@@ -12,26 +12,24 @@ class RestExecutor:
         self.context = context
         self.api = self.context.config.api
         self.token = token
-        self.log = logging.getLogger('stacklet.client.sinistral.executor')
+        self.log = logging.getLogger("stacklet.client.sinistral.executor")
         self.session = requests.Session()
-        self.session.headers.update(
-            {
-                'Authorization': f'Bearer {self.token}'
-            }
-        )
+        self.session.headers.update({"Authorization": f"Bearer {self.token}"})
 
-    def get(self, path, data):
+    def get(self, path, json=None):
         return self.session.get(self.api + path)
 
-    def post(self, path, data):
-        return self.session.post(self.api + path, data=data)
+    def post(self, path, json=None):
+        return self.session.post(self.api + path, json=json)
 
 
-def make_request(ctx, method, path, data={}):
+def make_request(ctx, method, path, json={}, raw=True):
     with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
         token = get_token()
         executor = RestExecutor(context, token)
         func = getattr(executor, method)
-        res = func(path, data).json()
+        res = func(path, json).json()
+        if raw:
+            return res
         fmt = Formatter.registry.get(ctx.obj["output"])()
     return fmt(res)

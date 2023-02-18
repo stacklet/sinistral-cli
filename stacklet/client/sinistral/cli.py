@@ -10,6 +10,9 @@ from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.formatter import Formatter
 from stacklet.client.sinistral.utils import click_group_entry, default_options
 
+import stacklet.client.sinistral.output  # noqa
+import stacklet.client.sinistral.client  # noqa
+
 
 @click.group()
 @default_options()
@@ -80,9 +83,7 @@ def cli(*args, **kwargs):
 @click.option("--cognito-user-pool-id", prompt="Cognito User Pool ID")
 @click.option("--idp-id", prompt="(SSO) IDP ID", default="")
 @click.option("--auth-url", prompt="(SSO) Auth Url", default="")
-@click.option(
-    "--location", prompt="Config File Location", default=DEFAULT_PATH
-)  # noqa
+@click.option("--location", prompt="Config File Location", default=DEFAULT_PATH)  # noqa
 @click.pass_context
 def configure(
     ctx,

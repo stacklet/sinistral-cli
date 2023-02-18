@@ -1,17 +1,35 @@
-from stacklet.client.sinistral.utils import default_options, click_group_entry
-from stacklet.client.sinistral.executor import make_request
-
-import click
+from stacklet.client.sinistral.client import client_registry, ClientCommand, Client
+from stacklet.client.sinistral.registry import PluginRegistry
 
 
-@click.group(short_help='Policy Collections command')
-@default_options()
-@click.pass_context
-def policy_collections(*args, **kwargs):
-    click_group_entry(*args, **kwargs)
+@client_registry.register("policy-collections")
+class PolicyCollection(Client):
+    """
+    Policy Collection Client
+    """
+
+    commands = PluginRegistry("commands")
 
 
-@policy_collections.command()
-@click.pass_context
-def get(ctx, *args, **kwargs):
-    click.echo(make_request(ctx, 'get', '/policy-collections',))
+@PolicyCollection.commands.register("list")
+class ListPolicyCollection(ClientCommand):
+    command = "list"
+    method = "get"
+    path = "/policy-collections"
+    params = {}
+
+
+@PolicyCollection.commands.register("get")
+class GetPolicyCollection(ClientCommand):
+    command = "get"
+    method = "get"
+    path = "/policy-collections/{name}"
+    params = {"--name": {"required": True}}
+
+
+@PolicyCollection.commands.register("get-policies")
+class GetPoliciesPolicyCollection(ClientCommand):
+    command = "get_policies"
+    method = "get"
+    path = "/policy-collections/{name}/policies"
+    params = {"--name": {"required": True}}

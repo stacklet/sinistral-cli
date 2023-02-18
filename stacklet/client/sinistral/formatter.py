@@ -5,7 +5,6 @@ from stacklet.client.sinistral.registry import PluginRegistry
 
 
 class Formatter:
-
     registry = PluginRegistry("formats")
 
 
@@ -31,3 +30,9 @@ class JsonFormatter(Formatter):
 class YamlFormatter(Formatter):
     def __call__(self, value):
         return yaml.safe_dump(value, indent=2)
+
+
+@Formatter.registry.register("raw")
+class ValueFormatter(Formatter):
+    def __call__(self, value):
+        return value
