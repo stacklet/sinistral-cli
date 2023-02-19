@@ -2,7 +2,7 @@ from stacklet.client.sinistral.client import client_registry, ClientCommand, Cli
 from stacklet.client.sinistral.registry import PluginRegistry
 
 
-@client_registry.register("policies")
+@client_registry.register("Policy")
 class Policy(Client):
     """
     Policy Client
@@ -11,9 +11,25 @@ class Policy(Client):
     commands = PluginRegistry("commands")
 
 
-@Policy.commands.register("list")
-class ListPolicy(ClientCommand):
-    command = "list"
+@Policy.commands.register("get-policies")
+class GetPolicies(ClientCommand):
+    """
+    get_policies
+    """
+
+    command = "get_policies"
     method = "get"
     path = "/policies"
-    params = {}
+    params = {"--search": {}, "--lastKey": {}, "--pageSize": {}}
+
+
+@Policy.commands.register("get-policy-by-name")
+class GetPolicyByName(ClientCommand):
+    """
+    get_policy_by_name
+    """
+
+    command = "get_policy_by_name"
+    method = "get"
+    path = "/policies/{name}"
+    params = {"--name": {}}

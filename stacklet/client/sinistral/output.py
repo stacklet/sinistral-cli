@@ -5,7 +5,7 @@ import jmespath
 
 from c7n_left.output import Json, report_outputs, RichCli, JSONEncoder, MultiOutput
 
-from stacklet.client.sinistral.executor import make_request
+from stacklet.client.sinistral.client import sinistral_client
 
 
 class SinistralFormat(Json):
@@ -45,12 +45,14 @@ class SinistralFormat(Json):
                 r["resource"]["name"] = r["resource"]["__tfmeta"]["path"]
 
         if not self.dryrun:
+            sinistral = sinistral_client()
+            scans_client = sinistral.client("Scans")
             payload = {
                 "project_name": self.project,
                 "results": results,
                 "status": status,
             }
-            res = make_request(self.cli_ctx, "post", "/scans", json=payload)
+            res = scans_client.create_scan(json=payload)
             click.echo(res)
 
 
