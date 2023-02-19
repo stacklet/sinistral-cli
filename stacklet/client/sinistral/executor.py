@@ -20,7 +20,6 @@ class RestExecutor:
         return self.session.get(self.api + path)
 
     def post(self, path, json=None):
-        json = json.get("json")
         return self.session.post(self.api + path, json=json)
 
 

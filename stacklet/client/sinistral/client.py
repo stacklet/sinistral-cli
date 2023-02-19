@@ -38,7 +38,7 @@ class ClientCommand:
         res = client.make_request(
             cls.method,
             cls.path.format(**kwargs),
-            json=kwargs,
+            json=kwargs.get('json', {}),
             output=kwargs.get("output", "raw"),
         )
         return res
