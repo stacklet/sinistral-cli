@@ -56,8 +56,9 @@ class {class_name}(ClientCommand):
 
 
 def format_class(name):
+    client_name = convert_to_snake(name).replace('_', '-')
     return '''
-@client_registry.register('{name}')
+@client_registry.register('{client_name}')
 class {name}(Client):
     """
     {name} Client
@@ -66,7 +67,8 @@ class {name}(Client):
     commands = PluginRegistry("commands")
 
 '''.format(
-        name=name
+        name=name,
+        client_name=client_name
     )
 
 

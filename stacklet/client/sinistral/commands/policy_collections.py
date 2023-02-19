@@ -2,7 +2,7 @@ from stacklet.client.sinistral.client import client_registry, ClientCommand, Cli
 from stacklet.client.sinistral.registry import PluginRegistry
 
 
-@client_registry.register("PolicyCollections")
+@client_registry.register("policy-collections")
 class PolicyCollections(Client):
     """
     PolicyCollections Client

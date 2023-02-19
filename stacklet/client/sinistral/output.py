@@ -46,7 +46,7 @@ class SinistralFormat(Json):
 
         if not self.dryrun:
             sinistral = sinistral_client()
-            scans_client = sinistral.client("Scans")
+            scans_client = sinistral.client("scans")
             payload = {
                 "project_name": self.project,
                 "results": results,

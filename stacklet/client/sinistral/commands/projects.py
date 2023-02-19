@@ -2,7 +2,7 @@ from stacklet.client.sinistral.client import client_registry, ClientCommand, Cli
 from stacklet.client.sinistral.registry import PluginRegistry
 
 
-@client_registry.register("Projects")
+@client_registry.register("projects")
 class Projects(Client):
     """
     Projects Client

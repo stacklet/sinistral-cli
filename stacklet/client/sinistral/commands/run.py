@@ -53,8 +53,8 @@ def run(ctx, *args, **kwargs):
 
     sinistral = sinistral_client()
 
-    projects_client = sinistral.client("Projects")
-    policy_collections_client = sinistral.client("PolicyCollections")
+    projects_client = sinistral.client("projects")
+    policy_collections_client = sinistral.client("policy-collections")
 
     results = []
     project_data = projects_client.get_project_by_name(name=SinistralFormat.project)
