@@ -14,10 +14,12 @@ class Group(Client):
 @Group.commands.register("admin-delete-group")
 class AdminDeleteGroup(ClientCommand):
     """
-    admin_delete_group
+    Admin Delete Group
     """
 
     command = "admin_delete_group"
     method = "delete"
     path = "/group/{name}"
-    params = {"--name": {}}
+    params = {"--name": {"required": True}}
+    query_params = {}
+    payload_params = {}

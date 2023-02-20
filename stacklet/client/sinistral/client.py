@@ -1,3 +1,5 @@
+import json
+
 import click
 
 from stacklet.client.sinistral.context import StackletContext
@@ -9,6 +11,22 @@ from stacklet.client.sinistral.registry import PluginRegistry
 
 
 client_registry = PluginRegistry("clients")
+
+
+def parse_jsonschema(schema):
+    """
+    Parse the top level keys for a jsonschema
+    """
+    result = {}
+    if not schema:
+        return result
+    for name, info in schema["properties"].items():
+        result[name] = {}
+
+    for req in schema.get("required", []):
+        result[req]["required"] = True
+
+    return result
 
 
 class Client(object):
@@ -35,10 +53,17 @@ class ClientCommand:
     def run(cls, **kwargs):
         ctx = StackletContext(raw_config={})
         client = SinistralClient(ctx)
+        payload = {}
+        if cls.payload_params:
+            json_keys = parse_jsonschema(cls.payload_params["schema"])
+            for k, v in kwargs.items():
+                if k in json_keys:
+                    payload[k] = v
         res = client.make_request(
             cls.method,
             cls.path.format(**kwargs),
-            json=kwargs.get('json', {}),
+            _json=payload,
+            schema=cls.payload_params.get("schema", {}),
             output=kwargs.get("output", "raw"),
         )
         return res
@@ -54,12 +79,18 @@ class SinistralClient:
             return client()
         raise Exception(f"{name} client not found")
 
-    def make_request(self, method, path, json={}, output="raw"):
+    def make_request(self, method, path, _json={}, output="raw", schema=None):
         with StackletContext(self.ctx.config, self.ctx.config.to_json()) as context:
             token = get_token()
             executor = RestExecutor(context, token)
             func = getattr(executor, method)
-            res = func(path, json).json()
+            if isinstance(_json, str):
+                _json = json.loads(_json)
+            if schema:
+                from jsonschema import validate
+
+                validate(_json, schema)
+            res = func(path, _json).json()
             if isinstance(res, dict) and res.get("message") == "Unauthorized":
                 raise Exception("Unauthorized, check credentials")
             fmt = Formatter.registry.get(output, "yaml")()

@@ -47,12 +47,9 @@ class SinistralFormat(Json):
         if not self.dryrun:
             sinistral = sinistral_client()
             scans_client = sinistral.client("scans")
-            payload = {
-                "project_name": self.project,
-                "results": results,
-                "status": status,
-            }
-            res = scans_client.create_scan(json=payload)
+            res = scans_client.create_scan(
+                project_name=self.project, results=results, status=status
+            )
             click.echo(res)
 
 

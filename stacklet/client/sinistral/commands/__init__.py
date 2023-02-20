@@ -9,7 +9,7 @@ import stacklet.client.sinistral.commands.projects  # noqa
 import stacklet.client.sinistral.commands.scans  # noqa
 import stacklet.client.sinistral.commands.group  # noqa
 
-from stacklet.client.sinistral.client import client_registry
+from stacklet.client.sinistral.client import client_registry, parse_jsonschema
 from stacklet.client.sinistral.utils import default_options
 
 
@@ -22,7 +22,15 @@ for k, v in client_registry.items():
         options = []
         if j.params:
             for name, params in j.params.items():
-                option = Option([name], **params)
+                option = Option([name.replace('_', '-')], **params)
+                options.append(option)
+        if j.query_params:
+            for name, params in j.query_params.items():
+                option = Option([name.replace('_', '-')], **params)
+                options.append(option)
+        if "schema" in j.payload_params:
+            for name, _params in parse_jsonschema(j.payload_params["schema"]).items():
+                option = Option([f"--{name.replace('_', '-')}"], **_params)
                 options.append(option)
         command = Command(name=i, help=j.__doc__, callback=j.cli_run, params=options)
         command = default_options()(command)

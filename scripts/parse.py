@@ -16,33 +16,42 @@ def convert_to_snake(name):
 
 
 def parse_params(params, request_body):
-    result = {}
+    path_result = {}
+    query_result = {}
+    payload_result = {}
 
     if request_body:
-        result["--json"] = {}
+        payload_result['schema'] = request_body['content']['application/json']['schema']
 
     if not params:
-        return result
+        return path_result, query_result, payload_result
 
     for i in params:
-        result.setdefault(f'--{i["name"]}', {})
+        if i['in'] == 'path':
+            path_result.setdefault(f'--{i["name"]}', {'required': bool(i['required'])})
+        if i['in'] == 'query':
+            query_result.setdefault(f'--{i["name"]}', {'required': bool(i['required'])})
 
-    return result
+    return path_result, query_result, payload_result
 
 
-def format_command(name, command, class_name, method, path, params):
+def format_command(
+    name, command, class_name, method, path, path_params, query_params, payload_params, summary
+):
     command = convert_to_snake(command)
     cli_command = command.replace('_', '-')
     return '''
 @{name}.commands.register("{cli_command}")
 class {class_name}(ClientCommand):
     """
-    {command}
+    {summary}
     """
     command = "{command}"
     method = "{method}"
     path = "{path}"
-    params = {params}
+    params = {path_params}
+    query_params = {query_params}
+    payload_params = {payload_params}
 
     '''.format(
         name=name,
@@ -51,7 +60,10 @@ class {class_name}(ClientCommand):
         class_name=class_name,
         path=path,
         method=method,
-        params=json.dumps(params),
+        path_params=path_params,
+        query_params=query_params,
+        payload_params=payload_params,
+        summary=summary,
     )
 
 
@@ -98,7 +110,7 @@ for path, v in openapi["paths"].items():
             continue
 
         command = summary.replace(" ", "")
-        params = parse_params(parameters, request_body)
+        path_params, query_params, payload_params = parse_params(parameters, request_body)
 
         classes.setdefault(name, {})
         classes[name]["__class__"] = format_class(name)
@@ -108,7 +120,10 @@ for path, v in openapi["paths"].items():
             path=path,
             class_name=command,
             method=method,
-            params=params,
+            path_params=path_params,
+            query_params=query_params,
+            payload_params=payload_params,
+            summary=summary,
         )
 
 

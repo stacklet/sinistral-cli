@@ -14,22 +14,30 @@ class Policy(Client):
 @Policy.commands.register("get-policies")
 class GetPolicies(ClientCommand):
     """
-    get_policies
+    Get Policies
     """
 
     command = "get_policies"
     method = "get"
     path = "/policies"
-    params = {"--search": {}, "--lastKey": {}, "--pageSize": {}}
+    params = {}
+    query_params = {
+        "--search": {"required": False},
+        "--lastKey": {"required": False},
+        "--pageSize": {"required": False},
+    }
+    payload_params = {}
 
 
 @Policy.commands.register("get-policy-by-name")
 class GetPolicyByName(ClientCommand):
     """
-    get_policy_by_name
+    Get Policy By Name
     """
 
     command = "get_policy_by_name"
     method = "get"
     path = "/policies/{name}"
-    params = {"--name": {}}
+    params = {"--name": {"required": True}}
+    query_params = {}
+    payload_params = {}

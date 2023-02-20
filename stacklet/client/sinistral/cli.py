@@ -19,65 +19,33 @@ import stacklet.client.sinistral.client  # noqa
 @click.pass_context
 def cli(*args, **kwargs):
     """
-    Stacklet CLI
+    Sinistral CLI
 
-    Run graphql queries against Stacklet API. To get started run the following command
-    and follow prompts to configure your Stacklet CLI:
+    Configure your CLI
 
-        $ stacklet-admin configure
-
-    If this is your first time using Stacklet, create a user:
-
-        $ stacklet-admin user add
+        $ sinistral configure
 
     Now login:
 
-        $ stacklet-admin login
+        $ sinistral login
 
-    Your configuration file is saved to the directory: ~/.stacklet/config.json and your credentials
-    are stored at ~/.stacklet/credentials. You may need to periodically login to refresh your
+    Your configuration file is saved to the directory: ~/.stacklet/sinistral/config.json and your credentials
+    are stored at ~/.stacklet/sinistral/credentials. You may need to periodically login to refresh your
     authorization token.
 
     Run your first query:
 
-        $ stacklet-admin account list --provider AWS
-
-    To specify a different configuration file or different API endpoint/Cognito Configuration:
-
-    \b
-        $ stacklet-admin \\
-            --api $stacklet_api \\
-            --cognito-client-id $cognito_client_id \\
-            --cognito-user-pool-id $cognito_user_pool_id \\
-            --region $region \\
-            login
-
-    or:
-
-    \b
-        $ stacklet-admin \\
-            --config $config_file_location \\
-            login
+        $ sinistral projects get-projects
 
     Specify different output types:
 
-        $ stacklet-admin account --output json list --provider AWS
-
-    Stacklet queries default to 20 entries per page. To use pagiantion:
-
-    \b
-        $ stacklet-admin account \\
-            --first 20 \\
-            --last 20 \\
-            --before $before_token \\
-            --after $after_token \\
-            list
+        $ sinistral projects get-projects --output json
     """
     click_group_entry(*args, **kwargs)
 
 
-@cli.command(short_help="Configure stacklet-admin cli")
-@click.option("--api", prompt="Stacklet API endpoint")
+@cli.command(short_help="Configure sinistral cli")
+@click.option("--api", prompt="Sinistral API endpoint")
 @click.option("--region", prompt="Cognito Region")
 @click.option("--cognito-client-id", prompt="Cognito User Pool Client ID")
 @click.option("--cognito-user-pool-id", prompt="Cognito User Pool ID")
@@ -134,20 +102,20 @@ def show(ctx):
         click.echo(fmt(context.config.to_json()))
 
 
-@cli.command(short_help="Login to Stacklet")
+@cli.command(short_help="Login to Sinistral")
 @click.option("--username", required=False)
 @click.option("--password", hide_input=True, required=False)
 @click.pass_context
 def login(ctx, username, password):
     """
-    Login to Stacklet
+    Login to Sinistral
 
-        $ stacklet-admin login
+        $ sinistral login
 
     Spawns a web browser to login via SSO or Cognito. To login with a Cognito user
     with username and password, simply pass those options into the CLI:
 
-        $ stacklet-admin login --username my-user
+        $ sinistral login --username my-user
 
     If password is not passed in, your password will be prompted
     """
