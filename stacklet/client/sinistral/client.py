@@ -1,4 +1,8 @@
 import json
+import sys
+
+from jsonschema import validate
+from functools import partial
 
 import click
 
@@ -12,6 +16,45 @@ from stacklet.client.sinistral.registry import PluginRegistry
 
 client_registry = PluginRegistry("clients")
 
+type_maps = {"string": str, "float": float, "int": int, "number": int, "object": dict}
+
+
+def validate_list(ctx, param, value):
+    try:
+        # when using the multiple argument on a click option, it returns the
+        # kwargs as a tuple of list of characters so we reconstruct here
+        return ["".join(v) for v in value]
+    except Exception:
+        raise click.BadParameter(f"{value} should be list")
+
+
+def validate_types(types, schema, ctx, param, value):
+    if len(types) == 1:
+        if types[0] == "object":
+            return validate_json(schema, ctx, param, value)
+
+    for t in types:
+        if t == "object":
+            try:
+                return validate_json(schema, ctx, param, value)
+            except Exception:
+                continue
+        if isinstance(value, type_maps[t]):
+            return value
+
+    raise click.BadParameter(f"{value} should be one of {types}")
+
+
+def validate_json(schema, ctx, param, value):
+    try:
+        value = json.loads(value)
+        validate(value, schema)
+        return value
+    except Exception:
+        raise click.BadParameter(
+            f"{value} should be json encoded string and compatible with schema:\n{json.dumps(schema, indent=2)}"
+        )
+
 
 def parse_jsonschema(schema):
     """
@@ -22,6 +65,28 @@ def parse_jsonschema(schema):
         return result
     for name, info in schema["properties"].items():
         result[name] = {}
+        result[name]["help"] = info.get("title")
+        if info.get("default"):
+            result[name]["default"] = info["default"]
+            result[name]["show_default"] = True
+        if info.get("type") == "array":
+            result[name]["type"] = list
+            if info["items"]["type"] != "string":
+                result[name]["type"] = str
+                result[name]["callback"] = partial(validate_json, info)
+            else:
+                result[name]["multiple"] = True
+                result[name]["callback"] = validate_list
+        if info.get("type") == "object":
+            result[name]["type"] = str
+            result[name]["callback"] = partial(validate_json, info)
+
+        if info.get("anyOf"):
+            types = []
+            for i in info["anyOf"]:
+                types.append(i["type"])
+            types = list(set(types))
+            result[name]["callback"] = partial(validate_types, types, info)
 
     for req in schema.get("required", []):
         result[req]["required"] = True
@@ -46,7 +111,11 @@ class ClientCommand:
 
     @classmethod
     def cli_run(cls, **kwargs):
-        res = cls.run(**kwargs)
+        try:
+            res = cls.run(**kwargs)
+        except Exception as e:
+            click.echo(e)
+            sys.exit(1)
         click.echo(res)
 
     @classmethod
@@ -100,20 +169,23 @@ class SinistralClient:
             return client()
         raise Exception(f"{name} client not found")
 
-    def make_request(self, method, path, _json={}, output="raw", schema=None, q_params={}):
-        with StackletContext(self.ctx.config, self.ctx.config.to_json()) as context:
+    def make_request(
+        self, method, path, _json={}, output="raw", schema=None, q_params={}
+    ):
+        with self.ctx as context:
             token = get_token()
             executor = RestExecutor(context, token)
             func = getattr(executor, method)
             if isinstance(_json, str):
                 _json = json.loads(_json)
             if schema:
-                from jsonschema import validate
-
                 validate(_json, schema)
             res = func(path, q_params, _json).json()
-            if isinstance(res, dict) and res.get("message") == "Unauthorized":
-                raise Exception("Unauthorized, check credentials")
+            if isinstance(res, dict):
+                if res.get("message") == "Unauthorized":
+                    raise Exception("Unauthorized, check credentials")
+                if res.get("detail"):
+                    raise Exception(f"An error occured: {res['detail']}")
             fmt = Formatter.registry.get(output, "yaml")()
         return fmt(res)
 

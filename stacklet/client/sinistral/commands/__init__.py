@@ -22,11 +22,11 @@ for k, v in client_registry.items():
         options = []
         if j.params:
             for name, params in j.params.items():
-                option = Option([name.replace('_', '-')], **params)
+                option = Option([name.replace("_", "-")], **params)
                 options.append(option)
         if j.query_params:
             for name, params in j.query_params.items():
-                option = Option([name.replace('_', '-')], **params)
+                option = Option([name.replace("_", "-")], **params)
                 options.append(option)
         if "schema" in j.payload_params:
             for name, _params in parse_jsonschema(j.payload_params["schema"]).items():

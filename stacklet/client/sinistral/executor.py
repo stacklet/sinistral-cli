@@ -22,14 +22,8 @@ class RestExecutor:
     def post(self, path, params={}, json=None):
         return self.session.post(self.api + path, json=json, params=params)
 
+    def put(self, path, params={}, json=None):
+        return self.session.put(self.api + path, json=json, params=params)
 
-def make_request(ctx, method, path, json={}, raw=True, q_params={}):
-    with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
-        token = get_token()
-        executor = RestExecutor(context, token)
-        func = getattr(executor, method)
-        res = func(path, q_params, json).json()
-        if raw:
-            return res
-        fmt = Formatter.registry.get(ctx.obj["output"])()
-    return fmt(res)
+    def delete(self, path, params={}, json=None):
+        return self.session.delete(self.api + path, json=json, params=params)

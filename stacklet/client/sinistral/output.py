@@ -44,13 +44,17 @@ class SinistralFormat(Json):
             ):
                 r["resource"]["name"] = r["resource"]["__tfmeta"]["path"]
 
-        if not self.dryrun:
-            sinistral = sinistral_client()
-            scans_client = sinistral.client("scans")
-            res = scans_client.create_scan(
-                project_name=self.project, results=results, status=status
-            )
-            click.echo(res)
+        if self.dryrun:
+            return
+
+        sinistral = sinistral_client()
+        scans_client = sinistral.client("scans")
+        res = scans_client.create_scan(
+            project_name=self.project, results=results, status=status
+        )
+        if res.get("id"):
+            click.echo(f'Results submitted: id:{res["id"]}')
+            pass
 
 
 @report_outputs.register("sinistral")
