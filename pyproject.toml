@@ -25,6 +25,7 @@ c7n-left = "^0.1.4"
 pre-commit = "^3.1.0"
 black = "^23.1.0"
 flake8 = "^6.0.0"
+pytest = "^7.2.1"
 
 [build-system]
 requires = ["poetry-core"]
