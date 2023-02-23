@@ -2,4 +2,4 @@
 pkg-build.secret
 *.pyc
 *__pycache__*
-.gitignore
+.coverage

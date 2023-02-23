@@ -1,3 +1,4 @@
+# This is a generated file, created by scripts/parse.py
 from stacklet.client.sinistral.client import client_registry, ClientCommand, Client
 from stacklet.client.sinistral.registry import PluginRegistry
 
@@ -186,8 +187,8 @@ class CreateScan(ClientCommand):
                                     "type": "array",
                                     "items": {
                                         "anyOf": [
+                                            {"type": "integer"},
                                             {"type": "string"},
-                                            {"type": "number"},
                                         ]
                                     },
                                 },
