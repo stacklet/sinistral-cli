@@ -60,7 +60,7 @@ def validate_json(schema, ctx, param, value):
         return value
     except Exception:
         raise click.BadParameter(
-            f"{value} should be json encoded string and compatible with schema:\n{json.dumps(schema, indent=2)}"
+            f"{value} should be json encoded string and compatible with schema:\n{json.dumps(schema, indent=2)}"  # noqa
         )
 
 
