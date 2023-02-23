@@ -24,13 +24,6 @@ get_project_response = {
     "updated_at": "2023-02-17T14:40:49.394311+00:00",
 }
 
-get_policy_collection_response = {
-    "name": "my-collection",
-    "policies": ["check-tags"],
-    "created_at": "2023-01-23T20:25:50.517860+00:00",
-    "updated_at": "2023-01-23T20:25:50.517868+00:00",
-}
-
 get_policies_for_collection_response = [
     {
         "name": "check-tags",
