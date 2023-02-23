@@ -21,25 +21,33 @@ def parse_params(params, request_body):
     payload_result = {}
 
     if request_body:
-        payload_result['schema'] = request_body['content']['application/json']['schema']
+        payload_result["schema"] = request_body["content"]["application/json"]["schema"]
 
     if not params:
         return path_result, query_result, payload_result
 
     for i in params:
-        if i['in'] == 'path':
-            path_result.setdefault(f'--{i["name"]}', {'required': bool(i['required'])})
-        if i['in'] == 'query':
-            query_result.setdefault(f'--{i["name"]}', {'required': bool(i['required'])})
+        if i["in"] == "path":
+            path_result.setdefault(f'--{i["name"]}', {"required": bool(i["required"])})
+        if i["in"] == "query":
+            query_result.setdefault(f'--{i["name"]}', {"required": bool(i["required"])})
 
     return path_result, query_result, payload_result
 
 
 def format_command(
-    name, command, class_name, method, path, path_params, query_params, payload_params, summary
+    name,
+    command,
+    class_name,
+    method,
+    path,
+    path_params,
+    query_params,
+    payload_params,
+    summary,
 ):
     command = convert_to_snake(command)
-    cli_command = command.replace('_', '-')
+    cli_command = command.replace("_", "-")
     return '''
 @{name}.commands.register("{cli_command}")
 class {class_name}(ClientCommand):
@@ -68,7 +76,7 @@ class {class_name}(ClientCommand):
 
 
 def format_class(name):
-    client_name = convert_to_snake(name).replace('_', '-')
+    client_name = convert_to_snake(name).replace("_", "-")
     return '''
 @client_registry.register('{client_name}')
 class {name}(Client):
@@ -79,8 +87,7 @@ class {name}(Client):
     commands = PluginRegistry("commands")
 
 '''.format(
-        name=name,
-        client_name=client_name
+        name=name, client_name=client_name
     )
 
 
@@ -111,7 +118,9 @@ for path, v in openapi["paths"].items():
             continue
 
         command = summary.replace(" ", "")
-        path_params, query_params, payload_params = parse_params(parameters, request_body)
+        path_params, query_params, payload_params = parse_params(
+            parameters, request_body
+        )
 
         classes.setdefault(name, {})
         classes[name]["__class__"] = format_class(name)
