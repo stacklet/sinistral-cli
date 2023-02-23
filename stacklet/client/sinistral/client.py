@@ -60,13 +60,14 @@ class SinistralClient:
             executor = RestExecutor(context, token)
             func = getattr(executor, method)
             res = func(path, json).json()
-            if isinstance(res, dict) and res.get('message') == 'Unauthorized':
-                raise Exception('Unauthorized, check credentials')
+            if isinstance(res, dict) and res.get("message") == "Unauthorized":
+                raise Exception("Unauthorized, check credentials")
             fmt = Formatter.registry.get(output, "yaml")()
         return fmt(res)
 
 
 def sinistral_client():
     import stacklet.client.sinistral.commands  # noqa
+
     ctx = StackletContext(raw_config={})
     return SinistralClient(ctx)
