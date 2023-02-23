@@ -48,7 +48,6 @@ class StackletConfig:
         ):
             try:
                 path = DEFAULT_PATH
-                breakpoint()
                 if os.environ.get("STACKLET_CONFIG"):
                     path = os.environ["STACKLET_CONFIG"]
                 self = self.from_file(os.path.expanduser(path))  # noqa
