@@ -8,12 +8,9 @@ import yaml
 
 from c7n_left.cli import run as left_run
 
-# from stacklet.client.sinistral.commands.projects import _get as get_project
-# from stacklet.client.sinistral.commands.policy_collection import (
-#     _get_policies as get_policies,
-# )
 from stacklet.client.sinistral.output import SinistralFormat
 from stacklet.client.sinistral.client import sinistral_client
+from stacklet.client.sinistral.utils import click_group_entry, default_options
 
 
 log = logging.getLogger("sinistral.run")
@@ -28,8 +25,9 @@ class LeftWrapper(click.core.Command):
         for param in left_run.params:
             # skip policy dir as we pull policies from the collection
             # at runtime from sinistral
-            if param == "policy_dir":
-                param.required = False
+            if param.name == "policy_dir":
+                # param.required = False
+                continue
             self.params.append(param)
         return super().make_parser(ctx)
 
@@ -38,7 +36,7 @@ class LeftWrapper(click.core.Command):
 @click.option("--project", required=True)
 @click.option("--dryrun", is_flag=True)
 @click.pass_context
-def run(ctx, *args, **kwargs):
+def run(ctx, project, dryrun, *args, **kwargs):
     """
     Run a policy and report to sinistral
     """

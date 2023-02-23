@@ -182,7 +182,7 @@ class CreateScan(ClientCommand):
                             "code_block": {
                                 "title": "Code Block",
                                 "type": "array",
-                                "items": {"type": "array", "items": {"type": "string"}},
+                                "items": {"type": "array", "items": {"anyOf": [{"type": "string"}, {"type": "number"}]}},
                             },
                         },
                     },

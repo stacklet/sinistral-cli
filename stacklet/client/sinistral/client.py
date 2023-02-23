@@ -5,18 +5,19 @@ from jsonschema import validate
 from functools import partial
 
 import click
+from click.globals import get_current_context
 
 from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.executor import RestExecutor
 from stacklet.client.sinistral.formatter import Formatter
-from stacklet.client.sinistral.utils import get_token
+from stacklet.client.sinistral.utils import get_token, click_group_entry
 
 from stacklet.client.sinistral.registry import PluginRegistry
 
 
 client_registry = PluginRegistry("clients")
 
-type_maps = {"string": str, "float": float, "int": int, "number": int, "object": dict}
+type_maps = {"string": str, "float": float, "int": int, "integer": int, "number": int, "object": dict}
 
 
 def validate_list(ctx, param, value):
@@ -110,9 +111,11 @@ class ClientCommand:
     params = {}
 
     @classmethod
-    def cli_run(cls, **kwargs):
+    def cli_run(cls, *args, **kwargs):
+        ctx = get_current_context()
+        click_group_entry(ctx, *args, **kwargs)
         try:
-            res = cls.run(**kwargs)
+            res = cls.run(ctx=ctx, **kwargs)
         except Exception as e:
             click.echo(e)
             sys.exit(1)
@@ -141,13 +144,15 @@ class ClientCommand:
         return payload
 
     @classmethod
-    def run(cls, **kwargs):
-        ctx = StackletContext(raw_config={})
+    def run(cls, ctx=None, **kwargs):
+        if ctx:
+            ctx = StackletContext(config=ctx.obj['config'], raw_config=ctx.obj['raw_config'])
+        else:
+            ctx = StackletContext(raw_config={})
         client = SinistralClient(ctx)
 
         payload = cls.handle_json_payload(kwargs)
         q_params = cls.handle_query_params(kwargs)
-
         res = client.make_request(
             method=cls.method,
             path=cls.path.format(**kwargs),
@@ -164,9 +169,9 @@ class SinistralClient:
         self.ctx = ctx
 
     def client(self, name):
-        client = client_registry.get(name)
-        if name:
-            return client()
+        result = client_registry.get(name)
+        if result:
+            return result()
         raise Exception(f"{name} client not found")
 
     def make_request(
@@ -180,12 +185,16 @@ class SinistralClient:
                 _json = json.loads(_json)
             if schema:
                 validate(_json, schema)
-            res = func(path, q_params, _json).json()
+            res = func(path, q_params, _json)
+            status_code = res.status_code
+            res = res.json()
             if isinstance(res, dict):
                 if res.get("message") == "Unauthorized":
                     raise Exception("Unauthorized, check credentials")
                 if res.get("detail"):
                     raise Exception(f"An error occured: {res['detail']}")
+            if 400 <= status_code < 600:
+                raise Exception(f'Error: ({status_code}), {json.dumps(res)}')
             fmt = Formatter.registry.get(output, "yaml")()
         return fmt(res)
 
