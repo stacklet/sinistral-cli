@@ -2,10 +2,6 @@ import logging
 
 import requests
 
-from stacklet.client.sinistral.context import StackletContext
-from stacklet.client.sinistral.formatter import Formatter
-from stacklet.client.sinistral.utils import get_token
-
 
 class RestExecutor:
     def __init__(self, context, token):

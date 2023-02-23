@@ -10,7 +10,6 @@ from c7n_left.cli import run as left_run
 
 from stacklet.client.sinistral.output import SinistralFormat
 from stacklet.client.sinistral.client import sinistral_client
-from stacklet.client.sinistral.utils import click_group_entry, default_options
 
 
 log = logging.getLogger("sinistral.run")

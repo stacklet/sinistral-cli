@@ -29,9 +29,9 @@ def cli(*args, **kwargs):
 
         $ sinistral login
 
-    Your configuration file is saved to the directory: ~/.stacklet/sinistral/config.json and your credentials
-    are stored at ~/.stacklet/sinistral/credentials. You may need to periodically login to refresh your
-    authorization token.
+    Your configuration file is saved to the directory: ~/.stacklet/sinistral/config.json
+    and your credentials are stored at ~/.stacklet/sinistral/credentials.
+    You may need to periodically login to refresh your authorization token.
 
     Run your first query:
 
