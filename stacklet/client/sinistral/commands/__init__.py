@@ -16,6 +16,7 @@ from stacklet.client.sinistral.utils import default_options
 commands = [run]
 
 
+# Instantiate commands out of clients
 for k, v in client_registry.items():
     group = default_options()(Group(name=k, short_help=f"{k} command"))
     for i, j in v.commands.items():

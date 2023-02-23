@@ -29,11 +29,7 @@ class SinistralFormat(Json):
             json.dumps({"results": formatted_results}, cls=JSONEncoder)
         )["results"]
 
-        if not results:
-            status = "PASSED"
-
-        if results:
-            status = "FAILED"
+        status = "PASSED" if not results else "FAILED"
 
         # sinistral expects a name for each resource, which we may not have for
         # data, provider terraform objects for example. hot fix here for now

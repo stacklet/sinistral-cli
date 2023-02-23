@@ -87,11 +87,13 @@ def configure(
 
 
 @cli.command()
+@default_options()
 @click.pass_context
-def show(ctx):
+def show(ctx, *args, **kwargs):
     """
     Show your config
     """
+    click_group_entry(ctx, *args, **kwargs)
     with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
         fmt = Formatter.registry.get(ctx.obj["output"])()
         if os.path.exists(os.path.expanduser(StackletContext.DEFAULT_ID)):
@@ -105,8 +107,9 @@ def show(ctx):
 @cli.command(short_help="Login to Sinistral")
 @click.option("--username", required=False)
 @click.option("--password", hide_input=True, required=False)
+@default_options()
 @click.pass_context
-def login(ctx, username, password):
+def login(ctx, username, password, *args, **kwargs):
     """
     Login to Sinistral
 
@@ -119,6 +122,7 @@ def login(ctx, username, password):
 
     If password is not passed in, your password will be prompted
     """
+    click_group_entry(ctx, *args, **kwargs)
     with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
         # sso login
         if context.can_sso_login() and not any([username, password]):
