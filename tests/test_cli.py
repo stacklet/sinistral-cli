@@ -5,7 +5,12 @@ import tempfile
 from unittest.mock import patch
 
 from click.testing import CliRunner
+
 from stacklet.client.sinistral.cli import cli
+from stacklet.client.sinistral.context import StackletContext
+from stacklet.client.sinistral.executor import RestExecutor
+
+from .utils import get_mock_response, get_project_response
 
 
 def test_commands_present():
@@ -87,3 +92,31 @@ def test_cli_login_cognito():
     runner = CliRunner()
     runner.invoke(cli, ["login", "--username=foo", "--password=bar"])
     os.unlink(temp.name)
+
+
+@patch.object(StackletContext, "DEFAULT_CREDENTIALS", "/dev/null")
+def test_cli_get_project():
+    with patch.object(
+        RestExecutor,
+        "get",
+        side_effect=[
+            get_mock_response(json=get_project_response),
+        ],
+    ):
+        runner = CliRunner()
+        res = runner.invoke(cli, ["projects", "get-project-by-name", "--name", "foo"])
+        assert res.exit_code == 0
+        assert "foo" in res.output
+
+
+@patch.object(StackletContext, "DEFAULT_CREDENTIALS", "/dev/null")
+def test_cli_get_project_exit_1():
+    with patch.object(
+        RestExecutor,
+        "get",
+        side_effect=[Exception("bam!")],
+    ):
+        runner = CliRunner()
+        res = runner.invoke(cli, ["projects", "get-project-by-name", "--name", "foo"])
+        assert res.exit_code == 1
+        assert str(res.output) == "bam!\n"

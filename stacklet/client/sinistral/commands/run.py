@@ -26,7 +26,6 @@ class LeftWrapper(click.core.Command):
             # skip policy dir as we pull policies from the collection
             # at runtime from sinistral
             if param.name == "policy_dir":
-                # param.required = False
                 continue
             self.params.append(param)
         return super().make_parser(ctx)

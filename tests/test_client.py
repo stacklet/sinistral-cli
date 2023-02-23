@@ -5,6 +5,8 @@ from unittest.mock import MagicMock, patch
 import click
 import pytest
 
+from .utils import get_mock_response
+
 from stacklet.client.sinistral.client import (
     validate_list,
     validate_types,
@@ -145,13 +147,6 @@ def test_sinistral_client_clients_instantiated():
     with pytest.raises(AttributeError):
         client.some_non_existant_command()
         pass
-
-
-def get_mock_response(status_code=200, json={}):
-    response = MagicMock()
-    response.status_code = status_code
-    response.json.return_value = json
-    return response
 
 
 def test_client_command_get():

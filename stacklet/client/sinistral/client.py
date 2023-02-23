@@ -17,7 +17,14 @@ from stacklet.client.sinistral.registry import PluginRegistry
 
 client_registry = PluginRegistry("clients")
 
-type_maps = {"string": str, "float": float, "int": int, "integer": int, "number": int, "object": dict}
+type_maps = {
+    "string": str,
+    "float": float,
+    "int": int,
+    "integer": int,
+    "number": int,
+    "object": dict,
+}
 
 
 def validate_list(ctx, param, value):
@@ -146,7 +153,9 @@ class ClientCommand:
     @classmethod
     def run(cls, ctx=None, **kwargs):
         if ctx:
-            ctx = StackletContext(config=ctx.obj['config'], raw_config=ctx.obj['raw_config'])
+            ctx = StackletContext(
+                config=ctx.obj["config"], raw_config=ctx.obj["raw_config"]
+            )
         else:
             ctx = StackletContext(raw_config={})
         client = SinistralClient(ctx)
@@ -194,7 +203,7 @@ class SinistralClient:
                 if res.get("detail"):
                     raise Exception(f"An error occured: {res['detail']}")
             if 400 <= status_code < 600:
-                raise Exception(f'Error: ({status_code}), {json.dumps(res)}')
+                raise Exception(f"Error: ({status_code}), {json.dumps(res)}")
             fmt = Formatter.registry.get(output, "yaml")()
         return fmt(res)
 

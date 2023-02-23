@@ -23,7 +23,13 @@ class StackletConfig:
             "auth_url": {"type": "string"},
             "cubejs": {"type": "string"},
         },
-        "required": ["api", "cognito_user_pool_id", "cognito_client_id", "region", "auth_url"]
+        "required": [
+            "api",
+            "cognito_user_pool_id",
+            "cognito_client_id",
+            "region",
+            "auth_url",
+        ],
     }
 
     def __init__(

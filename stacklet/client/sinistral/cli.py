@@ -94,7 +94,7 @@ def show(ctx, *args, **kwargs):
     Show your config
     """
     click_group_entry(ctx, *args, **kwargs)
-    with StackletContext(ctx.obj['config'], ctx.obj["raw_config"]) as context:
+    with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
         fmt = Formatter.registry.get(ctx.obj["output"])()
         if os.path.exists(os.path.expanduser(StackletContext.DEFAULT_ID)):
             with open(os.path.expanduser(StackletContext.DEFAULT_ID), "r") as f:
@@ -123,7 +123,7 @@ def login(ctx, username, password, *args, **kwargs):
     If password is not passed in, your password will be prompted
     """
     click_group_entry(ctx, *args, **kwargs)
-    with StackletContext(ctx.obj['config'], ctx.obj["raw_config"]) as context:
+    with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
         # sso login
         if context.can_sso_login() and not any([username, password]):
             from stacklet.client.sinistral.vendored.auth import BrowserAuthenticator
