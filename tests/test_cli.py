@@ -7,7 +7,6 @@ from unittest.mock import patch
 from click.testing import CliRunner
 
 from stacklet.client.sinistral.cli import cli
-from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.executor import RestExecutor
 
 from .utils import get_mock_response, get_project_response
@@ -94,7 +93,6 @@ def test_cli_login_cognito():
     os.unlink(temp.name)
 
 
-@patch.object(StackletContext, "DEFAULT_CREDENTIALS", "/dev/null")
 def test_cli_get_project():
     with patch.object(
         RestExecutor,
@@ -109,7 +107,6 @@ def test_cli_get_project():
         assert "foo" in res.output
 
 
-@patch.object(StackletContext, "DEFAULT_CREDENTIALS", "/dev/null")
 def test_cli_get_project_exit_1():
     with patch.object(
         RestExecutor,

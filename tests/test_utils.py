@@ -1,10 +1,4 @@
-import os
-
-from unittest.mock import patch
-from tempfile import NamedTemporaryFile
-
 from stacklet.client.sinistral.utils import get_log_level, get_token
-from stacklet.client.sinistral.context import StackletContext
 
 
 def test_get_log_level():
@@ -31,10 +25,4 @@ def test_get_log_level():
 
 
 def test_get_token():
-    temp = NamedTemporaryFile(delete=False)
-    with open(temp.name, "w") as f:
-        f.write("foo")
-    with patch.object(StackletContext, "DEFAULT_CREDENTIALS", temp.name):
-        token = get_token()
-        assert token == "foo"
-    os.unlink(temp.name)
+    assert get_token() == "foo"

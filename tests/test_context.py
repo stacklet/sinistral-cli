@@ -2,8 +2,6 @@ import json
 import os
 import tempfile
 
-from unittest.mock import patch
-
 from stacklet.client.sinistral.context import StackletContext, StackletCredentialWriter
 from stacklet.client.sinistral.config import StackletConfig
 
@@ -62,11 +60,10 @@ def test_context_from_file_default():
     with open(temp.name, "w") as f:
         json.dump(config, f)
 
-    with patch.object(StackletContext, "DEFAULT_CONFIG", temp.name):
-        context = StackletContext()
-        assert isinstance(context.config, StackletConfig)
-        with context:
-            assert context.can_sso_login() is True
+    context = StackletContext()
+    assert isinstance(context.config, StackletConfig)
+    with context:
+        assert context.can_sso_login() is True
 
     os.unlink(temp.name)
 
