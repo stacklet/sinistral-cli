@@ -4,7 +4,7 @@ Handle configuration for the CLI
 import json
 import os
 
-from jsonschema import ValidationError, validate
+from jsonschema import validate
 from stacklet.client.sinistral.exceptions import ConfigValidationException
 
 MISSING = "missing"
@@ -23,6 +23,13 @@ class StackletConfig:
             "auth_url": {"type": "string"},
             "cubejs": {"type": "string"},
         },
+        "required": [
+            "api",
+            "cognito_user_pool_id",
+            "cognito_client_id",
+            "region",
+            "auth_url",
+        ],
     }
 
     def __init__(
@@ -46,13 +53,6 @@ class StackletConfig:
         if not all(
             [self.api, self.cognito_user_pool_id, self.cognito_client_id, self.region]
         ):
-            try:
-                path = DEFAULT_PATH
-                if os.environ.get("STACKLET_CONFIG"):
-                    path = os.environ["STACKLET_CONFIG"]
-                self = self.from_file(os.path.expanduser(path))  # noqa
-            except ValidationError:
-                raise ConfigValidationException
             raise ConfigValidationException
 
     def to_json(self):

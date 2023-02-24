@@ -67,24 +67,12 @@ def wrap_command(func, options, required=False, prompt=False):
     for name, details in options.items():
         if not name.startswith("-"):
             name = f'--{name.replace("_", "-")}'
-        if isinstance(details, str):
-            click.option(
-                name,
-                required=required,
-                help=details,
-                prompt=prompt,
-            )(func)
-        elif isinstance(details, dict):
-            click.option(
-                name,
-                required=required,
-                prompt=prompt,
-                **details,
-            )(func)
-        else:
-            raise Exception(
-                "Options should be of type str or dict, got %s" % type(details)
-            )
+        click.option(
+            name,
+            required=required,
+            prompt=prompt,
+            **details,
+        )(func)
     return func
 
 
@@ -120,6 +108,8 @@ def click_group_entry(
     cognito_region,
     api,
     v,
+    *args,
+    **kwargs,
 ):
     logging.basicConfig()
     root_handler = logging.getLogger()

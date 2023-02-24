@@ -62,3 +62,7 @@ pkg-publish:
 	else
 		echo "skipping publish"
 	fi
+
+generate:
+  poetry run python scripts/parse.py
+  black stacklet

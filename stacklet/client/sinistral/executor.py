@@ -2,10 +2,6 @@ import logging
 
 import requests
 
-from stacklet.client.sinistral.context import StackletContext
-from stacklet.client.sinistral.formatter import Formatter
-from stacklet.client.sinistral.utils import get_token
-
 
 class RestExecutor:
     def __init__(self, context, token):
@@ -16,20 +12,14 @@ class RestExecutor:
         self.session = requests.Session()
         self.session.headers.update({"Authorization": f"Bearer {self.token}"})
 
-    def get(self, path, json=None):
-        return self.session.get(self.api + path)
+    def get(self, path, params={}, json=None):
+        return self.session.get(self.api + path, params=params)
 
-    def post(self, path, json=None):
-        return self.session.post(self.api + path, json=json)
+    def post(self, path, params={}, json=None):
+        return self.session.post(self.api + path, json=json, params=params)
 
+    def put(self, path, params={}, json=None):
+        return self.session.put(self.api + path, json=json, params=params)
 
-def make_request(ctx, method, path, json={}, raw=True):
-    with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
-        token = get_token()
-        executor = RestExecutor(context, token)
-        func = getattr(executor, method)
-        res = func(path, json).json()
-        if raw:
-            return res
-        fmt = Formatter.registry.get(ctx.obj["output"])()
-    return fmt(res)
+    def delete(self, path, params={}, json=None):
+        return self.session.delete(self.api + path, json=json, params=params)

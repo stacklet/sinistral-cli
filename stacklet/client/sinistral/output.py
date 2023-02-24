@@ -5,7 +5,7 @@ import jmespath
 
 from c7n_left.output import Json, report_outputs, RichCli, JSONEncoder, MultiOutput
 
-from stacklet.client.sinistral.executor import make_request
+from stacklet.client.sinistral.client import sinistral_client
 
 
 class SinistralFormat(Json):
@@ -29,11 +29,7 @@ class SinistralFormat(Json):
             json.dumps({"results": formatted_results}, cls=JSONEncoder)
         )["results"]
 
-        if not results:
-            status = "PASSED"
-
-        if results:
-            status = "FAILED"
+        status = "PASSED" if not results else "FAILED"
 
         # sinistral expects a name for each resource, which we may not have for
         # data, provider terraform objects for example. hot fix here for now
@@ -44,14 +40,17 @@ class SinistralFormat(Json):
             ):
                 r["resource"]["name"] = r["resource"]["__tfmeta"]["path"]
 
-        if not self.dryrun:
-            payload = {
-                "project_name": self.project,
-                "results": results,
-                "status": status,
-            }
-            res = make_request(self.cli_ctx, "post", "/scans", json=payload)
-            click.echo(res)
+        if self.dryrun:
+            return
+
+        sinistral = sinistral_client()
+        scans_client = sinistral.client("scans")
+        res = scans_client.create_scan(
+            project_name=self.project, results=results, status=status
+        )
+        if res.get("id"):
+            click.echo(f'Results submitted: id:{res["id"]}')
+            pass
 
 
 @report_outputs.register("sinistral")

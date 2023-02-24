@@ -2,3 +2,4 @@
 pkg-build.secret
 *.pyc
 *__pycache__*
+.coverage
