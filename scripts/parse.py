@@ -99,53 +99,53 @@ from stacklet.client.sinistral.registry import PluginRegistry
 """
 
 
-classes = {}
+if __name__ == "__main__":
 
+    classes = {}
 
-for path, v in openapi["paths"].items():
-    for method, j in v.items():
-        summary = j.get("summary")
-        tags = j.get("tags", [])
-        operation_id = j.get("operationId")
-        request_body = j.get("requestBody")
-        response = j.get("responses")
-        parameters = j.get("parameters")
+    for path, v in openapi["paths"].items():
+        for method, j in v.items():
+            summary = j.get("summary")
+            tags = j.get("tags", [])
+            operation_id = j.get("operationId")
+            request_body = j.get("requestBody")
+            response = j.get("responses")
+            parameters = j.get("parameters")
 
-        if tags:
-            name = tags[0].replace(" ", "")
-        else:
-            # it's not an actual command
-            continue
+            if tags:
+                name = tags[0].replace(" ", "")
+            else:
+                # it's not an actual command
+                continue
 
-        command = summary.replace(" ", "")
-        path_params, query_params, payload_params = parse_params(
-            parameters, request_body
-        )
+            command = summary.replace(" ", "")
+            path_params, query_params, payload_params = parse_params(
+                parameters, request_body
+            )
 
-        classes.setdefault(name, {})
-        classes[name]["__class__"] = format_class(name)
-        classes[name][command] = format_command(
-            name=name,
-            command=command,
-            path=path,
-            class_name=command,
-            method=method,
-            path_params=path_params,
-            query_params=query_params,
-            payload_params=payload_params,
-            summary=summary,
-        )
+            classes.setdefault(name, {})
+            classes[name]["__class__"] = format_class(name)
+            classes[name][command] = format_command(
+                name=name,
+                command=command,
+                path=path,
+                class_name=command,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                payload_params=payload_params,
+                summary=summary,
+            )
 
-
-for k, v in classes.items():
-    write_class = True
-    with open(
-        f"stacklet/client/sinistral/commands/{convert_to_snake(k)}.py", "w+"
-    ) as f:
-        if "__class__" in v:
-            if write_class:
-                f.writelines(format_imports())
-                write_class = False
-            for i, j in v.items():
-                f.writelines(j)
-    write_class = True
+    for k, v in classes.items():
+        write_class = True
+        with open(
+            f"stacklet/client/sinistral/commands/{convert_to_snake(k)}.py", "w+"
+        ) as f:
+            if "__class__" in v:
+                if write_class:
+                    f.writelines(format_imports())
+                    write_class = False
+                for i, j in v.items():
+                    f.writelines(j)
+        write_class = True
