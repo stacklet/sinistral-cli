@@ -78,7 +78,6 @@ class CreateScan(ClientCommand):
                                     "name",
                                     "resource",
                                     "description",
-                                    "metadata",
                                     "filters",
                                     "mode",
                                 ],
@@ -92,12 +91,16 @@ class CreateScan(ClientCommand):
                                     },
                                     "metadata": {
                                         "title": "ScanResultPolicyMetadata",
-                                        "required": ["severity"],
                                         "type": "object",
                                         "properties": {
                                             "severity": {
                                                 "title": "Severity",
-                                                "enum": ["HIGH", "MEDIUM", "LOW"],
+                                                "enum": [
+                                                    "HIGH",
+                                                    "MEDIUM",
+                                                    "LOW",
+                                                    "UNKNOWN",
+                                                ],
                                                 "type": "string",
                                                 "description": "An enumeration.",
                                             }
@@ -117,12 +120,7 @@ class CreateScan(ClientCommand):
                             },
                             "resource": {
                                 "title": "ScanResultResource",
-                                "required": [
-                                    "id",
-                                    "name",
-                                    "__tfmeta",
-                                    "c7n:MatchedFilters",
-                                ],
+                                "required": ["id", "__tfmeta"],
                                 "type": "object",
                                 "properties": {
                                     "id": {"title": "Id", "type": "string"},
