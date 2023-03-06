@@ -25,19 +25,32 @@ class LeftWrapper(click.core.Command):
             # skip policy dir as we pull policies from the collection
             # at runtime from sinistral
             if param.name == "policy_dir":
-                continue
+                param.required = False
             self.params.append(param)
         return super().make_parser(ctx)
 
 
 @click.command(name="run", cls=LeftWrapper)
-@click.option("--project", required=True)
+@click.option(
+    "--project", required=False, help="Either project or policy dir must be set."
+)
 @click.option("--dryrun", is_flag=True)
 @click.pass_context
 def run(ctx, project, dryrun, *args, **kwargs):
     """
     Run a policy and report to sinistral
     """
+
+    if project and ctx.params.get("policy_dir"):
+        raise Exception("Either project or policy directory must be specified")
+
+    if project is None:
+        if ctx.params.get("policy_dir"):
+            ctx.params.pop("project")
+            ctx.params.pop("dryrun")
+            sys.exit(int(left_run.invoke(ctx)))
+        raise Exception("Either project or policy directory must be specified")
+
     ctx.params["output"] = "sinistral"
 
     # afaics there's no way for us to pass this info into the output
@@ -54,6 +67,7 @@ def run(ctx, project, dryrun, *args, **kwargs):
 
     results = []
     project_data = projects_client.get_project_by_name(name=SinistralFormat.project)
+
     for c in project_data["collections"]:
         policies = policy_collections_client.get_policies_for_collection(name=c)
         raw_policies = [p["raw_policy"] for p in policies]
