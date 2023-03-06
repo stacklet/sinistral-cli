@@ -19,7 +19,8 @@ from stacklet.client.sinistral.context import StackletContext
 def test_run_command():
     runner = CliRunner()
     result = runner.invoke(cli, ["run", "--help"])
-    assert "policy-dir" not in result.output
+    assert "policy-dir" in result.output
+    assert "project" in result.output
 
 
 @patch.object(StackletContext, "DEFAULT_CREDENTIALS", "/dev/null")
