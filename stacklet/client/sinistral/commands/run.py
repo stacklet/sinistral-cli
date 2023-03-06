@@ -31,18 +31,24 @@ class LeftWrapper(click.core.Command):
 
 
 @click.command(name="run", cls=LeftWrapper)
-@click.option("--project", required=False)
+@click.option(
+    "--project", required=False, help="Either project or policy dir must be set."
+)
 @click.option("--dryrun", is_flag=True)
 @click.pass_context
 def run(ctx, project, dryrun, *args, **kwargs):
     """
     Run a policy and report to sinistral
     """
+
+    if project and ctx.params.get("policy_dir"):
+        raise Exception("Either project or policy directory must be specified")
+
     if project is None:
         if ctx.params.get("policy_dir"):
             ctx.params.pop("project")
             ctx.params.pop("dryrun")
-            left_run.invoke(ctx)
+            sys.exit(int(left_run.invoke(ctx)))
         raise Exception("Either project or policy directory must be specified")
 
     ctx.params["output"] = "sinistral"
