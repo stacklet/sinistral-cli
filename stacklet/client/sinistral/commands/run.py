@@ -42,14 +42,16 @@ def run(ctx, project, dryrun, *args, **kwargs):
     """
 
     if project and ctx.params.get("policy_dir"):
-        raise Exception("Either project or policy directory must be specified")
+        raise click.UsageError(
+            "Either project or policy directory must be specified")
 
     if project is None:
         if ctx.params.get("policy_dir"):
             ctx.params.pop("project")
             ctx.params.pop("dryrun")
             sys.exit(int(left_run.invoke(ctx)))
-        raise Exception("Either project or policy directory must be specified")
+        raise click.UsageError(
+            "Either project or policy directory must be specified")
 
     ctx.params["output"] = "sinistral"
 
