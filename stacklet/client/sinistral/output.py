@@ -34,11 +34,9 @@ class SinistralFormat(Json):
         # sinistral expects a name for each resource, which we may not have for
         # data, provider terraform objects for example. hot fix here for now
         for r in results:
-            if (
-                r["resource"].get("name") is None
-                and r["resource"]["__tfmeta"]["type"] != "resource"
-            ):
-                r["resource"]["name"] = r["resource"]["__tfmeta"]["path"]
+            r['resource'].setdefault('c7n:MatchedFilters', [])
+            if "name" not in r['resource']:
+                r['resource']['name'] = r["resource"]["__tfmeta"]["path"]
 
         if self.dryrun:
             return
