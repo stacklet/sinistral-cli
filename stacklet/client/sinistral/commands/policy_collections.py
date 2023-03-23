@@ -12,13 +12,13 @@ class PolicyCollections(Client):
     commands = PluginRegistry("commands")
 
 
-@PolicyCollections.commands.register("get-policy-collections")
-class GetPolicyCollections(ClientCommand):
+@PolicyCollections.commands.register("list")
+class List(ClientCommand):
     """
-    Get Policy Collections
+    List all policy collections
     """
 
-    command = "get_policy_collections"
+    command = "list"
     method = "get"
     path = "/policy-collections"
     params = {}
@@ -26,13 +26,13 @@ class GetPolicyCollections(ClientCommand):
     payload_params = {}
 
 
-@PolicyCollections.commands.register("create-policy-collection")
-class CreatePolicyCollection(ClientCommand):
+@PolicyCollections.commands.register("create")
+class Create(ClientCommand):
     """
-    Create Policy Collection
+    Create a new policy collection
     """
 
-    command = "create_policy_collection"
+    command = "create"
     method = "post"
     path = "/policy-collections"
     params = {}
@@ -56,13 +56,13 @@ class CreatePolicyCollection(ClientCommand):
     }
 
 
-@PolicyCollections.commands.register("get-policy-collection-by-name")
-class GetPolicyCollectionByName(ClientCommand):
+@PolicyCollections.commands.register("get")
+class Get(ClientCommand):
     """
-    Get Policy Collection By Name
+    Get a policy collection by name
     """
 
-    command = "get_policy_collection_by_name"
+    command = "get"
     method = "get"
     path = "/policy-collections/{name}"
     params = {"--name": {"required": True}}
@@ -70,13 +70,13 @@ class GetPolicyCollectionByName(ClientCommand):
     payload_params = {}
 
 
-@PolicyCollections.commands.register("delete-policy-collection")
-class DeletePolicyCollection(ClientCommand):
+@PolicyCollections.commands.register("delete")
+class Delete(ClientCommand):
     """
-    Delete Policy Collection
+    Delete a policy collection
     """
 
-    command = "delete_policy_collection"
+    command = "delete"
     method = "delete"
     path = "/policy-collections/{name}"
     params = {"--name": {"required": True}}
@@ -84,13 +84,13 @@ class DeletePolicyCollection(ClientCommand):
     payload_params = {}
 
 
-@PolicyCollections.commands.register("get-policies-for-collection")
-class GetPoliciesForCollection(ClientCommand):
+@PolicyCollections.commands.register("get-policies")
+class GetPolicies(ClientCommand):
     """
-    Get Policies For Collection
+    Get policies for a policy collection
     """
 
-    command = "get_policies_for_collection"
+    command = "get_policies"
     method = "get"
     path = "/policy-collections/{name}/policies"
     params = {"--name": {"required": True}}
@@ -98,13 +98,13 @@ class GetPoliciesForCollection(ClientCommand):
     payload_params = {}
 
 
-@PolicyCollections.commands.register("update-policies-for-collection")
-class UpdatePoliciesForCollection(ClientCommand):
+@PolicyCollections.commands.register("update-policies")
+class UpdatePolicies(ClientCommand):
     """
-    Update Policies For Collection
+    Update the policies for a policy collection
     """
 
-    command = "update_policies_for_collection"
+    command = "update_policies"
     method = "put"
     path = "/policy-collections/{name}/policies"
     params = {"--name": {"required": True}}
@@ -126,13 +126,13 @@ class UpdatePoliciesForCollection(ClientCommand):
     }
 
 
-@PolicyCollections.commands.register("add-policies-to-collection")
-class AddPoliciesToCollection(ClientCommand):
+@PolicyCollections.commands.register("add-policies")
+class AddPolicies(ClientCommand):
     """
-    Add Policies To Collection
+    Add policies to a policy collection
     """
 
-    command = "add_policies_to_collection"
+    command = "add_policies"
     method = "post"
     path = "/policy-collections/{name}/policies"
     params = {"--name": {"required": True}}
@@ -155,13 +155,13 @@ class AddPoliciesToCollection(ClientCommand):
     }
 
 
-@PolicyCollections.commands.register("remove-policies-from-collection")
-class RemovePoliciesFromCollection(ClientCommand):
+@PolicyCollections.commands.register("delete-policies")
+class DeletePolicies(ClientCommand):
     """
-    Remove Policies From Collection
+    Delete policies from a policy collection
     """
 
-    command = "remove_policies_from_collection"
+    command = "delete_policies"
     method = "delete"
     path = "/policy-collections/{name}/policies"
     params = {"--name": {"required": True}}

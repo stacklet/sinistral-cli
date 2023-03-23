@@ -66,10 +66,10 @@ def run(ctx, project, dryrun, *args, **kwargs):
     policy_collections_client = sinistral.client("policy-collections")
 
     results = []
-    project_data = projects_client.get_project_by_name(name=SinistralFormat.project)
+    project_data = projects_client.get(name=SinistralFormat.project)
 
     for c in project_data["collections"]:
-        policies = policy_collections_client.get_policies_for_collection(name=c)
+        policies = policy_collections_client.get_policies(name=c)
         raw_policies = [p["raw_policy"] for p in policies]
         with TemporaryDirectory() as tempdir:
             with open(f"{tempdir}/policy.yaml", "w+") as f:

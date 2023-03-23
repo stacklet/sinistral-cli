@@ -18,7 +18,7 @@ def test_output(patched_client):
     assert patched_client().mock_calls[0].args == ("scans",)
 
     # create scan called
-    assert patched_client().client().create_scan.mock_calls[0].kwargs == {
+    assert patched_client().client().create.mock_calls[0].kwargs == {
         "project_name": None,
         "results": [],
         "status": "PASSED",

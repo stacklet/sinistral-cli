@@ -111,6 +111,7 @@ if __name__ == "__main__":
             request_body = j.get("requestBody")
             response = j.get("responses")
             parameters = j.get("parameters")
+            description = j.get("description")
 
             if tags:
                 name = tags[0].replace(" ", "")
@@ -134,7 +135,7 @@ if __name__ == "__main__":
                 path_params=path_params,
                 query_params=query_params,
                 payload_params=payload_params,
-                summary=summary,
+                summary=description,
             )
 
     for k, v in classes.items():

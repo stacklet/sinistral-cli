@@ -12,13 +12,13 @@ class Policy(Client):
     commands = PluginRegistry("commands")
 
 
-@Policy.commands.register("get-policies")
-class GetPolicies(ClientCommand):
+@Policy.commands.register("list")
+class List(ClientCommand):
     """
-    Get Policies
+    List all policies
     """
 
-    command = "get_policies"
+    command = "list"
     method = "get"
     path = "/policies"
     params = {}
@@ -30,13 +30,13 @@ class GetPolicies(ClientCommand):
     payload_params = {}
 
 
-@Policy.commands.register("get-policy-by-name")
-class GetPolicyByName(ClientCommand):
+@Policy.commands.register("get")
+class Get(ClientCommand):
     """
-    Get Policy By Name
+    Get a policy by name
     """
 
-    command = "get_policy_by_name"
+    command = "get"
     method = "get"
     path = "/policies/{name}"
     params = {"--name": {"required": True}}
