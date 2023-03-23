@@ -14,7 +14,6 @@ def test_context():
         "cognito_user_pool_id": "bar",
         "idp_id": "baz",
         "auth_url": "https://auth.sinistral.acme.org",
-        "cubejs": "",
     }
     context = StackletContext(raw_config=config)
     assert isinstance(context.config, StackletConfig)
@@ -31,7 +30,6 @@ def test_context_from_file():
         "cognito_user_pool_id": "bar",
         "idp_id": "baz",
         "auth_url": "https://auth.sinistral.acme.org",
-        "cubejs": "",
     }
     with open(temp.name, "w") as f:
         json.dump(config, f)
@@ -54,7 +52,6 @@ def test_context_from_file_default():
         "cognito_user_pool_id": "bar",
         "idp_id": "baz",
         "auth_url": "https://auth.sinistral.acme.org",
-        "cubejs": "",
     }
 
     with open(temp.name, "w") as f:
