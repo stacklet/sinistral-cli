@@ -12,13 +12,13 @@ class Projects(Client):
     commands = PluginRegistry("commands")
 
 
-@Projects.commands.register("get-projects")
-class GetProjects(ClientCommand):
+@Projects.commands.register("list")
+class List(ClientCommand):
     """
-    Get Projects
+    List all projects
     """
 
-    command = "get_projects"
+    command = "list"
     method = "get"
     path = "/projects"
     params = {}
@@ -26,13 +26,13 @@ class GetProjects(ClientCommand):
     payload_params = {}
 
 
-@Projects.commands.register("create-project")
-class CreateProject(ClientCommand):
+@Projects.commands.register("create")
+class Create(ClientCommand):
     """
-    Create Project
+    Create a project
     """
 
-    command = "create_project"
+    command = "create"
     method = "post"
     path = "/projects"
     params = {}
@@ -67,13 +67,13 @@ class CreateProject(ClientCommand):
     }
 
 
-@Projects.commands.register("get-project-by-name")
-class GetProjectByName(ClientCommand):
+@Projects.commands.register("get")
+class Get(ClientCommand):
     """
-    Get Project By Name
+    Get a project by name
     """
 
-    command = "get_project_by_name"
+    command = "get"
     method = "get"
     path = "/projects/{name}"
     params = {"--name": {"required": True}}
@@ -81,13 +81,13 @@ class GetProjectByName(ClientCommand):
     payload_params = {}
 
 
-@Projects.commands.register("update-project")
-class UpdateProject(ClientCommand):
+@Projects.commands.register("update")
+class Update(ClientCommand):
     """
-    Update Project
+    Update a project
     """
 
-    command = "update_project"
+    command = "update"
     method = "put"
     path = "/projects/{name}"
     params = {"--name": {"required": True}}
@@ -120,13 +120,13 @@ class UpdateProject(ClientCommand):
     }
 
 
-@Projects.commands.register("delete-project")
-class DeleteProject(ClientCommand):
+@Projects.commands.register("delete")
+class Delete(ClientCommand):
     """
-    Delete Project
+    Delete a project
     """
 
-    command = "delete_project"
+    command = "delete"
     method = "delete"
     path = "/projects/{name}"
     params = {"--name": {"required": True}}
@@ -134,13 +134,13 @@ class DeleteProject(ClientCommand):
     payload_params = {}
 
 
-@Projects.commands.register("get-collections-for-project")
-class GetCollectionsForProject(ClientCommand):
+@Projects.commands.register("get-collections")
+class GetCollections(ClientCommand):
     """
-    Get Collections For Project
+    Get policy collections for a project
     """
 
-    command = "get_collections_for_project"
+    command = "get_collections"
     method = "get"
     path = "/projects/{name}/collections"
     params = {"--name": {"required": True}}
@@ -148,13 +148,13 @@ class GetCollectionsForProject(ClientCommand):
     payload_params = {}
 
 
-@Projects.commands.register("add-collections-to-project")
-class AddCollectionsToProject(ClientCommand):
+@Projects.commands.register("add-collections")
+class AddCollections(ClientCommand):
     """
-    Add Collections To Project
+    Add policy collections to a project
     """
 
-    command = "add_collections_to_project"
+    command = "add_collections"
     method = "post"
     path = "/projects/{name}/collections"
     params = {"--name": {"required": True}}
@@ -177,13 +177,13 @@ class AddCollectionsToProject(ClientCommand):
     }
 
 
-@Projects.commands.register("remove-collections-from-project")
-class RemoveCollectionsFromProject(ClientCommand):
+@Projects.commands.register("delete-collections")
+class DeleteCollections(ClientCommand):
     """
-    Remove Collections From Project
+    Delete policy collections from a project
     """
 
-    command = "remove_collections_from_project"
+    command = "delete_collections"
     method = "delete"
     path = "/projects/{name}/collections"
     params = {"--name": {"required": True}}
@@ -191,13 +191,13 @@ class RemoveCollectionsFromProject(ClientCommand):
     payload_params = {}
 
 
-@Projects.commands.register("get-policies-for-project")
-class GetPoliciesForProject(ClientCommand):
+@Projects.commands.register("get-policies")
+class GetPolicies(ClientCommand):
     """
-    Get Policies For Project
+    Get policies for a project
     """
 
-    command = "get_policies_for_project"
+    command = "get_policies"
     method = "get"
     path = "/projects/{name}/policies"
     params = {"--name": {"required": True}}
@@ -205,13 +205,13 @@ class GetPoliciesForProject(ClientCommand):
     payload_params = {}
 
 
-@Projects.commands.register("add-groups-to-group-type")
-class AddGroupsToGroupType(ClientCommand):
+@Projects.commands.register("add-groups")
+class AddGroups(ClientCommand):
     """
-    Add Groups To Group Type
+    Add groups to a project
     """
 
-    command = "add_groups_to_group_type"
+    command = "add_groups"
     method = "post"
     path = "/projects/{name}/groups/{group_type}"
     params = {"--name": {"required": True}, "--group_type": {"required": True}}
@@ -234,13 +234,13 @@ class AddGroupsToGroupType(ClientCommand):
     }
 
 
-@Projects.commands.register("remove-groups-from-group-type")
-class RemoveGroupsFromGroupType(ClientCommand):
+@Projects.commands.register("delete-groups")
+class DeleteGroups(ClientCommand):
     """
-    Remove Groups From Group Type
+    Delete groups from a project
     """
 
-    command = "remove_groups_from_group_type"
+    command = "delete_groups"
     method = "delete"
     path = "/projects/{name}/groups/{group_type}"
     params = {"--name": {"required": True}, "--group_type": {"required": True}}

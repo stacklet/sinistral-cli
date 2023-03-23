@@ -12,13 +12,13 @@ class PolicySources(Client):
     commands = PluginRegistry("commands")
 
 
-@PolicySources.commands.register("get-policy-sources")
-class GetPolicySources(ClientCommand):
+@PolicySources.commands.register("list")
+class List(ClientCommand):
     """
-    Get Policy Sources
+    List all policy sources
     """
 
-    command = "get_policy_sources"
+    command = "list"
     method = "get"
     path = "/policy-sources"
     params = {}
@@ -26,13 +26,13 @@ class GetPolicySources(ClientCommand):
     payload_params = {}
 
 
-@PolicySources.commands.register("create-policy-source")
-class CreatePolicySource(ClientCommand):
+@PolicySources.commands.register("create")
+class Create(ClientCommand):
     """
-    Create Policy Source
+    Create a new policy source
     """
 
-    command = "create_policy_source"
+    command = "create"
     method = "post"
     path = "/policy-sources"
     params = {}
@@ -108,13 +108,13 @@ class CreatePolicySource(ClientCommand):
     }
 
 
-@PolicySources.commands.register("get-policy-source-by-name")
-class GetPolicySourceByName(ClientCommand):
+@PolicySources.commands.register("get")
+class Get(ClientCommand):
     """
-    Get Policy Source By Name
+    Get a policy source by name
     """
 
-    command = "get_policy_source_by_name"
+    command = "get"
     method = "get"
     path = "/policy-sources/{name}"
     params = {"--name": {"required": True}}
@@ -122,13 +122,13 @@ class GetPolicySourceByName(ClientCommand):
     payload_params = {}
 
 
-@PolicySources.commands.register("delete-policy-source-by-name")
-class DeletePolicySourceByName(ClientCommand):
+@PolicySources.commands.register("delete")
+class Delete(ClientCommand):
     """
-    Delete Policy Source By Name
+    Delete a policy source by name
     """
 
-    command = "delete_policy_source_by_name"
+    command = "delete"
     method = "delete"
     path = "/policy-sources/{name}"
     params = {"--name": {"required": True}}
@@ -136,13 +136,13 @@ class DeletePolicySourceByName(ClientCommand):
     payload_params = {}
 
 
-@PolicySources.commands.register("update-policy-source")
-class UpdatePolicySource(ClientCommand):
+@PolicySources.commands.register("update")
+class Update(ClientCommand):
     """
-    Update Policy Source
+    Update a policy source
     """
 
-    command = "update_policy_source"
+    command = "update"
     method = "patch"
     path = "/policy-sources/{name}"
     params = {"--name": {"required": True}}
@@ -215,13 +215,13 @@ class UpdatePolicySource(ClientCommand):
     }
 
 
-@PolicySources.commands.register("get-policies-for-source")
-class GetPoliciesForSource(ClientCommand):
+@PolicySources.commands.register("policies")
+class Policies(ClientCommand):
     """
-    Get Policies For Source
+    Get all policies for a source
     """
 
-    command = "get_policies_for_source"
+    command = "policies"
     method = "get"
     path = "/policy-sources/{name}/policies"
     params = {"--name": {"required": True}}
@@ -229,13 +229,13 @@ class GetPoliciesForSource(ClientCommand):
     payload_params = {}
 
 
-@PolicySources.commands.register("scan-policy-source")
-class ScanPolicySource(ClientCommand):
+@PolicySources.commands.register("scan")
+class Scan(ClientCommand):
     """
-    Scan Policy Source
+    Scan a policy source
     """
 
-    command = "scan_policy_source"
+    command = "scan"
     method = "post"
     path = "/policy-sources/{name}/scans"
     params = {"--name": {"required": True}}

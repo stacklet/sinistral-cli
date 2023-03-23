@@ -100,7 +100,7 @@ def test_cli_get_project():
         ],
     ):
         runner = CliRunner()
-        res = runner.invoke(cli, ["projects", "get-project-by-name", "--name", "foo"])
+        res = runner.invoke(cli, ["projects", "get", "--name", "foo"])
         assert res.exit_code == 0
         assert "foo" in res.output
 
@@ -112,6 +112,6 @@ def test_cli_get_project_exit_1():
         side_effect=[Exception("bam!")],
     ):
         runner = CliRunner()
-        res = runner.invoke(cli, ["projects", "get-project-by-name", "--name", "foo"])
+        res = runner.invoke(cli, ["projects", "get", "--name", "foo"])
         assert res.exit_code == 1
         assert str(res.output) == "bam!\n"

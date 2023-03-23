@@ -43,7 +43,7 @@ class SinistralFormat(Json):
 
         sinistral = sinistral_client()
         scans_client = sinistral.client("scans")
-        res = scans_client.create_scan(
+        res = scans_client.create(
             project_name=self.project, results=results, status=status
         )
         if res.get("id"):

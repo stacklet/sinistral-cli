@@ -12,13 +12,13 @@ class Scans(Client):
     commands = PluginRegistry("commands")
 
 
-@Scans.commands.register("get-scans")
-class GetScans(ClientCommand):
+@Scans.commands.register("list")
+class List(ClientCommand):
     """
-    Get Scans
+    List all scans
     """
 
-    command = "get_scans"
+    command = "list"
     method = "get"
     path = "/scans"
     params = {}
@@ -35,13 +35,13 @@ class GetScans(ClientCommand):
     payload_params = {}
 
 
-@Scans.commands.register("create-scan")
-class CreateScan(ClientCommand):
+@Scans.commands.register("create")
+class Create(ClientCommand):
     """
-    Create Scan
+    Create a scan
     """
 
-    command = "create_scan"
+    command = "create"
     method = "post"
     path = "/scans"
     params = {}
@@ -206,13 +206,13 @@ class CreateScan(ClientCommand):
     }
 
 
-@Scans.commands.register("get-scan")
-class GetScan(ClientCommand):
+@Scans.commands.register("get")
+class Get(ClientCommand):
     """
-    Get Scan
+    Get a scan by id
     """
 
-    command = "get_scan"
+    command = "get"
     method = "get"
     path = "/scans/{id}"
     params = {"--id": {"required": True}}
@@ -220,13 +220,13 @@ class GetScan(ClientCommand):
     payload_params = {}
 
 
-@Scans.commands.register("get-scan-results")
-class GetScanResults(ClientCommand):
+@Scans.commands.register("get-results")
+class GetResults(ClientCommand):
     """
-    Get Scan Results
+    Get scan results by scan id
     """
 
-    command = "get_scan_results"
+    command = "get_results"
     method = "get"
     path = "/scans/{id}/results"
     params = {"--id": {"required": True}}

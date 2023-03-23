@@ -12,13 +12,13 @@ class Group(Client):
     commands = PluginRegistry("commands")
 
 
-@Group.commands.register("admin-delete-group")
-class AdminDeleteGroup(ClientCommand):
+@Group.commands.register("delete")
+class Delete(ClientCommand):
     """
-    Admin Delete Group
+    Delete a group (requires admin access)
     """
 
-    command = "admin_delete_group"
+    command = "delete"
     method = "delete"
     path = "/group/{name}"
     params = {"--name": {"required": True}}

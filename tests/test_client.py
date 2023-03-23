@@ -154,7 +154,7 @@ def test_client_command_get():
     with patch.object(
         RestExecutor, "get", return_value=get_mock_response(json={"foo": "bar"})
     ):
-        res = client.get_projects()
+        res = client.list()
         assert res == {"foo": "bar"}
 
 
@@ -163,7 +163,7 @@ def test_client_command_post():
     with patch.object(
         RestExecutor, "post", return_value=get_mock_response(json={"created": True})
     ):
-        res = client.create_project(name="foo", collections=[], groups={})
+        res = client.create(name="foo", collections=[], groups={})
         assert res == {"created": True}
 
 
@@ -172,7 +172,7 @@ def test_client_command_put():
     with patch.object(
         RestExecutor, "put", return_value=get_mock_response(json={"updated": True})
     ):
-        res = client.update_project(name="foo", collections=[], groups={})
+        res = client.update(name="foo", collections=[], groups={})
         assert res == {"updated": True}
 
 
@@ -181,7 +181,7 @@ def test_client_command_delete():
     with patch.object(
         RestExecutor, "delete", return_value=get_mock_response(json={"deleted": True})
     ):
-        res = client.delete_project(name="foo")
+        res = client.delete(name="foo")
         assert res == {"deleted": True}
 
 
@@ -193,7 +193,7 @@ def test_client_command_unauthorized():
         return_value=get_mock_response(json={"message": "Unauthorized"}),
     ):
         with pytest.raises(Exception):
-            client.delete_project(name="foo")
+            client.delete(name="foo")
 
 
 def test_client_command_other_error():
@@ -204,7 +204,7 @@ def test_client_command_other_error():
         return_value=get_mock_response(json={"detail": "An Error Message"}),
     ):
         with pytest.raises(Exception):
-            client.delete_project(name="foo")
+            client.delete(name="foo")
 
 
 def test_client_command_other_error_400():
@@ -213,7 +213,7 @@ def test_client_command_other_error_400():
         RestExecutor, "delete", return_value=get_mock_response(status_code=400, json={})
     ):
         with pytest.raises(Exception):
-            client.delete_project(name="foo")
+            client.delete(name="foo")
 
 
 def test_client_command_other_error_500():
@@ -222,7 +222,7 @@ def test_client_command_other_error_500():
         RestExecutor, "delete", return_value=get_mock_response(status_code=500, json={})
     ):
         with pytest.raises(Exception):
-            client.delete_project(name="foo")
+            client.delete(name="foo")
 
 
 def test_client_command_uses_query_params():
@@ -230,6 +230,6 @@ def test_client_command_uses_query_params():
     with patch.object(
         RestExecutor, "get", return_value=get_mock_response(json={"a": "policy"})
     ) as patched:
-        res = client.get_policies(pagesize=1)
+        res = client.list(pagesize=1)
         patched.assert_called_once_with("/policies", {"pageSize": 1}, {})
         assert res == {"a": "policy"}
