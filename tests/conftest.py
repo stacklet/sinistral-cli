@@ -16,7 +16,6 @@ config = {
     "cognito_user_pool_id": "bar",
     "idp_id": "baz",
     "auth_url": "https://auth.sinistral.acme.org",
-    "cubejs": "",
 }
 
 

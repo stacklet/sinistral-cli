@@ -36,7 +36,6 @@ def test_cli_show():
         "cognito_user_pool_id": "bar",
         "idp_id": "baz",
         "auth_url": "https://auth.sinistral.acme.org",
-        "cubejs": "",
     }
     temp = tempfile.NamedTemporaryFile(delete=False)
     with open(temp.name, "w") as f:
@@ -83,7 +82,6 @@ def test_cli_login_cognito():
         "cognito_user_pool_id": "bar",
         "idp_id": "baz",
         "auth_url": "https://auth.sinistral.acme.org",
-        "cubejs": "",
     }
     temp = tempfile.NamedTemporaryFile(delete=False)
     with open(temp.name, "w") as f:

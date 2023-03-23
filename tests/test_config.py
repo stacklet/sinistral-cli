@@ -32,7 +32,6 @@ def test_stacklet_config_from_file():
         "cognito_user_pool_id": "bar",
         "idp_id": "baz",
         "auth_url": "https://auth.sinistral.acme.org",
-        "cubejs": "",
     }
 
     with open(temp.name, "w") as f:
