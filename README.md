@@ -36,7 +36,7 @@ $ sinistral login
 Run your first command:
 
 ```
-$ sinistral projects list
+$ sinistral projects get-projects
 ```
 
 Python client:
