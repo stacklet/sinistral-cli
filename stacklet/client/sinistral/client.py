@@ -196,7 +196,10 @@ class SinistralClient:
                 validate(_json, schema)
             res = func(path, q_params, _json)
             status_code = res.status_code
-            res = res.json()
+            try:
+                res = res.json()
+            except json.JSONDecodeError:
+                res = {"detail": print(res.text)}
             if isinstance(res, dict):
                 if res.get("message") == "Unauthorized":
                     raise Exception("Unauthorized, check credentials")
