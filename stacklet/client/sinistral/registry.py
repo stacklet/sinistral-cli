@@ -1,3 +1,5 @@
+# Copyright Stacklet, Inc.
+# SPDX-License-Identifier: Apache-2.0
 class PluginRegistry:
     def __init__(self, plugin_type):
         self.plugin_type = plugin_type

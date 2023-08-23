@@ -1,3 +1,5 @@
+# Copyright Stacklet, Inc.
+# SPDX-License-Identifier: Apache-2.0
 from stacklet.client.sinistral.output import SinistralFormat
 from unittest.mock import MagicMock, patch
 

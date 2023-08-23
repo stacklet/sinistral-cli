@@ -1,3 +1,5 @@
+# Copyright Stacklet, Inc.
+# SPDX-License-Identifier: Apache-2.0
 import os
 from stacklet.client.sinistral.config import StackletConfig, DEFAULT_PATH
 

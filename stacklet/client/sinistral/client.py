@@ -1,3 +1,5 @@
+# Copyright Stacklet, Inc.
+# SPDX-License-Identifier: Apache-2.0
 import json
 import sys
 
@@ -196,7 +198,10 @@ class SinistralClient:
                 validate(_json, schema)
             res = func(path, q_params, _json)
             status_code = res.status_code
-            res = res.json()
+            try:
+                res = res.json()
+            except json.JSONDecodeError:
+                res = {"detail": res.text}
             if isinstance(res, dict):
                 if res.get("message") == "Unauthorized":
                     raise Exception("Unauthorized, check credentials")
