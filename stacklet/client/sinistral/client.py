@@ -201,7 +201,7 @@ class SinistralClient:
             try:
                 res = res.json()
             except json.JSONDecodeError:
-                res = {"detail": print(res.text)}
+                res = {"detail": res.text}
             if isinstance(res, dict):
                 if res.get("message") == "Unauthorized":
                     raise Exception("Unauthorized, check credentials")
