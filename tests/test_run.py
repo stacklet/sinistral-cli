@@ -1,3 +1,5 @@
+# Copyright Stacklet, Inc.
+# SPDX-License-Identifier: Apache-2.0
 import pathlib
 
 from click.testing import CliRunner

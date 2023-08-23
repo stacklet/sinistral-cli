@@ -1,3 +1,5 @@
+# Copyright Stacklet, Inc.
+# SPDX-License-Identifier: Apache-2.0
 from unittest.mock import MagicMock
 
 from stacklet.client.sinistral.executor import RestExecutor

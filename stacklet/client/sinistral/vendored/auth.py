@@ -1,3 +1,5 @@
+# Copyright Stacklet, Inc.
+# SPDX-License-Identifier: Apache-2.0
 """
 Vendored and refactored from Azure CLI
 
