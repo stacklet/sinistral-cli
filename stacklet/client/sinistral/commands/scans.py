@@ -86,7 +86,15 @@ class Create(ClientCommand):
                                 "type": "object",
                                 "properties": {
                                     "name": {"title": "Name", "type": "string"},
-                                    "resource": {"oneOf": [{"title": "Resource", "type": "string"}, {"type": "array", "items": {"type": "string"}}]},
+                                    "resource": {
+                                        "oneOf": [
+                                            {"title": "Resource", "type": "string"},
+                                            {
+                                                "type": "array",
+                                                "items": {"type": "string"},
+                                            },
+                                        ]
+                                    },
                                     "description": {
                                         "title": "Description",
                                         "type": "string",
