@@ -249,7 +249,7 @@ def test_client_command_scan_create():
                 {
                     "policy": {
                         "name": "foo",
-                        "resource": "foo",
+                        "resource": ["foo", "bar"],
                         "description": "foo",
                         "filters": [],
                         "mode": {},
