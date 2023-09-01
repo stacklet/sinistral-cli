@@ -97,7 +97,7 @@ class Create(ClientCommand):
                                         "properties": {
                                             "severity": {
                                                 "title": "Severity",
-                                                "pattern": "^(?i)(high|medium|low|unknown)$",
+                                                "pattern": "(?i)^(high|medium|low|unknown)$",
                                                 "type": "string",
                                                 "description": "An enumeration.",
                                             }
