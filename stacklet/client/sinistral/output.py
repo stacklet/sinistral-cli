@@ -37,9 +37,15 @@ class SinistralFormat(Json):
         # data, provider terraform objects for example. hot fix here for now
         for r in results:
             r["resource"].setdefault("c7n:MatchedFilters", [])
-            if "name" not in r["resource"]:
+            if not r["resource"].get("name"):
                 r["resource"]["name"] = r["resource"]["__tfmeta"]["path"]
-
+            if not r["policy"].get("metadata", {}).get("severity").lower() in (
+                "high",
+                "medium",
+                "low",
+                "unknown",
+            ):
+                r["policy"]["metadata"]["severity"] = "unknown"
         if self.dryrun:
             return
 
