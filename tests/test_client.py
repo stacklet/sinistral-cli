@@ -235,3 +235,45 @@ def test_client_command_uses_query_params():
         res = client.list(pagesize=1)
         patched.assert_called_once_with("/policies", {"pageSize": 1}, {})
         assert res == {"a": "policy"}
+
+
+def test_client_command_scan_create():
+    client = sinistral_client().client("scans")
+    with patch.object(
+        RestExecutor, "post", return_value=get_mock_response(json={"id": "new-scan"})
+    ) as patched:
+        scan_payload = {
+            "project_name": "foo",
+            "status": "PASSED",
+            "results": [
+                {
+                    "policy": {
+                        "name": "foo",
+                        "resource": "foo",
+                        "description": "foo",
+                        "filters": [],
+                        "mode": {},
+                        "metadata": {"severity": "HIGH"},
+                    },
+                    "resource": {
+                        "id": "foo",
+                        "__tfmeta": {
+                            "filename": "foo/bar/baz",
+                            "label": "foo",
+                            "line_end": 1,
+                            "line_start": 1,
+                            "path": "foo/bar/baz",
+                            "type": "resource",
+                            "src_dir": "foo/bar",
+                        },
+                    },
+                    "file_path": "foo/bar/baz",
+                    "file_line_start": 1,
+                    "file_line_end": 1,
+                    "code_block": [["foo"]],
+                }
+            ],
+        }
+        res = client.create(**scan_payload, collections=[], groups={})
+        patched.assert_called_once_with("/scans", {}, scan_payload)
+        assert res == {"id": "new-scan"}
