@@ -12,7 +12,6 @@ from click.globals import get_current_context
 from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.executor import RestExecutor
 from stacklet.client.sinistral.formatter import Formatter
-from stacklet.client.sinistral.utils import get_token, click_group_entry
 
 from stacklet.client.sinistral.registry import PluginRegistry
 
@@ -122,7 +121,6 @@ class ClientCommand:
     @classmethod
     def cli_run(cls, *args, **kwargs):
         ctx = get_current_context()
-        click_group_entry(ctx, *args, **kwargs)
         try:
             res = cls.run(ctx=ctx, **kwargs)
         except Exception as e:
@@ -154,13 +152,8 @@ class ClientCommand:
 
     @classmethod
     def run(cls, ctx=None, **kwargs):
-        if ctx:
-            ctx = StackletContext(
-                config=ctx.obj["config"], raw_config=ctx.obj["raw_config"]
-            )
-        else:
-            ctx = StackletContext(raw_config={})
-        client = SinistralClient(ctx)
+        context = StackletContext(ctx or click.get_current_context())
+        client = SinistralClient(context)
 
         payload = cls.handle_json_payload(kwargs)
         q_params = cls.handle_query_params(kwargs)
@@ -169,7 +162,7 @@ class ClientCommand:
             path=cls.path.format(**kwargs),
             _json=payload,
             schema=cls.payload_params.get("schema", {}),
-            output=kwargs.get("output", "raw"),
+            output=context.output,
             q_params=q_params,
         )
         return res
@@ -189,7 +182,7 @@ class SinistralClient:
         self, method, path, _json={}, output="raw", schema=None, q_params={}
     ):
         with self.ctx as context:
-            token = get_token()
+            token = context.get_access_token()
             executor = RestExecutor(context, token)
             func = getattr(executor, method)
             if isinstance(_json, str):

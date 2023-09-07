@@ -1,44 +1,54 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import logging
-import os
+
+from functools import wraps
 
 import click
-from stacklet.client.sinistral.context import StackletContext
+from stacklet.client.sinistral.config import StackletConfig
 from stacklet.client.sinistral.formatter import Formatter
 
-_DEFAULT_OPTIONS = {
-    "config": {"default": "", "help": ""},
+_GLOBAL_OPTIONS = {
+    # Config options
+    "config": {
+        "default": "~/.stacklet/sinistral",
+        "help": "Directory containing the Sinistral config and token files",
+        "envvar": ["STACKLET_CONFIG", "SINISTRAL_CONFIG"],
+    },
+    "auth_url": {
+        "help": "Auth URL for most auth flows, except username & password",
+    },
+    "cognito_user_pool_id": {
+        "help": "Cognito user pool ID for the username & password auth flow",
+    },
+    ("cognito_region", "region"): {
+        "help": "Cognito region for the username & password auth flow",
+    },
+    "cognito_client_id": {
+        "help": "Cognito client ID for the SSO, or username & password auth flows"
+    },
+    "project_client_id": {
+        "help": "Project client ID for the Project Credentials auth flow",
+    },
+    "project_client_secret": {
+        "help": "Project client secret for the Project Credentials auth flow",
+    },
+    "org_client_id": {
+        "help": "Organization client ID for the Project Credentials auth flow",
+    },
+    "org_client_secret": {
+        "help": "Organization client secret for the Project Credentials auth flow",
+    },
+    "api": {
+        "help": "URL for the Sinistral API endpoint"
+    },
+    # Output / format options
     "output": {
         "type": click.Choice(list(Formatter.registry.keys()), case_sensitive=False),
         "default": "yaml",
-        "help": "Output type",
+        "help": "Output format",
     },
-    "cognito_user_pool_id": {
-        "help": (
-            "If set, --cognito-user-pool-id, --cognito-client-id, "
-            "--cognito-region, and --api must also be set."
-        )
-    },
-    "cognito_client_id": {
-        "help": (
-            "If set, --cognito-user-pool-id, --cognito-client-id, "
-            "--cognito-region, and --api must also be set."
-        )
-    },
-    "cognito_region": {
-        "help": (
-            "If set, --cognito-user-pool-id, --cognito-client-id, "
-            "--cognito-region, and --api must also be set."
-        )
-    },
-    "api": {
-        "help": (
-            "If set, --cognito-user-pool-id, --cognito-client-id, "
-            "--cognito-region, and --api must also be set."
-        )
-    },
-    "-v": {
+    ("-v", "verbose"): {
         "count": True,
         "default": 0,
         "help": "Verbosity level, increase verbosity by appending v, e.g. -vvv",
@@ -65,12 +75,18 @@ _PAGINATION_OPTIONS = {
 }
 
 
+def _normalize_opt_names(names):
+    return [
+        name if name.startswith("-") else f"--{name.replace('_', '-')}"
+        for name in ([names] if isinstance(names, str) else names)
+    ]
+
+
 def wrap_command(func, options, required=False, prompt=False):
-    for name, details in options.items():
-        if not name.startswith("-"):
-            name = f'--{name.replace("_", "-")}'
+    for names, details in options.items():
+        names = _normalize_opt_names(names)
         click.option(
-            name,
+            *names,
             required=required,
             prompt=prompt,
             **details,
@@ -78,16 +94,47 @@ def wrap_command(func, options, required=False, prompt=False):
     return func
 
 
-def get_token():
-    with open(os.path.expanduser(StackletContext.DEFAULT_CREDENTIALS), "r") as f:
-        token = f.read()
-    return token
+def process_global_options(func):
+    @wraps(func)
+    def _process(*args, **kwargs):
+        ctx = click.get_current_context()
+        ctx.ensure_object(dict)
+
+        logging.basicConfig()
+        root_handler = logging.getLogger()
+        v = ctx.params["verbose"]
+        if v != 0:
+            root_handler.setLevel(level=get_log_level(v))
+
+        output = ctx.obj["output"] = ctx.params["output"]
+        ctx.obj["formatter"] = Formatter.registry.get(output)()
+
+        config_dir = ctx.params["config"]
+        config = ctx.obj.get("config")
+        if not config or config.config_dir != config_dir:
+            config = ctx.obj["config"] = StackletConfig(config_dir)
+        config.update(ctx.params)
+        config.validate()
+
+        for names in _GLOBAL_OPTIONS.keys():
+            key = _normalize_opt_names(names)[-1]
+            kwargs.pop(key.lstrip("-"), None)
+
+        return func(*args, **kwargs)
+    return _process
 
 
-def default_options(*args, **kwargs):
-    def wrapper(func):
-        wrap_command(func, _DEFAULT_OPTIONS, required=False, prompt=False)
-        return func
+def global_options(process=True):
+    def wrapper(cmd):
+        if process:
+            if hasattr(cmd, "callback"):
+                # global_options decorated after click
+                cmd.callback = process_global_options(cmd.callback)
+            else:
+                # global_options decorated before click (directly on func)
+                cmd = process_global_options(cmd)
+        wrap_command(cmd, _GLOBAL_OPTIONS)
+        return cmd
 
     return wrapper
 
@@ -99,44 +146,3 @@ def get_log_level(verbose):
     elif level > 50:
         level = 50
     return level
-
-
-def click_group_entry(
-    ctx,
-    config,
-    output,
-    cognito_user_pool_id,
-    cognito_client_id,
-    cognito_region,
-    api,
-    v,
-    *args,
-    **kwargs,
-):
-    logging.basicConfig()
-    root_handler = logging.getLogger()
-    if v != 0:
-        root_handler.setLevel(level=get_log_level(v))
-
-    ctx.ensure_object(dict)
-    config_items = [cognito_user_pool_id, cognito_client_id, cognito_region, api]
-    if any(config_items) and not all(config_items):
-        raise Exception(
-            "All options must be set for config items: --cognito-user-pool-id, "
-            + "--cognito-client-id, --cognito-region, and --api"
-        )
-    # inherit the parent's configs if they exist
-    ctx.obj.setdefault("config", ctx.obj.get("config", StackletContext.DEFAULT_CONFIG))
-    ctx.obj.setdefault("output", ctx.obj.get("output", StackletContext.DEFAULT_OUTPUT))
-    ctx.obj.setdefault("raw_config", ctx.obj.get("raw_config", {}))
-    if config:
-        ctx.obj["config"] = config
-    if output:
-        ctx.obj["output"] = output
-    if all(config_items):
-        ctx.obj["raw_config"] = {
-            "cognito_user_pool_id": cognito_user_pool_id,
-            "cognito_client_id": cognito_client_id,
-            "region": cognito_region,
-            "api": api,
-        }

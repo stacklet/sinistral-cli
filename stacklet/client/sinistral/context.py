@@ -1,7 +1,8 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
-import os
-from stacklet.client.sinistral.config import StackletConfig, DEFAULT_PATH
+from pathlib import Path
+
+import click
 
 
 class StackletContext:
@@ -9,20 +10,38 @@ class StackletContext:
     CLI Execution Context
     """
 
-    DEFAULT_CONFIG = DEFAULT_PATH
-    DEFAULT_CREDENTIALS = "~/.stacklet/sinistral/credentials"
-    DEFAULT_ID = "~/.stacklet/sinistral/id"
-    DEFAULT_OUTPUT = "yaml"
+    CREDENTIALS_FILE = "credentials"
+    ID_FILE = "id"
 
-    def __init__(self, config=None, raw_config=None):
-        if "STACKLET_CONFIG" in os.environ:
-            config = os.environ["STACKLET_CONFIG"]
-        if isinstance(raw_config, dict) and len(raw_config.values()) != 0:
-            self.config = StackletConfig(**raw_config)
-        elif config:
-            self.config = StackletConfig.from_file(config)
+    def __init__(self, click_context):
+        self._click_context = click_context
+        self.config = click_context.obj["config"]
+        self.output = click_context.obj["output"]
+        self.fmt = click_context.obj["formatter"]
+
+        base_path = Path(self.config.config_dir).expanduser()
+        self.access_token_path = base_path / self.CREDENTIALS_FILE
+        self.id_token_path = base_path / self.ID_FILE
+
+    def get_access_token(self):
+        if self.access_token_path.exists():
+            return self.access_token_path.read_text()
         else:
-            self.config = StackletConfig.from_file(self.DEFAULT_CONFIG)
+            return None
+
+    def write_access_token(self, token):
+        self.access_token_path.parent.mkdir(parents=True, exist_ok=True)
+        self.access_token_path.write_text(token)
+
+    def get_id_token(self):
+        if self.id_token_path.exists():
+            return self.id_token_path.read_text()
+        else:
+            return None
+
+    def write_id_token(self, token):
+        self.id_token_path.parent.mkdir(parents=True, exist_ok=True)
+        self.id_token_path.write_text(token)
 
     def __enter__(self):
         return self
@@ -40,12 +59,10 @@ class StackletContext:
 
 
 class StackletCredentialWriter:
-    def __init__(self, credentials, location=StackletContext.DEFAULT_CREDENTIALS):
-        self.credentials = credentials
-        self.location = location
+    def write_id_token(self, token):
+        context = StackletContext(click.get_current_context())
+        context.write_id_token(token)
 
-    def __call__(self):
-        if not os.path.exists(os.path.dirname(os.path.expanduser(self.location))):
-            os.makedirs(os.path.dirname(os.path.expanduser(self.location)))
-        with open(os.path.expanduser(self.location), "w+") as f:
-            f.write(self.credentials)
+    def write_access_token(self, token):
+        context = StackletContext(click.get_current_context())
+        context.write_access_token(token)

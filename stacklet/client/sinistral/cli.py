@@ -1,25 +1,28 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import click
-import json
 import jwt
-import os
+
+from pathlib import Path
 
 from stacklet.client.sinistral.cognito import CognitoUserManager
 from stacklet.client.sinistral.commands import commands
-from stacklet.client.sinistral.config import StackletConfig, DEFAULT_PATH
+from stacklet.client.sinistral.config import StackletConfig
 from stacklet.client.sinistral.context import StackletContext
-from stacklet.client.sinistral.formatter import Formatter
-from stacklet.client.sinistral.utils import click_group_entry, default_options
+from stacklet.client.sinistral.utils import global_options
 
 import stacklet.client.sinistral.output  # noqa
 import stacklet.client.sinistral.client  # noqa
 
 
+def main():
+    cli(auto_envvar_prefix="SINISTRAL")
+
+
 @click.group()
-@default_options()
+@global_options()
 @click.pass_context
-def cli(*args, **kwargs):
+def cli(ctx, **params):
     """
     Sinistral CLI
 
@@ -43,73 +46,49 @@ def cli(*args, **kwargs):
 
         $ sinistral projects get-projects --output json
     """
-    click_group_entry(*args, **kwargs)
+    pass  # defer to subcommands
 
 
 @cli.command(short_help="Configure sinistral cli")
 @click.option("--api", prompt="Sinistral API endpoint")
-@click.option("--region", prompt="Cognito Region")
-@click.option("--cognito-client-id", prompt="Cognito User Pool Client ID")
-@click.option("--cognito-user-pool-id", prompt="Cognito User Pool ID")
+@click.option("--region", prompt="(user/pass auth) Cognito Region", default="")
+@click.option("--cognito-client-id", prompt="(SSO or user/pass auth) Cognito User Pool Client ID",
+              default="")
+@click.option("--cognito-user-pool-id", prompt="(user/pass auth)Cognito User Pool ID", default="")
 @click.option("--idp-id", prompt="(SSO) IDP ID", default="")
-@click.option("--auth-url", prompt="(SSO) Auth Url", default="")
-@click.option("--location", prompt="Config File Location", default=DEFAULT_PATH)  # noqa
-@click.pass_context
-def configure(
-    ctx,
-    api,
-    region,
-    cognito_client_id,
-    cognito_user_pool_id,
-    idp_id,
-    auth_url,
-    location,
-):
+@click.option("--auth-url", prompt="(SSO, Project, or Org auth) Auth Url", default="")
+@click.option("--config-dir", prompt="Config directory", default="~/.stacklet/sinistral")
+def configure(config_dir, **kwargs):
     """
     Interactively save a Stacklet Config file
     """
-    config = {
-        "api": api,
-        "region": region,
-        "cognito_client_id": cognito_client_id,
-        "cognito_user_pool_id": cognito_user_pool_id,
-        "idp_id": idp_id,
-        "auth_url": auth_url,
-    }
+    config = StackletConfig(Path(config_dir))
+    config.update(kwargs)
+    config.write()
 
-    StackletConfig.validate(config)
-
-    if not os.path.exists(location):
-        dirs = location.rsplit("/", 1)[0]
-        os.makedirs(os.path.expanduser(dirs), exist_ok=True)
-
-    with open(os.path.expanduser(location), "w+") as f:
-        f.write(json.dumps(config))
-    click.echo(f"Saved config to {location}")
+    click.echo(f"Saved config to {config.file_path}")
 
 
 @cli.command()
-@default_options()
+@global_options()
 @click.pass_context
 def show(ctx, *args, **kwargs):
     """
     Show your config
     """
-    click_group_entry(ctx, *args, **kwargs)
-    with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
-        fmt = Formatter.registry.get(ctx.obj["output"])()
-        if os.path.exists(os.path.expanduser(StackletContext.DEFAULT_ID)):
-            with open(os.path.expanduser(StackletContext.DEFAULT_ID), "r") as f:
-                id_details = jwt.decode(f.read(), options={"verify_signature": False})
-            click.echo(fmt(id_details))
+    with StackletContext(ctx) as context:
+        id_token = context.get_id_token()
+        if id_token:
+            id_details = jwt.decode(id_token, options={"verify_signature": False})
+            click.echo(context.fmt(id_details))
             click.echo()
-        click.echo(fmt(context.config.to_json()))
+        click.echo(context.fmt(context.config.to_dict()))
 
 
 @cli.command(short_help="Login to Sinistral")
 @click.option("--username", required=False)
 @click.option("--password", hide_input=True, required=False)
-@default_options()
+@global_options()
 @click.pass_context
 def login(ctx, username, password, *args, **kwargs):
     """
@@ -124,8 +103,7 @@ def login(ctx, username, password, *args, **kwargs):
 
     If password is not passed in, your password will be prompted
     """
-    click_group_entry(ctx, *args, **kwargs)
-    with StackletContext(ctx.obj["config"], ctx.obj["raw_config"]) as context:
+    with StackletContext(ctx) as context:
         # sso login
         if context.can_sso_login() and not any([username, password]):
             from stacklet.client.sinistral.vendored.auth import BrowserAuthenticator
@@ -153,16 +131,7 @@ def login(ctx, username, password, *args, **kwargs):
             user=username,
             password=password,
         )
-        if not os.path.exists(
-            os.path.dirname(os.path.expanduser(StackletContext.DEFAULT_CREDENTIALS))
-        ):
-            os.makedirs(
-                os.path.dirname(os.path.expanduser(StackletContext.DEFAULT_CREDENTIALS))
-            )
-        with open(
-            os.path.expanduser(StackletContext.DEFAULT_CREDENTIALS), "w+"
-        ) as f:  # noqa
-            f.write(res)
+        context.write_access_token(res)
 
 
 for c in commands:
@@ -170,4 +139,4 @@ for c in commands:
 
 
 if __name__ == "__main__":
-    cli()
+    main()
