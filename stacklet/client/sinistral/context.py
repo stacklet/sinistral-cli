@@ -48,14 +48,33 @@ class StackletContext:
 
     def __exit__(self, type, value, traceback):
         return
+    
+    def can_password_auth(self):
+        return all([
+            self.config.cognito_client_id,
+            self.config.cognito_user_pool_id,
+            self.config.cognito_region,
+        ])
 
-    def can_sso_login(self):
+    def can_sso_auth(self):
         return all(
             [
                 self.config.auth_url,
                 self.config.cognito_client_id,
             ]
         )
+
+    def can_project_auth(self):
+        return all([
+            self.config.project_client_id,
+            self.config.project_client_secret,
+        ])
+
+    def can_org_auth(self):
+        return all([
+            self.config.org_client_id,
+            self.config.org_client_secret,
+        ])
 
 
 class StackletCredentialWriter:

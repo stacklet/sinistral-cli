@@ -3,6 +3,7 @@
 import logging
 
 import boto3
+import requests
 
 
 class CognitoUserManager:
@@ -80,3 +81,21 @@ class CognitoUserManager:
         )
         self.log.debug("Authentication Success")
         return res["AuthenticationResult"]["AccessToken"]
+
+
+class CognitoClientAuth:
+    """
+    Manage Cognito client credentials based auth flow.
+    """
+    def __init__(self, ctx):
+        self.ctx = ctx
+
+    def get_access_token(self, auth_url, client_id, client_secret):
+        response = requests.post(f"{auth_url}/oauth2/token", data={
+            "grant_type": "client_credentials",
+            "client_id": client_id,
+            "client_secret": client_secret,
+        })
+        if response.status_code != 200:
+            self.ctx.fail(f"Unable  to get access token:\n{response.text}")
+        return response.json()["access_token"]

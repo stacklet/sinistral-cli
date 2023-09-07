@@ -5,7 +5,7 @@ import jwt
 
 from pathlib import Path
 
-from stacklet.client.sinistral.cognito import CognitoUserManager
+from stacklet.client.sinistral.cognito import CognitoClientAuth, CognitoUserManager
 from stacklet.client.sinistral.commands import commands
 from stacklet.client.sinistral.config import StackletConfig
 from stacklet.client.sinistral.context import StackletContext
@@ -104,8 +104,44 @@ def login(ctx, username, password, *args, **kwargs):
     If password is not passed in, your password will be prompted
     """
     with StackletContext(ctx) as context:
-        # sso login
-        if context.can_sso_login() and not any([username, password]):
+        if username and password:
+            if not context.can_password_auth():
+                click.echo("Cannot login with username & password with current config")
+                ctx.exit(1)
+
+            if not username:
+                username = click.prompt("Username")
+            if not password:
+                password = click.prompt("Password", hide_input=True)
+            manager = CognitoUserManager.from_context(context)
+            res = manager.login(
+                user=username,
+                password=password,
+            )
+            context.write_access_token(res)
+            return
+
+        if context.can_project_auth():
+            client = CognitoClientAuth(ctx)
+            token = client.get_access_token(
+                context.config.auth_url,
+                context.config.project_client_id,
+                context.config.project_client_secret,
+            )
+            context.write_access_token(token)
+            return
+
+        if context.can_org_auth():
+            client = CognitoClientAuth(ctx)
+            token = client.get_access_token(
+                context.config.auth_url,
+                context.config.org_client_id,
+                context.config.org_client_secret,
+            )
+            context.write_access_token(token)
+            return
+
+        if context.can_sso_auth():
             from stacklet.client.sinistral.vendored.auth import BrowserAuthenticator
 
             BrowserAuthenticator(
@@ -114,24 +150,6 @@ def login(ctx, username, password, *args, **kwargs):
                 idp_id=context.config.idp_id,
             )()
             return
-        elif not context.can_sso_login() and not any([username, password]):
-            click.echo(
-                "To login with SSO ensure that your configuration includes "
-                + "auth_url, and cognito_client_id values."
-            )
-            raise Exception()
-
-        # handle login with username/password
-        if not username:
-            username = click.prompt("Username")
-        if not password:
-            password = click.prompt("Password", hide_input=True)
-        manager = CognitoUserManager.from_context(context)
-        res = manager.login(
-            user=username,
-            password=password,
-        )
-        context.write_access_token(res)
 
 
 for c in commands:

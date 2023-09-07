@@ -89,6 +89,8 @@ class StackletConfig:
         try:
             jsonschema.validate(instance=self.to_dict(), schema=self.schema)
         except jsonschema.ValidationError as exc:
+            # TODO: Clean up error reporting to be a bit more friendly,
+            # especially around the different auth forms.
             raise ConfigValidationException.from_exc(exc)
 
     def read(self):
