@@ -7,7 +7,7 @@ from stacklet.client.sinistral.executor import RestExecutor
 
 def test_executor_init():
     mock_context = MagicMock()
-    mock_context.config.api = "https://api.sinistral.acme.org"
+    mock_context.config.api_url = "https://api.sinistral.acme.org"
     executor = RestExecutor(mock_context, "foobarbaz")
     assert "Authorization" in executor.session.headers
     assert executor.session.headers["Authorization"] == "Bearer foobarbaz"
@@ -15,7 +15,7 @@ def test_executor_init():
 
 def test_executor_get():
     mock_context = MagicMock()
-    mock_context.config.api = "https://api.sinistral.acme.org"
+    mock_context.config.api_url = "https://api.sinistral.acme.org"
     mock_session = MagicMock()
 
     executor = RestExecutor(mock_context, "foobarbaz")
@@ -30,7 +30,7 @@ def test_executor_get():
 
 def test_executor_post():
     mock_context = MagicMock()
-    mock_context.config.api = "https://api.sinistral.acme.org"
+    mock_context.config.api_url = "https://api.sinistral.acme.org"
     mock_session = MagicMock()
 
     executor = RestExecutor(mock_context, "foobarbaz")
@@ -45,7 +45,7 @@ def test_executor_post():
 
 def test_executor_put():
     mock_context = MagicMock()
-    mock_context.config.api = "https://api.sinistral.acme.org"
+    mock_context.config.api_url = "https://api.sinistral.acme.org"
     mock_session = MagicMock()
 
     executor = RestExecutor(mock_context, "foobarbaz")
@@ -60,7 +60,7 @@ def test_executor_put():
 
 def test_executor_delete():
     mock_context = MagicMock()
-    mock_context.config.api = "https://api.sinistral.acme.org"
+    mock_context.config.api_url = "https://api.sinistral.acme.org"
     mock_session = MagicMock()
 
     executor = RestExecutor(mock_context, "foobarbaz")

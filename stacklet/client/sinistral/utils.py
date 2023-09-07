@@ -39,7 +39,7 @@ _GLOBAL_OPTIONS = {
     "org_client_secret": {
         "help": "Organization client secret for the Project Credentials auth flow",
     },
-    "api": {
+    ("api_url", "api"): {
         "help": "URL for the Sinistral API endpoint"
     },
     # Output / format options

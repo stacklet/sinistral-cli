@@ -17,7 +17,7 @@ class StackletConfig:
     schema = {
         "type": "object",
         "properties": {
-            "api": {"type": "string"},
+            "api_url": {"type": "string"},
             "cognito_user_pool_id": {"type": "string"},
             "cognito_client_id": {"type": "string"},
             "cognito_region": {"type": "string"},
@@ -29,7 +29,7 @@ class StackletConfig:
             "org_client_secret": {"type": "string"},
         },
         "required": [
-            "api",
+            "api_url",
         ],
         "anyOf": [
             # SSO auth flow
@@ -82,6 +82,9 @@ class StackletConfig:
                 # and we're now using cognito_region consistently. But also
                 # support the older form for compatibility.
                 value = data.get("region")
+            if not value and key == "api_url":
+                # Backward compatibility support for api vs api_url
+                value = data.get("api")
             if value:
                 setattr(self, key, value)
 
