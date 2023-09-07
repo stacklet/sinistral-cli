@@ -52,12 +52,19 @@ def cli(ctx, **params):
 @cli.command(short_help="Configure sinistral cli")
 @click.option("--api", prompt="Sinistral API endpoint")
 @click.option("--region", prompt="(user/pass auth) Cognito Region", default="")
-@click.option("--cognito-client-id", prompt="(SSO or user/pass auth) Cognito User Pool Client ID",
-              default="")
-@click.option("--cognito-user-pool-id", prompt="(user/pass auth)Cognito User Pool ID", default="")
+@click.option(
+    "--cognito-client-id",
+    prompt="(SSO or user/pass auth) Cognito User Pool Client ID",
+    default="",
+)
+@click.option(
+    "--cognito-user-pool-id", prompt="(user/pass auth)Cognito User Pool ID", default=""
+)
 @click.option("--idp-id", prompt="(SSO) IDP ID", default="")
 @click.option("--auth-url", prompt="(SSO, Project, or Org auth) Auth Url", default="")
-@click.option("--config-dir", prompt="Config directory", default="~/.stacklet/sinistral")
+@click.option(
+    "--config-dir", prompt="Config directory", default="~/.stacklet/sinistral"
+)
 def configure(config_dir, **kwargs):
     """
     Interactively save a Stacklet Config file

@@ -39,9 +39,7 @@ _GLOBAL_OPTIONS = {
     "org_client_secret": {
         "help": "Organization client secret for the Project Credentials auth flow",
     },
-    ("api_url", "api"): {
-        "help": "URL for the Sinistral API endpoint"
-    },
+    ("api_url", "api"): {"help": "URL for the Sinistral API endpoint"},
     # Output / format options
     "output": {
         "type": click.Choice(list(Formatter.registry.keys()), case_sensitive=False),
@@ -121,6 +119,7 @@ def process_global_options(func):
             kwargs.pop(key.lstrip("-"), None)
 
         return func(*args, **kwargs)
+
     return _process
 
 

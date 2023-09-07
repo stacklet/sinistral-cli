@@ -62,8 +62,8 @@ class StackletConfig:
                     "org_client_id",
                     "org_client_secret",
                 ],
-            }
-        ]
+            },
+        ],
     }
 
     def __init__(self, config_dir):
