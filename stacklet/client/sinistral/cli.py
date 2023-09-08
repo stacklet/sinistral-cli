@@ -113,8 +113,7 @@ def login(ctx, username, password, *args, **kwargs):
     with StackletContext(ctx) as context:
         if username and password:
             if not context.can_password_auth():
-                click.echo("Cannot login with username & password with current config")
-                ctx.exit(1)
+                ctx.fail("Cannot login with username & password with current config")
 
             if not username:
                 username = click.prompt("Username")

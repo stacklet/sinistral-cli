@@ -4,9 +4,9 @@ import json
 import os
 import tempfile
 
-from unittest.mock import patch
+from pathlib import Path
 
-from stacklet.client.sinistral.context import StackletContext
+from unittest.mock import patch
 
 import pytest
 
@@ -23,26 +23,10 @@ config = {
 
 @pytest.fixture(scope="session", autouse=True)
 def config_fixture(request):
-    temp = tempfile.NamedTemporaryFile(delete=False)
-    with open(temp.name, "w") as f:
-        json.dump(config, f)
-
-    temp_creds = tempfile.NamedTemporaryFile(delete=False)
-    with open(temp_creds.name, "w") as f:
-        f.write("foo")
-
-    patched = patch.object(StackletContext, "DEFAULT_CONFIG", temp.name)
-    patched.start()
-
-    patched_creds = patch.object(
-        StackletContext, "DEFAULT_CREDENTIALS", temp_creds.name
-    )
-    patched_creds.start()
-
-    def unpatch():
-        patched.stop()
-        patched_creds.stop()
-        os.unlink(temp.name)
-        os.unlink(temp_creds.name)
-
-    request.addfinalizer(unpatch)
+    with tempfile.TemporaryDirectory() as config_dir:
+        Path(config_dir, "config.json").write_text(json.dumps(config))
+        Path(config_dir, "credentials").write_text("foo")
+        patched_env = patch.dict(os.environ, {"SINISTRAL_CONFIG": config_dir})
+        patched_env.start()
+        yield
+        patched_env.stop()
