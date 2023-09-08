@@ -10,6 +10,7 @@ import stacklet.client.sinistral.commands.policy_collections  # noqa
 import stacklet.client.sinistral.commands.projects  # noqa
 import stacklet.client.sinistral.commands.scans  # noqa
 import stacklet.client.sinistral.commands.group  # noqa
+import stacklet.client.sinistral.commands.org  # noqa
 
 from stacklet.client.sinistral.client import client_registry, parse_jsonschema
 from stacklet.client.sinistral.utils import global_options
