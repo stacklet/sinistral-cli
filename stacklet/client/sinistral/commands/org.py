@@ -32,10 +32,10 @@ class GetClientId(ClientCommand):
 class RegenCreds(ClientCommand):
     """
     Regenerate the Org credentials for use with the Org
-    auth flow and return the new Client ID (admin only).
+    auth flow, and return the credentials.
     """
 
-    command = "regenerate-credentials"
+    command = "regenerate_credentials"
     method = "post"
     path = "/org/credentials"
     params = {}
