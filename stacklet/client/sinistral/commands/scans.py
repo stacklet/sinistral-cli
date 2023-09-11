@@ -87,11 +87,13 @@ class Create(ClientCommand):
                                 "properties": {
                                     "name": {"title": "Name", "type": "string"},
                                     "resource": {
-                                        "title": "Resource",
-                                        "anyOf": [
-                                            {"type": "string"},
-                                            {"type": "array", "items": {}},
-                                        ],
+                                        "oneOf": [
+                                            {"title": "Resource", "type": "string"},
+                                            {
+                                                "type": "array",
+                                                "items": {"type": "string"},
+                                            },
+                                        ]
                                     },
                                     "description": {
                                         "title": "Description",
@@ -103,12 +105,7 @@ class Create(ClientCommand):
                                         "properties": {
                                             "severity": {
                                                 "title": "Severity",
-                                                "enum": [
-                                                    "HIGH",
-                                                    "MEDIUM",
-                                                    "LOW",
-                                                    "UNKNOWN",
-                                                ],
+                                                "pattern": "(?i)^(high|medium|low|unknown)$",
                                                 "type": "string",
                                                 "description": "An enumeration.",
                                             }
