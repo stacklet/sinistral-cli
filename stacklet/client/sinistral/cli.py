@@ -117,11 +117,17 @@ def login(ctx, username, password, *args, **kwargs):
 
         # If a username & password are explicitly given, prefer that.
         # If not, but password auth is the only one supported, prompt for them.
-        if context.can_password_auth() and (username or password or not any([
-            context.can_project_auth(),
-            context.can_org_auth(),
-            context.can_sso_auth(),
-        ])):
+        if context.can_password_auth() and (
+            username
+            or password
+            or not any(
+                [
+                    context.can_project_auth(),
+                    context.can_org_auth(),
+                    context.can_sso_auth(),
+                ]
+            )
+        ):
             if not username:
                 username = click.prompt("Username")
             if not password:

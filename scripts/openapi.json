@@ -1060,6 +1060,44 @@
         ]
       }
     },
+    "/org/credentials": {
+      "get": {
+        "tags": [
+          "Org"
+        ],
+        "summary": "Get Credentials",
+        "description": "Get current Organization Credentials.",
+        "operationId": "get_org_credentials_org_credentials_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Org"
+        ],
+        "summary": "Regenerate Credentials",
+        "description": "Create or regenerate and return Organization Credentials.",
+        "operationId": "regenerate_org_credentials_org_credentials_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/projects": {
       "get": {
         "tags": [
@@ -1634,6 +1672,96 @@
         ]
       }
     },
+    "/projects/{name}/credentials": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get Credentials",
+        "description": "Get current Project Credentials.",
+        "operationId": "get_project_credentials_projects__name__credentials_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Regenerate Credentials",
+        "description": "Regenerate and return Project Credentials.",
+        "operationId": "regenerate_credentials_projects__name__credentials_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
     "/": {
       "get": {
         "summary": "Root",
@@ -1841,7 +1969,17 @@
           },
           "resource": {
             "title": "Resource",
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
           },
           "severity": {
             "title": "Severity",
@@ -1994,7 +2132,7 @@
               "added": 0,
               "updated": 0,
               "removed": 0,
-              "started_at": "2023-03-23T22:33:16.247765"
+              "started_at": "2023-09-11T22:49:18.302769"
             }
           }
         }
@@ -2120,7 +2258,7 @@
               "added": 0,
               "updated": 0,
               "removed": 0,
-              "started_at": "2023-03-23T22:33:16.246874"
+              "started_at": "2023-09-11T22:49:18.302297"
             }
           }
         }
@@ -2510,7 +2648,15 @@
           },
           "resource": {
             "title": "Resource",
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {}
+              }
+            ]
           },
           "description": {
             "title": "Description",

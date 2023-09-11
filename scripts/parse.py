@@ -143,6 +143,10 @@ if __name__ == "__main__":
         with open(
             f"stacklet/client/sinistral/commands/{convert_to_snake(k)}.py", "w+"
         ) as f:
+            f.writelines([
+                "# Copyright Stacklet, Inc.\n",
+                "# SPDX-License-Identifier: Apache-2.0\n",
+            ])
             if "__class__" in v:
                 if write_class:
                     f.writelines(format_imports())

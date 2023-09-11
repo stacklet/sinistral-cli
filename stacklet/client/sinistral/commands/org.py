@@ -14,13 +14,13 @@ class Org(Client):
     commands = PluginRegistry("commands")
 
 
-@Org.commands.register("get-client-id")
-class GetClientId(ClientCommand):
+@Org.commands.register("get-credentials")
+class GetCredentials(ClientCommand):
     """
-    Get the the Org Client ID for use with the Org auth flow (admin only).
+    Get current Organization Credentials.
     """
 
-    command = "get-client-id"
+    command = "get_credentials"
     method = "get"
     path = "/org/credentials"
     params = {}
@@ -29,10 +29,9 @@ class GetClientId(ClientCommand):
 
 
 @Org.commands.register("regenerate-credentials")
-class RegenCreds(ClientCommand):
+class RegenerateCredentials(ClientCommand):
     """
-    Regenerate the Org credentials for use with the Org
-    auth flow, and return the credentials.
+    Create or regenerate and return Organization Credentials.
     """
 
     command = "regenerate_credentials"

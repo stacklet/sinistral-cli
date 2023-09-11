@@ -250,11 +250,24 @@ class DeleteGroups(ClientCommand):
     payload_params = {}
 
 
-@Projects.commands.register("regenerate-credentials")
-class RegenCreds(ClientCommand):
+@Projects.commands.register("get-credentials")
+class GetCredentials(ClientCommand):
     """
-    Regenerate Project credentials for use with the Project
-    auth flow, and return the new credentials.
+    Get current Project Credentials.
+    """
+
+    command = "get_credentials"
+    method = "get"
+    path = "/projects/{name}/credentials"
+    params = {"--name": {"required": True}}
+    query_params = {}
+    payload_params = {}
+
+
+@Projects.commands.register("regenerate-credentials")
+class RegenerateCredentials(ClientCommand):
+    """
+    Regenerate and return Project Credentials.
     """
 
     command = "regenerate_credentials"
