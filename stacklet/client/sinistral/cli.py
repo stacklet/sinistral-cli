@@ -99,22 +99,29 @@ def show(ctx, *args, **kwargs):
 @click.pass_context
 def login(ctx, username, password, *args, **kwargs):
     """
-    Login to Sinistral
+    Login to Sinistral using SSO, username & password, Project Credentials,
+    or Organization Credentials.  Which login methods are available depend
+    on your configuration and / or parameters provided, with explicit
+    parameters being preferred over non-interactive login methods over
+    interactive login methods.
 
-        $ sinistral login
-
-    Spawns a web browser to login via SSO or Cognito. To login with a Cognito user
-    with username and password, simply pass those options into the CLI:
-
-        $ sinistral login --username my-user
-
-    If password is not passed in, your password will be prompted
+    SSO authentication will open a web browser to authenticate, and you may
+    be prompted for a username or password if using that method.
     """
+    # TODO: Improve auth method selection by ensuring that explicit CLI
+    # params always take precedence.
     with StackletContext(ctx) as context:
-        if username and password:
-            if not context.can_password_auth():
-                ctx.fail("Cannot login with username & password with current config")
+        # If username or password are explicitly given but unsupported, fail.
+        if (username or password) and not context.can_password_auth():
+            ctx.fail("Cannot login with username & password with current config")
 
+        # If a username & password are explicitly given, prefer that.
+        # If not, but password auth is the only one supported, prompt for them.
+        if context.can_password_auth() and (username or password or not any([
+            context.can_project_auth(),
+            context.can_org_auth(),
+            context.can_sso_auth(),
+        ])):
             if not username:
                 username = click.prompt("Username")
             if not password:
@@ -127,6 +134,7 @@ def login(ctx, username, password, *args, **kwargs):
             context.write_access_token(res)
             return
 
+        # Otherwise, prefer non-interactive auth to interactive.
         if context.can_project_auth():
             client = CognitoClientAuth(ctx)
             token = client.get_access_token(
