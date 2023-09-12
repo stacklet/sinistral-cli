@@ -39,41 +39,38 @@ def test_cli_show():
         "idp_id": "baz",
         "auth_url": "https://auth.sinistral.acme.org",
     }
-    temp = tempfile.NamedTemporaryFile(delete=False)
-    with open(temp.name, "w") as f:
-        json.dump(config, f)
-    runner = CliRunner()
-    with patch.dict(os.environ, {"STACKLET_CONFIG": temp.name}):
-        result = runner.invoke(cli, ["show"])
-        assert result.exit_code == 0
-        assert "api.sinistral.acme.org" in result.output
-
-    os.unlink(temp.name)
+    with tempfile.TemporaryDirectory() as temp:
+        with open(f"{temp}/config.json", "w") as f:
+            json.dump(config, f)
+        runner = CliRunner()
+        with patch.dict(os.environ, {"STACKLET_CONFIG": temp}):
+            result = runner.invoke(cli, ["show"])
+            assert result.exit_code == 0
+            assert "api.sinistral.acme.org" in result.output
 
 
 def test_cli_configure():
-    temp = tempfile.NamedTemporaryFile(delete=False)
-    # delete the file, cli should create it for us
-    os.unlink(temp.name)
-    runner = CliRunner()
-    result = runner.invoke(
-        cli,
-        [
-            "configure",
-            "--api=foo",
-            "--region=bar",
-            "--cognito-client-id=ccid",
-            "--cognito-user-pool-id=cupid",
-            "--idp-id=idpid",
-            "--auth-url=auth.com",
-            f"--location={temp.name}",
-        ],
-    )
-    assert result.exit_code == 0
-    with open(temp.name) as f:
-        res = json.load(f)
-        assert res["api"] == "foo"
-    os.unlink(temp.name)
+    with tempfile.TemporaryDirectory() as temp:
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "configure",
+                "--api=foo",
+                "--region=bar",
+                "--cognito-client-id=ccid",
+                "--cognito-user-pool-id=cupid",
+                "--idp-id=idpid",
+                "--auth-url=auth.com",
+                f"--config-dir={temp}",
+            ],
+        )
+        assert result.exit_code == 0
+        with open(f"{temp}/config.json") as f:
+            res = json.load(f)
+            assert res["api_url"] == "foo"
+            assert res["cognito_region"] == "bar"
+            assert res["cognito_client_id"] == "ccid"
 
 
 def test_cli_login_cognito():
