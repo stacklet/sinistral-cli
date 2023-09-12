@@ -7,7 +7,6 @@ from jsonschema import validate
 from functools import partial
 
 import click
-from click.globals import get_current_context
 
 from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.executor import RestExecutor
@@ -120,7 +119,7 @@ class ClientCommand:
 
     @classmethod
     def cli_run(cls, *args, **kwargs):
-        ctx = get_current_context()
+        ctx = click.get_current_context()
         try:
             res = cls.run(ctx=ctx, **kwargs)
         except Exception as e:
@@ -209,5 +208,5 @@ class SinistralClient:
 def sinistral_client():
     import stacklet.client.sinistral.commands  # noqa
 
-    ctx = StackletContext(raw_config={})
+    ctx = StackletContext(click.get_current_context())
     return SinistralClient(ctx)
