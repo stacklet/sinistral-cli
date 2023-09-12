@@ -1,12 +1,16 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
+import tempfile
+
 from unittest import TestCase
+from unittest.mock import Mock
 
 import boto3
 from click.testing import CliRunner
 from moto import mock_cognitoidp
 from stacklet.client.sinistral.cli import cli
 from stacklet.client.sinistral.cognito import CognitoUserManager
+from stacklet.client.sinistral.config import StackletConfig
 from stacklet.client.sinistral.context import StackletContext
 
 
@@ -32,16 +36,26 @@ class CognitoUserManagerTest(TestCase):
         self.mock_cognitoidp.stop()
 
     def test_cognito_user_manager_create_user(self):
-        config = dict(
+        config_data = dict(
             api="mock://stacklet.acme.org/api",
             cognito_user_pool_id=self.cognito_user_pool_id,
             cognito_client_id=self.cognito_client_id,
             region=self.region,
         )
+        with tempfile.TemporaryDirectory() as temp:
+            config = StackletConfig(temp)
+            config.update(config_data)
+            ctx = Mock(
+                obj={
+                    "output": "yaml",
+                    "formatter": None,
+                    "config": config,
+                }
+            )
         users = self.client.list_users(UserPoolId=self.cognito_user_pool_id)
         self.assertEqual(len(users["Users"]), 0)
 
-        with StackletContext(raw_config=config) as context:
+        with StackletContext(ctx) as context:
             manager = CognitoUserManager.from_context(context)
             manager.create_user(
                 user="test-user",

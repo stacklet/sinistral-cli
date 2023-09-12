@@ -28,7 +28,7 @@ class CognitoUserManager:
         return cls(
             user_pool_id=context.config.cognito_user_pool_id,
             user_pool_client_id=context.config.cognito_client_id,
-            region=context.config.region,
+            region=context.config.cognito_region,
         )
 
     def create_user(self, user, password, email, phone_number, permanent=True):
