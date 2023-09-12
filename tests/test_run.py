@@ -4,7 +4,7 @@ import pathlib
 
 from click.testing import CliRunner
 
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 from .utils import (
     get_project_response,
@@ -25,7 +25,7 @@ def test_run_command():
     assert "project" in result.output
 
 
-@patch.object(StackletContext, "DEFAULT_CREDENTIALS", "/dev/null")
+@patch.object(StackletContext, "_write_token", Mock())
 def test_submit_run():
     path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/good"
     runner = CliRunner()
@@ -56,7 +56,7 @@ def test_submit_run():
             assert len(patched_post.mock_calls[0].args[2]["results"]) == 0
 
 
-@patch.object(StackletContext, "DEFAULT_CREDENTIALS", "/dev/null")
+@patch.object(StackletContext, "_write_token", Mock())
 def test_submit_run_fail():
     path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/bad"
     runner = CliRunner()

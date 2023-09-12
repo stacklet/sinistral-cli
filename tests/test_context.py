@@ -1,88 +1,60 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
-import json
-import os
 import tempfile
 
-from stacklet.client.sinistral.context import StackletContext, StackletCredentialWriter
+from unittest.mock import Mock
+
+from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.config import StackletConfig
 
 
 def test_context():
-    config = {
-        "api": "https://api.sinistral.acme.org",
-        "region": "us-east-1",
-        "cognito_client_id": "foo",
-        "cognito_user_pool_id": "bar",
-        "idp_id": "baz",
-        "auth_url": "https://auth.sinistral.acme.org",
-    }
-    context = StackletContext(raw_config=config)
+    ctx = Mock(
+        obj={
+            "config": StackletConfig("tmp"),
+            "output": "yaml",
+            "formatter": None,
+        }
+    )
+    ctx.obj["config"].update(
+        {
+            "api": "https://api.sinistral.acme.org",
+            "region": "us-east-1",
+            "cognito_client_id": "foo",
+            "cognito_user_pool_id": "bar",
+            "idp_id": "baz",
+            "auth_url": "https://auth.sinistral.acme.org",
+        }
+    )
+    context = StackletContext(ctx)
     assert isinstance(context.config, StackletConfig)
     with context:
-        assert context.can_sso_login() is True
+        assert context.can_sso_auth() is True
 
 
-def test_context_from_file():
-    temp = tempfile.NamedTemporaryFile(delete=False)
-    config = {
-        "api": "https://api.sinistral.acme.org",
-        "region": "us-east-1",
-        "cognito_client_id": "foo",
-        "cognito_user_pool_id": "bar",
-        "idp_id": "baz",
-        "auth_url": "https://auth.sinistral.acme.org",
-    }
-    with open(temp.name, "w") as f:
-        json.dump(config, f)
-
-    context = StackletContext(config=temp.name)
-
-    assert isinstance(context.config, StackletConfig)
-    with context:
-        assert context.can_sso_login() is True
-
-    os.unlink(temp.name)
+def test_credential_write():
+    with tempfile.TemporaryDirectory() as temp:
+        ctx = Mock(
+            obj={
+                "config": StackletConfig(temp),
+                "output": "yaml",
+                "formatter": None,
+            }
+        )
+        context = StackletContext(ctx)
+        context.write_access_token("foo")
+        assert context.get_access_token() == "foo"
 
 
-def test_context_from_file_default():
-    temp = tempfile.NamedTemporaryFile(delete=False)
-    config = {
-        "api": "https://api.sinistral.acme.org",
-        "region": "us-east-1",
-        "cognito_client_id": "foo",
-        "cognito_user_pool_id": "bar",
-        "idp_id": "baz",
-        "auth_url": "https://auth.sinistral.acme.org",
-    }
-
-    with open(temp.name, "w") as f:
-        json.dump(config, f)
-
-    context = StackletContext()
-    assert isinstance(context.config, StackletConfig)
-    with context:
-        assert context.can_sso_login() is True
-
-    os.unlink(temp.name)
-
-
-def test_credential_writer():
-    temp = tempfile.NamedTemporaryFile(delete=False)
-    writer = StackletCredentialWriter("foo", temp.name)
-    writer()
-    with open(temp.name) as f:
-        assert f.read() == "foo"
-    os.unlink(temp.name)
-
-
-def test_credential_writer_no_parent_dirs():
-    non_existant_file = "/tmp/foo/bar/baz"
-    assert os.path.exists(non_existant_file) is False
-    writer = StackletCredentialWriter("foo", non_existant_file)
-    writer()
-    with open(non_existant_file) as f:
-        assert f.read() == "foo"
-
-    os.unlink(non_existant_file)
-    os.rmdir(os.path.dirname(non_existant_file))
+def test_credential_write_no_parent_dirs():
+    with tempfile.TemporaryDirectory() as temp:
+        ctx = Mock(
+            obj={
+                "config": StackletConfig(f"{temp}/nonexistant"),
+                "output": "yaml",
+                "formatter": None,
+            }
+        )
+        context = StackletContext(ctx)
+        context.write_access_token("foo")
+        assert context.get_access_token() == "foo"

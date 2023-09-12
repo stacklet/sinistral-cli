@@ -29,9 +29,12 @@ class StackletContext:
         else:
             return None
 
+    def _write_token(self, token_path, token):
+        token_path.parent.mkdir(parents=True, exist_ok=True)
+        token_path.write_text(token)
+
     def write_access_token(self, token):
-        self.access_token_path.parent.mkdir(parents=True, exist_ok=True)
-        self.access_token_path.write_text(token)
+        self._write_token(self.access_token_path, token)
 
     def get_id_token(self):
         if self.id_token_path.exists():
@@ -40,8 +43,7 @@ class StackletContext:
             return None
 
     def write_id_token(self, token):
-        self.id_token_path.parent.mkdir(parents=True, exist_ok=True)
-        self.id_token_path.write_text(token)
+        self._write_token(self.id_token_path, token)
 
     def __enter__(self):
         return self
