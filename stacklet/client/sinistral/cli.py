@@ -58,7 +58,7 @@ def cli(ctx, **params):
     default="",
 )
 @click.option(
-    "--cognito-user-pool-id", prompt="(user/pass auth)Cognito User Pool ID", default=""
+    "--cognito-user-pool-id", prompt="(user/pass auth) Cognito User Pool ID", default=""
 )
 @click.option("--idp-id", prompt="(SSO) IDP ID", default="")
 @click.option("--auth-url", prompt="(SSO, Project, or Org auth) Auth Url", default="")
@@ -100,7 +100,7 @@ def show(ctx, *args, **kwargs):
 def login(ctx, username, password, *args, **kwargs):
     """
     Login to Sinistral using SSO, username & password, Project Credentials,
-    or Organization Credentials.  Which login methods are available depend
+    or Organization Credentials.  Which login methods are available depends
     on your configuration and / or parameters provided, with explicit
     parameters being preferred over non-interactive login methods over
     interactive login methods.

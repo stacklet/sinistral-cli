@@ -101,5 +101,5 @@ class CognitoClientAuth:
             },
         )
         if response.status_code != 200:
-            self.ctx.fail(f"Unable  to get access token:\n{response.text}")
+            self.ctx.fail(f"Unable to get access token:\n{response.text}")
         return response.json()["access_token"]
