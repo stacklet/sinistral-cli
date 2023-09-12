@@ -1,10 +1,10 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import pathlib
+from unittest.mock import patch, Mock
 
 from click.testing import CliRunner
 
-from unittest.mock import patch, Mock
 
 from .utils import (
     get_project_response,
@@ -40,11 +40,15 @@ def test_submit_run():
         with patch.object(
             RestExecutor,
             "post",
-            return_value=[
+            side_effect=[
                 get_mock_response(json=create_scan_response),
             ],
         ) as patched_post:
-            runner.invoke(cli, ["run", "--project", "foo", "-d", path])
+            result = runner.invoke(cli, ["run", "--project", "foo", "-d", path])
+            if result.exception:
+                # silent exceptions in tests are hard to debug; raise for visibility
+                raise result.exception
+
             patched_post.assert_called_once()
             # path
             assert patched_post.mock_calls[0].args[0] == "/scans"

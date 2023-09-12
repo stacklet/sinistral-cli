@@ -201,7 +201,7 @@ class SinistralClient:
                     raise Exception(f"An error occured: {res['detail']}")
             if 400 <= status_code < 600:
                 raise Exception(f"Error: ({status_code}), {json.dumps(res)}")
-            fmt = Formatter.registry.get(output, "yaml")()
+            fmt = Formatter.registry.get(output)()
         return fmt(res)
 
 
