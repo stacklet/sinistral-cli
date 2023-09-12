@@ -18,6 +18,17 @@ from stacklet.client.sinistral.client import (
 from stacklet.client.sinistral.executor import RestExecutor
 
 
+@pytest.fixture(autouse=True, scope="module")
+def mock_current_context():
+    with patch("click.get_current_context") as ctx:
+        ctx().obj = {
+            "output": "raw",
+            "formatter": None,
+            "config": MagicMock(),
+        }
+        yield ctx
+
+
 sample_schema = {
     "$id": "https://example.com/person.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",

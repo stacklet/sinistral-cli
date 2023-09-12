@@ -1,1 +1,2936 @@
-{"openapi":"3.0.2","info":{"title":"FastAPI","version":"0.1.0"},"paths":{"/policy-sources":{"get":{"tags":["Policy Sources"],"summary":"List","description":"List all policy sources","operationId":"get_policy_sources_policy_sources_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Policy Sources Policy Sources Get","type":"array","items":{"$ref":"#/components/schemas/PolicySourceListItem"}}}}},"404":{"description":"Not found"}}},"post":{"tags":["Policy Sources"],"summary":"Create","description":"Create a new policy source","operationId":"create_policy_source_policy_sources_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/PolicySourceInput"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/PolicySource"}}}},"404":{"description":"Not found"},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/policy-sources/{name}":{"get":{"tags":["Policy Sources"],"summary":"Get","description":"Get a policy source by name","operationId":"get_policy_source_by_name_policy_sources__name__get","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/PolicySource"}}}},"404":{"description":"Not found"},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"delete":{"tags":["Policy Sources"],"summary":"Delete","description":"Delete a policy source by name","operationId":"delete_policy_source_by_name_policy_sources__name__delete","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"404":{"description":"Not found"},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"patch":{"tags":["Policy Sources"],"summary":"Update","description":"Update a policy source","operationId":"update_policy_source_policy_sources__name__patch","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdatePolicySource"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/PolicySource"}}}},"404":{"description":"Not found"},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/policy-sources/{name}/policies":{"get":{"tags":["Policy Sources"],"summary":"Policies","description":"Get all policies for a source","operationId":"get_policies_for_source_policy_sources__name__policies_get","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Policies For Source Policy Sources  Name  Policies Get","type":"array","items":{"$ref":"#/components/schemas/Policy"}}}}},"404":{"description":"Not found"},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/policy-sources/{name}/scans":{"post":{"tags":["Policy Sources"],"summary":"Scan","description":"Scan a policy source","operationId":"scan_policy_source_policy_sources__name__scans_post","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"202":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"404":{"description":"Not found"},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/policies":{"get":{"tags":["Policy"],"summary":"List","description":"List all policies","operationId":"get_policies_policies_get","parameters":[{"required":false,"schema":{"title":"Search","type":"string"},"name":"search","in":"query"},{"required":false,"schema":{"title":"Lastkey","type":"string"},"name":"lastKey","in":"query"},{"required":false,"schema":{"title":"Pagesize","type":"integer","default":50},"name":"pageSize","in":"query"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Paged_Policy_"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/policies/{name}":{"get":{"tags":["Policy"],"summary":"Get","description":"Get a policy by name","operationId":"get_policy_by_name_policies__name__get","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Policy"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/policy-collections":{"get":{"tags":["Policy Collections"],"summary":"List","description":"List all policy collections","operationId":"get_policy_collections_policy_collections_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Policy Collections Policy Collections Get","type":"array","items":{"$ref":"#/components/schemas/PolicyCollection"}}}}}}},"post":{"tags":["Policy Collections"],"summary":"Create","description":"Create a new policy collection","operationId":"create_policy_collection_policy_collections_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/PolicyCollectionInput"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/PolicyCollection"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/policy-collections/{name}":{"get":{"tags":["Policy Collections"],"summary":"Get","description":"Get a policy collection by name","operationId":"get_policy_collection_by_name_policy_collections__name__get","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/PolicyCollection"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"delete":{"tags":["Policy Collections"],"summary":"Delete","description":"Delete a policy collection","operationId":"delete_policy_collection_policy_collections__name__delete","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/policy-collections/{name}/policies":{"get":{"tags":["Policy Collections"],"summary":"Get Policies","description":"Get policies for a policy collection","operationId":"get_policies_for_collection_policy_collections__name__policies_get","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Policies For Collection Policy Collections  Name  Policies Get","type":"array","items":{"$ref":"#/components/schemas/Policy"}}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"put":{"tags":["Policy Collections"],"summary":"Update Policies","description":"Update the policies for a policy collection","operationId":"update_policies_for_collection_policy_collections__name__policies_put","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdatePoliciesForCollectionInput"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/PolicyCollection"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["Policy Collections"],"summary":"Add Policies","description":"Add policies to a policy collection","operationId":"add_policies_to_collection_policy_collections__name__policies_post","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AddPoliciesPolicyCollectionInput"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/PolicyCollection"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"delete":{"tags":["Policy Collections"],"summary":"Delete Policies","description":"Delete policies from a policy collection","operationId":"remove_policies_from_collection_policy_collections__name__policies_delete","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"},{"required":true,"schema":{"title":"Policy","uniqueItems":true,"type":"array","items":{"type":"string"}},"name":"policy","in":"query"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/PolicyCollection"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/scans":{"get":{"tags":["Scans"],"summary":"List","description":"List all scans","operationId":"get_scans_scans_get","parameters":[{"required":false,"schema":{"title":"Start","type":"string","format":"date-time"},"name":"start","in":"query"},{"required":false,"schema":{"title":"End","type":"string","format":"date-time"},"name":"end","in":"query"},{"required":false,"schema":{"title":"Trigger","type":"array","items":{"type":"string"}},"name":"trigger","in":"query"},{"required":false,"schema":{"title":"Status","type":"array","items":{"type":"string"}},"name":"status","in":"query"},{"required":false,"schema":{"title":"Search","type":"string"},"name":"search","in":"query"},{"required":false,"schema":{"title":"Lastkey","type":"string"},"name":"lastKey","in":"query"},{"required":false,"schema":{"title":"Pagesize","type":"integer","default":50},"name":"pageSize","in":"query"},{"required":false,"schema":{"title":"Sort","type":"string"},"name":"sort","in":"query"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Paged_Scan_"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["Scans"],"summary":"Create","description":"Create a scan","operationId":"create_scan_scans_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ScanInput"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Scan"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/scans/{id}":{"get":{"tags":["Scans"],"summary":"Get","description":"Get a scan by id","operationId":"get_scan_scans__id__get","parameters":[{"required":true,"schema":{"title":"Id","type":"string"},"name":"id","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Scan"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/scans/{id}/results":{"get":{"tags":["Scans"],"summary":"Get Results","description":"Get scan results by scan id","operationId":"get_scan_results_scans__id__results_get","parameters":[{"required":true,"schema":{"title":"Id","type":"string"},"name":"id","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Scan Results Scans  Id  Results Get","type":"array","items":{"$ref":"#/components/schemas/ScanResult"}}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/group/{name}":{"delete":{"tags":["Group"],"summary":"Delete","description":"Delete a group (requires admin access)","operationId":"admin_delete_group_group__name__delete","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]}},"/projects":{"get":{"tags":["Projects"],"summary":"List","description":"List all projects","operationId":"get_projects_projects_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Projects Projects Get","type":"array","items":{"$ref":"#/components/schemas/Project"}}}}}},"security":[{"HTTPBearer":[]}]},"post":{"tags":["Projects"],"summary":"Create","description":"Create a project","operationId":"create_project_projects_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AddProjectInput"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Project"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]}},"/projects/{name}":{"get":{"tags":["Projects"],"summary":"Get","description":"Get a project by name","operationId":"get_project_by_name_projects__name__get","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Project"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]},"put":{"tags":["Projects"],"summary":"Update","description":"Update a project","operationId":"update_project_projects__name__put","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateProjectInput"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Project"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]},"delete":{"tags":["Projects"],"summary":"Delete","description":"Delete a project","operationId":"delete_project_projects__name__delete","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]}},"/projects/{name}/collections":{"get":{"tags":["Projects"],"summary":"Get Collections","description":"Get policy collections for a project","operationId":"get_collections_for_project_projects__name__collections_get","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Collections For Project Projects  Name  Collections Get","type":"array","items":{"$ref":"#/components/schemas/PolicyCollection"}}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]},"post":{"tags":["Projects"],"summary":"Add Collections","description":"Add policy collections to a project","operationId":"add_collections_to_project_projects__name__collections_post","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AddCollectionsProjectInput"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Project"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]},"delete":{"tags":["Projects"],"summary":"Delete Collections","description":"Delete policy collections from a project","operationId":"remove_collections_from_project_projects__name__collections_delete","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"},{"required":true,"schema":{"title":"Collection","uniqueItems":true,"type":"array","items":{"type":"string"}},"name":"collection","in":"query"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]}},"/projects/{name}/policies":{"get":{"tags":["Projects"],"summary":"Get Policies","description":"Get policies for a project","operationId":"get_policies_for_project_projects__name__policies_get","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"title":"Response Get Policies For Project Projects  Name  Policies Get","type":"array","items":{"$ref":"#/components/schemas/Policy"}}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]}},"/projects/{name}/groups/{group_type}":{"post":{"tags":["Projects"],"summary":"Add Groups","description":"Add groups to a project","operationId":"add_groups_to_group_type_projects__name__groups__group_type__post","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"},{"required":true,"schema":{"title":"Group Type","type":"string"},"name":"group_type","in":"path"}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/GroupNamesInput"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Project"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]},"delete":{"tags":["Projects"],"summary":"Delete Groups","description":"Delete groups from a project","operationId":"remove_groups_from_group_type_projects__name__groups__group_type__delete","parameters":[{"required":true,"schema":{"title":"Name","type":"string"},"name":"name","in":"path"},{"required":true,"schema":{"title":"Group Type","type":"string"},"name":"group_type","in":"path"},{"required":true,"schema":{"title":"Group Name","uniqueItems":true,"type":"array","items":{"type":"string"}},"name":"group_name","in":"query"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"HTTPBearer":[]}]}},"/":{"get":{"summary":"Root","operationId":"get_root__get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}},"/health":{"get":{"summary":"Health","operationId":"health_health_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}}},"components":{"schemas":{"AddCollectionsProjectInput":{"title":"AddCollectionsProjectInput","required":["collections"],"type":"object","properties":{"collections":{"title":"Collections","minItems":1,"uniqueItems":true,"type":"array","items":{"type":"string"}}}},"AddPoliciesPolicyCollectionInput":{"title":"AddPoliciesPolicyCollectionInput","required":["policies"],"type":"object","properties":{"policies":{"title":"Policies","minItems":1,"uniqueItems":true,"type":"array","items":{"type":"string"}}}},"AddProjectInput":{"title":"AddProjectInput","required":["name"],"type":"object","properties":{"name":{"title":"Name","type":"string"},"collections":{"title":"Collections","uniqueItems":true,"type":"array","items":{"type":"string"}},"groups":{"$ref":"#/components/schemas/Group"}}},"Group":{"title":"Group","type":"object","properties":{"read":{"title":"Read","uniqueItems":true,"type":"array","items":{"type":"string"}}}},"GroupNamesInput":{"title":"GroupNamesInput","required":["group_names"],"type":"object","properties":{"group_names":{"title":"Group Names","minItems":1,"uniqueItems":true,"type":"array","items":{"type":"string"}}}},"HTTPValidationError":{"title":"HTTPValidationError","type":"object","properties":{"detail":{"title":"Detail","type":"array","items":{"$ref":"#/components/schemas/ValidationError"}}}},"Paged_Policy_":{"title":"Paged[Policy]","required":["items"],"type":"object","properties":{"items":{"title":"Items","type":"array","items":{"$ref":"#/components/schemas/Policy"}},"last_key":{"title":"Last Key","type":"string"}}},"Paged_Scan_":{"title":"Paged[Scan]","required":["items"],"type":"object","properties":{"items":{"title":"Items","type":"array","items":{"$ref":"#/components/schemas/Scan"}},"last_key":{"title":"Last Key","type":"string"}}},"Policy":{"title":"Policy","required":["name","source_name","raw_policy","resource","severity","created_at","updated_at"],"type":"object","properties":{"name":{"title":"Name","type":"string"},"source_name":{"title":"Source Name","type":"string"},"raw_policy":{"title":"Raw Policy","type":"object"},"resource":{"title":"Resource","type":"string"},"severity":{"title":"Severity","type":"string"},"created_at":{"title":"Created At","type":"string","format":"date-time"},"updated_at":{"title":"Updated At","type":"string","format":"date-time"}}},"PolicyCollection":{"title":"PolicyCollection","required":["name","created_at","updated_at"],"type":"object","properties":{"name":{"title":"Name","minLength":1,"type":"string"},"policies":{"title":"Policies","uniqueItems":true,"type":"array","items":{"type":"string"},"default":[]},"created_at":{"title":"Created At","type":"string","format":"date-time"},"updated_at":{"title":"Updated At","type":"string","format":"date-time"}}},"PolicyCollectionInput":{"title":"PolicyCollectionInput","required":["name"],"type":"object","properties":{"name":{"title":"Name","minLength":1,"type":"string"},"policies":{"title":"Policies","uniqueItems":true,"type":"array","items":{"type":"string"},"default":[]}}},"PolicySource":{"title":"PolicySource","required":["name","url","created_at","updated_at"],"type":"object","properties":{"name":{"title":"Name","type":"string"},"url":{"title":"Url","maxLength":65536,"minLength":1,"type":"string","format":"uri"},"extensions":{"title":"Extensions","minItems":1,"type":"array","items":{"type":"string"},"default":[".yml",".yaml"]},"paths":{"title":"Paths","type":"array","items":{"type":"string"}},"branch":{"title":"Branch","type":"string"},"auth":{"title":"Auth","anyOf":[{"$ref":"#/components/schemas/RepositoryAuthToken"},{"$ref":"#/components/schemas/RepositoryAuthSSH"}]},"created_at":{"title":"Created At","type":"string","format":"date-time"},"updated_at":{"title":"Updated At","type":"string","format":"date-time"},"source_scan":{"title":"Source Scan","allOf":[{"$ref":"#/components/schemas/PolicySourceScan"}],"default":{"status":"INITIATED","added":0,"updated":0,"removed":0,"started_at":"2023-03-23T22:33:16.247765"}}}},"PolicySourceInput":{"title":"PolicySourceInput","required":["name","url"],"type":"object","properties":{"name":{"title":"Name","type":"string"},"url":{"title":"Url","maxLength":65536,"minLength":1,"type":"string","format":"uri"},"extensions":{"title":"Extensions","minItems":1,"type":"array","items":{"type":"string"},"default":[".yml",".yaml"]},"paths":{"title":"Paths","type":"array","items":{"type":"string"}},"branch":{"title":"Branch","type":"string"},"auth":{"title":"Auth","anyOf":[{"$ref":"#/components/schemas/RepositoryAuthToken"},{"$ref":"#/components/schemas/RepositoryAuthSSH"}]}}},"PolicySourceListItem":{"title":"PolicySourceListItem","required":["name","url","created_at","updated_at"],"type":"object","properties":{"name":{"title":"Name","type":"string"},"url":{"title":"Url","maxLength":65536,"minLength":1,"type":"string","format":"uri"},"extensions":{"title":"Extensions","minItems":1,"type":"array","items":{"type":"string"},"default":[".yml",".yaml"]},"paths":{"title":"Paths","type":"array","items":{"type":"string"}},"branch":{"title":"Branch","type":"string"},"created_at":{"title":"Created At","type":"string","format":"date-time"},"updated_at":{"title":"Updated At","type":"string","format":"date-time"},"source_scan":{"title":"Source Scan","allOf":[{"$ref":"#/components/schemas/PolicySourceScan"}],"default":{"status":"INITIATED","added":0,"updated":0,"removed":0,"started_at":"2023-03-23T22:33:16.246874"}}}},"PolicySourceScan":{"title":"PolicySourceScan","type":"object","properties":{"status":{"title":"Status","anyOf":[{"enum":["INITIATED"],"type":"string"},{"enum":["STARTED"],"type":"string"},{"enum":["IN_PROGRESS"],"type":"string"},{"enum":["FAILED"],"type":"string"},{"enum":["SUCCEEDED"],"type":"string"}],"default":"INITIATED"},"added":{"title":"Added","type":"integer","default":0},"updated":{"title":"Updated","type":"integer","default":0},"removed":{"title":"Removed","type":"integer","default":0},"error_info":{"title":"Error Info","type":"object"},"started_at":{"title":"Started At","type":"string","format":"date-time"},"completed_at":{"title":"Completed At","type":"string","format":"date-time"}}},"Project":{"title":"Project","required":["name","client_id","created_at","updated_at"],"type":"object","properties":{"name":{"title":"Name","type":"string"},"collections":{"title":"Collections","uniqueItems":true,"type":"array","items":{"type":"string"}},"groups":{"$ref":"#/components/schemas/Group"},"client_id":{"title":"Client Id","type":"string"},"created_at":{"title":"Created At","type":"string","format":"date-time"},"updated_at":{"title":"Updated At","type":"string","format":"date-time"}}},"RepositoryAuthSSH":{"title":"RepositoryAuthSSH","required":["username","ssh_key"],"type":"object","properties":{"username":{"title":"Username","type":"string"},"ssh_key":{"title":"Ssh Key","type":"string","format":"password","writeOnly":true},"ssh_passphrase":{"title":"Ssh Passphrase","type":"string","format":"password","writeOnly":true}}},"RepositoryAuthToken":{"title":"RepositoryAuthToken","required":["username","token"],"type":"object","properties":{"username":{"title":"Username","type":"string"},"token":{"title":"Token","type":"string","format":"password","writeOnly":true}}},"Scan":{"title":"Scan","required":["id","project_name","status","trigger","user_id","client_id","sort","created_at"],"type":"object","properties":{"id":{"title":"Id","type":"string"},"project_name":{"title":"Project Name","type":"string"},"status":{"$ref":"#/components/schemas/ScanStatus"},"summary":{"title":"Summary","allOf":[{"$ref":"#/components/schemas/Summary"}],"default":{"HIGH":0,"MEDIUM":0,"LOW":0,"UNKNOWN":0}},"trigger":{"$ref":"#/components/schemas/Trigger"},"user_id":{"title":"User Id","type":"string"},"client_id":{"title":"Client Id","type":"string"},"sort":{"title":"Sort","type":"integer"},"created_at":{"title":"Created At","type":"string","format":"date-time"}}},"ScanInput":{"title":"ScanInput","required":["project_name","status"],"type":"object","properties":{"project_name":{"title":"Project Name","minLength":1,"type":"string"},"results":{"title":"Results","type":"array","items":{"$ref":"#/components/schemas/ScanResultInput"},"default":[]},"status":{"$ref":"#/components/schemas/ScanStatus"}}},"ScanResult":{"title":"ScanResult","required":["id","scan_id","policy_name","severity","policy","resource","file_path","file_line_start","file_line_end","code_block","created_at"],"type":"object","properties":{"id":{"title":"Id","type":"string"},"scan_id":{"title":"Scan Id","type":"string"},"policy_name":{"title":"Policy Name","type":"string"},"severity":{"$ref":"#/components/schemas/Severity"},"policy":{"$ref":"#/components/schemas/ScanResultPolicy"},"resource":{"$ref":"#/components/schemas/ScanResultResource"},"file_path":{"title":"File Path","type":"string"},"file_line_start":{"title":"File Line Start","type":"integer"},"file_line_end":{"title":"File Line End","type":"integer"},"code_block":{"title":"Code Block","type":"array","items":{"type":"array","items":{"anyOf":[{"type":"integer"},{"type":"string"}]}}},"created_at":{"title":"Created At","type":"string","format":"date-time"}}},"ScanResultInput":{"title":"ScanResultInput","required":["policy","resource","file_path","file_line_start","file_line_end","code_block"],"type":"object","properties":{"policy":{"$ref":"#/components/schemas/ScanResultPolicy"},"resource":{"$ref":"#/components/schemas/ScanResultResource"},"file_path":{"title":"File Path","type":"string"},"file_line_start":{"title":"File Line Start","type":"integer"},"file_line_end":{"title":"File Line End","type":"integer"},"code_block":{"title":"Code Block","type":"array","items":{"type":"array","items":{"anyOf":[{"type":"integer"},{"type":"string"}]}}}}},"ScanResultPolicy":{"title":"ScanResultPolicy","required":["name","resource","description","filters","mode"],"type":"object","properties":{"name":{"title":"Name","type":"string"},"resource":{"title":"Resource","type":"string"},"description":{"title":"Description","type":"string"},"metadata":{"$ref":"#/components/schemas/ScanResultPolicyMetadata"},"filters":{"title":"Filters","type":"array","items":{}},"mode":{"title":"Mode","type":"object","additionalProperties":{"type":"string"}}}},"ScanResultPolicyMetadata":{"title":"ScanResultPolicyMetadata","type":"object","properties":{"severity":{"$ref":"#/components/schemas/Severity"}}},"ScanResultResource":{"title":"ScanResultResource","required":["id","__tfmeta"],"type":"object","properties":{"id":{"title":"Id","type":"string"},"name":{"title":"Name","type":"string"},"__tfmeta":{"$ref":"#/components/schemas/ScanResultResourceTfMeta"},"c7n:MatchedFilters":{"title":"C7N:Matchedfilters","type":"array","items":{"type":"string"}}}},"ScanResultResourceTfMeta":{"title":"ScanResultResourceTfMeta","required":["filename","label","line_end","line_start","path","type","src_dir"],"type":"object","properties":{"filename":{"title":"Filename","type":"string"},"label":{"title":"Label","type":"string"},"line_end":{"title":"Line End","type":"integer"},"line_start":{"title":"Line Start","type":"integer"},"path":{"title":"Path","type":"string"},"type":{"title":"Type","type":"string"},"src_dir":{"title":"Src Dir","type":"string"}}},"ScanStatus":{"title":"ScanStatus","enum":["PASSED","FAILED","ERROR"],"type":"string","description":"An enumeration."},"Severity":{"title":"Severity","enum":["HIGH","MEDIUM","LOW","UNKNOWN"],"type":"string","description":"An enumeration."},"Summary":{"title":"Summary","type":"object","properties":{"HIGH":{"title":"High","type":"integer","default":0},"MEDIUM":{"title":"Medium","type":"integer","default":0},"LOW":{"title":"Low","type":"integer","default":0},"UNKNOWN":{"title":"Unknown","type":"integer","default":0}}},"Trigger":{"title":"Trigger","enum":["USER","CLIENT"],"type":"string","description":"An enumeration."},"UpdatePoliciesForCollectionInput":{"title":"UpdatePoliciesForCollectionInput","required":["policies"],"type":"object","properties":{"policies":{"title":"Policies","uniqueItems":true,"type":"array","items":{"type":"string"}}}},"UpdatePolicySource":{"title":"UpdatePolicySource","type":"object","properties":{"url":{"title":"Url","maxLength":65536,"minLength":1,"type":"string","format":"uri"},"paths":{"title":"Paths","type":"array","items":{"type":"string"}},"extensions":{"title":"Extensions","minItems":1,"type":"array","items":{"type":"string"}},"branch":{"title":"Branch","type":"string"},"auth":{"title":"Auth","anyOf":[{"$ref":"#/components/schemas/RepositoryAuthToken"},{"$ref":"#/components/schemas/RepositoryAuthSSH"}]}}},"UpdateProjectInput":{"title":"UpdateProjectInput","type":"object","properties":{"collections":{"title":"Collections","uniqueItems":true,"type":"array","items":{"type":"string"}},"groups":{"$ref":"#/components/schemas/Group"}}},"ValidationError":{"title":"ValidationError","required":["loc","msg","type"],"type":"object","properties":{"loc":{"title":"Location","type":"array","items":{"anyOf":[{"type":"string"},{"type":"integer"}]}},"msg":{"title":"Message","type":"string"},"type":{"title":"Error Type","type":"string"}}}},"securitySchemes":{"HTTPBearer":{"type":"http","scheme":"bearer"}}}}
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/policy-sources": {
+      "get": {
+        "tags": [
+          "Policy Sources"
+        ],
+        "summary": "List",
+        "description": "List all policy sources",
+        "operationId": "get_policy_sources_policy_sources_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Policy Sources Policy Sources Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PolicySourceListItem"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Policy Sources"
+        ],
+        "summary": "Create",
+        "description": "Create a new policy source",
+        "operationId": "create_policy_source_policy_sources_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PolicySourceInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicySource"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policy-sources/{name}": {
+      "get": {
+        "tags": [
+          "Policy Sources"
+        ],
+        "summary": "Get",
+        "description": "Get a policy source by name",
+        "operationId": "get_policy_source_by_name_policy_sources__name__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicySource"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Policy Sources"
+        ],
+        "summary": "Delete",
+        "description": "Delete a policy source by name",
+        "operationId": "delete_policy_source_by_name_policy_sources__name__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Policy Sources"
+        ],
+        "summary": "Update",
+        "description": "Update a policy source",
+        "operationId": "update_policy_source_policy_sources__name__patch",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePolicySource"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicySource"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policy-sources/{name}/policies": {
+      "get": {
+        "tags": [
+          "Policy Sources"
+        ],
+        "summary": "Policies",
+        "description": "Get all policies for a source",
+        "operationId": "get_policies_for_source_policy_sources__name__policies_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Policies For Source Policy Sources  Name  Policies Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Policy"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policy-sources/{name}/scans": {
+      "post": {
+        "tags": [
+          "Policy Sources"
+        ],
+        "summary": "Scan",
+        "description": "Scan a policy source",
+        "operationId": "scan_policy_source_policy_sources__name__scans_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policies": {
+      "get": {
+        "tags": [
+          "Policy"
+        ],
+        "summary": "List",
+        "description": "List all policies",
+        "operationId": "get_policies_policies_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Search",
+              "type": "string"
+            },
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Lastkey",
+              "type": "string"
+            },
+            "name": "lastKey",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Pagesize",
+              "type": "integer",
+              "default": 50
+            },
+            "name": "pageSize",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paged_Policy_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policies/{name}": {
+      "get": {
+        "tags": [
+          "Policy"
+        ],
+        "summary": "Get",
+        "description": "Get a policy by name",
+        "operationId": "get_policy_by_name_policies__name__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Policy"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policy-collections": {
+      "get": {
+        "tags": [
+          "Policy Collections"
+        ],
+        "summary": "List",
+        "description": "List all policy collections",
+        "operationId": "get_policy_collections_policy_collections_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Policy Collections Policy Collections Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PolicyCollection"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Policy Collections"
+        ],
+        "summary": "Create",
+        "description": "Create a new policy collection",
+        "operationId": "create_policy_collection_policy_collections_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PolicyCollectionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicyCollection"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policy-collections/{name}": {
+      "get": {
+        "tags": [
+          "Policy Collections"
+        ],
+        "summary": "Get",
+        "description": "Get a policy collection by name",
+        "operationId": "get_policy_collection_by_name_policy_collections__name__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicyCollection"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Policy Collections"
+        ],
+        "summary": "Delete",
+        "description": "Delete a policy collection",
+        "operationId": "delete_policy_collection_policy_collections__name__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/policy-collections/{name}/policies": {
+      "get": {
+        "tags": [
+          "Policy Collections"
+        ],
+        "summary": "Get Policies",
+        "description": "Get policies for a policy collection",
+        "operationId": "get_policies_for_collection_policy_collections__name__policies_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Policies For Collection Policy Collections  Name  Policies Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Policy"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Policy Collections"
+        ],
+        "summary": "Update Policies",
+        "description": "Update the policies for a policy collection",
+        "operationId": "update_policies_for_collection_policy_collections__name__policies_put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePoliciesForCollectionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicyCollection"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Policy Collections"
+        ],
+        "summary": "Add Policies",
+        "description": "Add policies to a policy collection",
+        "operationId": "add_policies_to_collection_policy_collections__name__policies_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPoliciesPolicyCollectionInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicyCollection"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Policy Collections"
+        ],
+        "summary": "Delete Policies",
+        "description": "Delete policies from a policy collection",
+        "operationId": "remove_policies_from_collection_policy_collections__name__policies_delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Policy",
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "name": "policy",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PolicyCollection"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scans": {
+      "get": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "List",
+        "description": "List all scans",
+        "operationId": "get_scans_scans_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Start",
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "start",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "End",
+              "type": "string",
+              "format": "date-time"
+            },
+            "name": "end",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Trigger",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "name": "trigger",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Status",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Search",
+              "type": "string"
+            },
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Lastkey",
+              "type": "string"
+            },
+            "name": "lastKey",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Pagesize",
+              "type": "integer",
+              "default": 50
+            },
+            "name": "pageSize",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Sort",
+              "type": "string"
+            },
+            "name": "sort",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paged_Scan_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Create",
+        "description": "Create a scan",
+        "operationId": "create_scan_scans_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Scan"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scans/{id}": {
+      "get": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Get",
+        "description": "Get a scan by id",
+        "operationId": "get_scan_scans__id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Scan"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scans/{id}/results": {
+      "get": {
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Get Results",
+        "description": "Get scan results by scan id",
+        "operationId": "get_scan_results_scans__id__results_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Scan Results Scans  Id  Results Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ScanResult"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/group/{name}": {
+      "delete": {
+        "tags": [
+          "Group"
+        ],
+        "summary": "Delete",
+        "description": "Delete a group (requires admin access)",
+        "operationId": "admin_delete_group_group__name__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/org/credentials": {
+      "get": {
+        "tags": [
+          "Org"
+        ],
+        "summary": "Get Credentials",
+        "description": "Get current Organization Credentials.",
+        "operationId": "get_org_credentials_org_credentials_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Org"
+        ],
+        "summary": "Regenerate Credentials",
+        "description": "Create or regenerate and return Organization Credentials.",
+        "operationId": "regenerate_org_credentials_org_credentials_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "List",
+        "description": "List all projects",
+        "operationId": "get_projects_projects_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Projects Projects Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Project"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Create",
+        "description": "Create a project",
+        "operationId": "create_project_projects_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProjectInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{name}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get",
+        "description": "Get a project by name",
+        "operationId": "get_project_by_name_projects__name__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Update",
+        "description": "Update a project",
+        "operationId": "update_project_projects__name__put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProjectInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Delete",
+        "description": "Delete a project",
+        "operationId": "delete_project_projects__name__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{name}/collections": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get Collections",
+        "description": "Get policy collections for a project",
+        "operationId": "get_collections_for_project_projects__name__collections_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Collections For Project Projects  Name  Collections Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PolicyCollection"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Add Collections",
+        "description": "Add policy collections to a project",
+        "operationId": "add_collections_to_project_projects__name__collections_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCollectionsProjectInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Delete Collections",
+        "description": "Delete policy collections from a project",
+        "operationId": "remove_collections_from_project_projects__name__collections_delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Collection",
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "name": "collection",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{name}/policies": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get Policies",
+        "description": "Get policies for a project",
+        "operationId": "get_policies_for_project_projects__name__policies_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Policies For Project Projects  Name  Policies Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Policy"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{name}/groups/{group_type}": {
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Add Groups",
+        "description": "Add groups to a project",
+        "operationId": "add_groups_to_group_type_projects__name__groups__group_type__post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Group Type",
+              "type": "string"
+            },
+            "name": "group_type",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupNamesInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Delete Groups",
+        "description": "Delete groups from a project",
+        "operationId": "remove_groups_from_group_type_projects__name__groups__group_type__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Group Type",
+              "type": "string"
+            },
+            "name": "group_type",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Group Name",
+              "uniqueItems": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "name": "group_name",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/projects/{name}/credentials": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get Credentials",
+        "description": "Get current Project Credentials.",
+        "operationId": "get_project_credentials_projects__name__credentials_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Regenerate Credentials",
+        "description": "Regenerate and return Project Credentials.",
+        "operationId": "regenerate_credentials_projects__name__credentials_post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "operationId": "get_root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddCollectionsProjectInput": {
+        "title": "AddCollectionsProjectInput",
+        "required": [
+          "collections"
+        ],
+        "type": "object",
+        "properties": {
+          "collections": {
+            "title": "Collections",
+            "minItems": 1,
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AddPoliciesPolicyCollectionInput": {
+        "title": "AddPoliciesPolicyCollectionInput",
+        "required": [
+          "policies"
+        ],
+        "type": "object",
+        "properties": {
+          "policies": {
+            "title": "Policies",
+            "minItems": 1,
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AddProjectInput": {
+        "title": "AddProjectInput",
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "collections": {
+            "title": "Collections",
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "groups": {
+            "$ref": "#/components/schemas/Group"
+          }
+        }
+      },
+      "Group": {
+        "title": "Group",
+        "type": "object",
+        "properties": {
+          "read": {
+            "title": "Read",
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "GroupNamesInput": {
+        "title": "GroupNamesInput",
+        "required": [
+          "group_names"
+        ],
+        "type": "object",
+        "properties": {
+          "group_names": {
+            "title": "Group Names",
+            "minItems": 1,
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "Paged_Policy_": {
+        "title": "Paged[Policy]",
+        "required": [
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Policy"
+            }
+          },
+          "last_key": {
+            "title": "Last Key",
+            "type": "string"
+          }
+        }
+      },
+      "Paged_Scan_": {
+        "title": "Paged[Scan]",
+        "required": [
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "title": "Items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Scan"
+            }
+          },
+          "last_key": {
+            "title": "Last Key",
+            "type": "string"
+          }
+        }
+      },
+      "Policy": {
+        "title": "Policy",
+        "required": [
+          "name",
+          "source_name",
+          "raw_policy",
+          "resource",
+          "severity",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "source_name": {
+            "title": "Source Name",
+            "type": "string"
+          },
+          "raw_policy": {
+            "title": "Raw Policy",
+            "type": "object"
+          },
+          "resource": {
+            "title": "Resource",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "severity": {
+            "title": "Severity",
+            "type": "string"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PolicyCollection": {
+        "title": "PolicyCollection",
+        "required": [
+          "name",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "minLength": 1,
+            "type": "string"
+          },
+          "policies": {
+            "title": "Policies",
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "PolicyCollectionInput": {
+        "title": "PolicyCollectionInput",
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "minLength": 1,
+            "type": "string"
+          },
+          "policies": {
+            "title": "Policies",
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          }
+        }
+      },
+      "PolicySource": {
+        "title": "PolicySource",
+        "required": [
+          "name",
+          "url",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "maxLength": 65536,
+            "minLength": 1,
+            "type": "string",
+            "format": "uri"
+          },
+          "extensions": {
+            "title": "Extensions",
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              ".yml",
+              ".yaml"
+            ]
+          },
+          "paths": {
+            "title": "Paths",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "branch": {
+            "title": "Branch",
+            "type": "string"
+          },
+          "auth": {
+            "title": "Auth",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RepositoryAuthToken"
+              },
+              {
+                "$ref": "#/components/schemas/RepositoryAuthSSH"
+              }
+            ]
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "source_scan": {
+            "title": "Source Scan",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PolicySourceScan"
+              }
+            ],
+            "default": {
+              "status": "INITIATED",
+              "added": 0,
+              "updated": 0,
+              "removed": 0,
+              "started_at": "2023-09-11T22:49:18.302769"
+            }
+          }
+        }
+      },
+      "PolicySourceInput": {
+        "title": "PolicySourceInput",
+        "required": [
+          "name",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "maxLength": 65536,
+            "minLength": 1,
+            "type": "string",
+            "format": "uri"
+          },
+          "extensions": {
+            "title": "Extensions",
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              ".yml",
+              ".yaml"
+            ]
+          },
+          "paths": {
+            "title": "Paths",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "branch": {
+            "title": "Branch",
+            "type": "string"
+          },
+          "auth": {
+            "title": "Auth",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RepositoryAuthToken"
+              },
+              {
+                "$ref": "#/components/schemas/RepositoryAuthSSH"
+              }
+            ]
+          }
+        }
+      },
+      "PolicySourceListItem": {
+        "title": "PolicySourceListItem",
+        "required": [
+          "name",
+          "url",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "url": {
+            "title": "Url",
+            "maxLength": 65536,
+            "minLength": 1,
+            "type": "string",
+            "format": "uri"
+          },
+          "extensions": {
+            "title": "Extensions",
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [
+              ".yml",
+              ".yaml"
+            ]
+          },
+          "paths": {
+            "title": "Paths",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "branch": {
+            "title": "Branch",
+            "type": "string"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "source_scan": {
+            "title": "Source Scan",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PolicySourceScan"
+              }
+            ],
+            "default": {
+              "status": "INITIATED",
+              "added": 0,
+              "updated": 0,
+              "removed": 0,
+              "started_at": "2023-09-11T22:49:18.302297"
+            }
+          }
+        }
+      },
+      "PolicySourceScan": {
+        "title": "PolicySourceScan",
+        "type": "object",
+        "properties": {
+          "status": {
+            "title": "Status",
+            "anyOf": [
+              {
+                "enum": [
+                  "INITIATED"
+                ],
+                "type": "string"
+              },
+              {
+                "enum": [
+                  "STARTED"
+                ],
+                "type": "string"
+              },
+              {
+                "enum": [
+                  "IN_PROGRESS"
+                ],
+                "type": "string"
+              },
+              {
+                "enum": [
+                  "FAILED"
+                ],
+                "type": "string"
+              },
+              {
+                "enum": [
+                  "SUCCEEDED"
+                ],
+                "type": "string"
+              }
+            ],
+            "default": "INITIATED"
+          },
+          "added": {
+            "title": "Added",
+            "type": "integer",
+            "default": 0
+          },
+          "updated": {
+            "title": "Updated",
+            "type": "integer",
+            "default": 0
+          },
+          "removed": {
+            "title": "Removed",
+            "type": "integer",
+            "default": 0
+          },
+          "error_info": {
+            "title": "Error Info",
+            "type": "object"
+          },
+          "started_at": {
+            "title": "Started At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "completed_at": {
+            "title": "Completed At",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Project": {
+        "title": "Project",
+        "required": [
+          "name",
+          "client_id",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "collections": {
+            "title": "Collections",
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "groups": {
+            "$ref": "#/components/schemas/Group"
+          },
+          "client_id": {
+            "title": "Client Id",
+            "type": "string"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RepositoryAuthSSH": {
+        "title": "RepositoryAuthSSH",
+        "required": [
+          "username",
+          "ssh_key"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "type": "string"
+          },
+          "ssh_key": {
+            "title": "Ssh Key",
+            "type": "string",
+            "format": "password",
+            "writeOnly": true
+          },
+          "ssh_passphrase": {
+            "title": "Ssh Passphrase",
+            "type": "string",
+            "format": "password",
+            "writeOnly": true
+          }
+        }
+      },
+      "RepositoryAuthToken": {
+        "title": "RepositoryAuthToken",
+        "required": [
+          "username",
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "title": "Username",
+            "type": "string"
+          },
+          "token": {
+            "title": "Token",
+            "type": "string",
+            "format": "password",
+            "writeOnly": true
+          }
+        }
+      },
+      "Scan": {
+        "title": "Scan",
+        "required": [
+          "id",
+          "project_name",
+          "status",
+          "trigger",
+          "user_id",
+          "client_id",
+          "sort",
+          "created_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "project_name": {
+            "title": "Project Name",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ScanStatus"
+          },
+          "summary": {
+            "title": "Summary",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Summary"
+              }
+            ],
+            "default": {
+              "HIGH": 0,
+              "MEDIUM": 0,
+              "LOW": 0,
+              "UNKNOWN": 0
+            }
+          },
+          "trigger": {
+            "$ref": "#/components/schemas/Trigger"
+          },
+          "user_id": {
+            "title": "User Id",
+            "type": "string"
+          },
+          "client_id": {
+            "title": "Client Id",
+            "type": "string"
+          },
+          "sort": {
+            "title": "Sort",
+            "type": "integer"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ScanInput": {
+        "title": "ScanInput",
+        "required": [
+          "project_name",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "project_name": {
+            "title": "Project Name",
+            "minLength": 1,
+            "type": "string"
+          },
+          "results": {
+            "title": "Results",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScanResultInput"
+            },
+            "default": []
+          },
+          "status": {
+            "$ref": "#/components/schemas/ScanStatus"
+          }
+        }
+      },
+      "ScanResult": {
+        "title": "ScanResult",
+        "required": [
+          "id",
+          "scan_id",
+          "policy_name",
+          "severity",
+          "policy",
+          "resource",
+          "file_path",
+          "file_line_start",
+          "file_line_end",
+          "code_block",
+          "created_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "scan_id": {
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "policy_name": {
+            "title": "Policy Name",
+            "type": "string"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          },
+          "policy": {
+            "$ref": "#/components/schemas/ScanResultPolicy"
+          },
+          "resource": {
+            "$ref": "#/components/schemas/ScanResultResource"
+          },
+          "file_path": {
+            "title": "File Path",
+            "type": "string"
+          },
+          "file_line_start": {
+            "title": "File Line Start",
+            "type": "integer"
+          },
+          "file_line_end": {
+            "title": "File Line End",
+            "type": "integer"
+          },
+          "code_block": {
+            "title": "Code Block",
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ScanResultInput": {
+        "title": "ScanResultInput",
+        "required": [
+          "policy",
+          "resource",
+          "file_path",
+          "file_line_start",
+          "file_line_end",
+          "code_block"
+        ],
+        "type": "object",
+        "properties": {
+          "policy": {
+            "$ref": "#/components/schemas/ScanResultPolicy"
+          },
+          "resource": {
+            "$ref": "#/components/schemas/ScanResultResource"
+          },
+          "file_path": {
+            "title": "File Path",
+            "type": "string"
+          },
+          "file_line_start": {
+            "title": "File Line Start",
+            "type": "integer"
+          },
+          "file_line_end": {
+            "title": "File Line End",
+            "type": "integer"
+          },
+          "code_block": {
+            "title": "Code Block",
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "ScanResultPolicy": {
+        "title": "ScanResultPolicy",
+        "required": [
+          "name",
+          "resource",
+          "description",
+          "filters",
+          "mode"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "resource": {
+            "title": "Resource",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {}
+              }
+            ]
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/ScanResultPolicyMetadata"
+          },
+          "filters": {
+            "title": "Filters",
+            "type": "array",
+            "items": {}
+          },
+          "mode": {
+            "title": "Mode",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ScanResultPolicyMetadata": {
+        "title": "ScanResultPolicyMetadata",
+        "type": "object",
+        "properties": {
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          }
+        }
+      },
+      "ScanResultResource": {
+        "title": "ScanResultResource",
+        "required": [
+          "id",
+          "__tfmeta"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "__tfmeta": {
+            "$ref": "#/components/schemas/ScanResultResourceTfMeta"
+          },
+          "c7n:MatchedFilters": {
+            "title": "C7N:Matchedfilters",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ScanResultResourceTfMeta": {
+        "title": "ScanResultResourceTfMeta",
+        "required": [
+          "filename",
+          "label",
+          "line_end",
+          "line_start",
+          "path",
+          "type",
+          "src_dir"
+        ],
+        "type": "object",
+        "properties": {
+          "filename": {
+            "title": "Filename",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "line_end": {
+            "title": "Line End",
+            "type": "integer"
+          },
+          "line_start": {
+            "title": "Line Start",
+            "type": "integer"
+          },
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          },
+          "src_dir": {
+            "title": "Src Dir",
+            "type": "string"
+          }
+        }
+      },
+      "ScanStatus": {
+        "title": "ScanStatus",
+        "enum": [
+          "PASSED",
+          "FAILED",
+          "ERROR"
+        ],
+        "type": "string",
+        "description": "An enumeration."
+      },
+      "Severity": {
+        "title": "Severity",
+        "enum": [
+          "HIGH",
+          "MEDIUM",
+          "LOW",
+          "UNKNOWN"
+        ],
+        "type": "string",
+        "description": "An enumeration."
+      },
+      "Summary": {
+        "title": "Summary",
+        "type": "object",
+        "properties": {
+          "HIGH": {
+            "title": "High",
+            "type": "integer",
+            "default": 0
+          },
+          "MEDIUM": {
+            "title": "Medium",
+            "type": "integer",
+            "default": 0
+          },
+          "LOW": {
+            "title": "Low",
+            "type": "integer",
+            "default": 0
+          },
+          "UNKNOWN": {
+            "title": "Unknown",
+            "type": "integer",
+            "default": 0
+          }
+        }
+      },
+      "Trigger": {
+        "title": "Trigger",
+        "enum": [
+          "USER",
+          "CLIENT"
+        ],
+        "type": "string",
+        "description": "An enumeration."
+      },
+      "UpdatePoliciesForCollectionInput": {
+        "title": "UpdatePoliciesForCollectionInput",
+        "required": [
+          "policies"
+        ],
+        "type": "object",
+        "properties": {
+          "policies": {
+            "title": "Policies",
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdatePolicySource": {
+        "title": "UpdatePolicySource",
+        "type": "object",
+        "properties": {
+          "url": {
+            "title": "Url",
+            "maxLength": 65536,
+            "minLength": 1,
+            "type": "string",
+            "format": "uri"
+          },
+          "paths": {
+            "title": "Paths",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "extensions": {
+            "title": "Extensions",
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "branch": {
+            "title": "Branch",
+            "type": "string"
+          },
+          "auth": {
+            "title": "Auth",
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RepositoryAuthToken"
+              },
+              {
+                "$ref": "#/components/schemas/RepositoryAuthSSH"
+              }
+            ]
+          }
+        }
+      },
+      "UpdateProjectInput": {
+        "title": "UpdateProjectInput",
+        "type": "object",
+        "properties": {
+          "collections": {
+            "title": "Collections",
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "groups": {
+            "$ref": "#/components/schemas/Group"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

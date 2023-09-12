@@ -1,32 +1,24 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import json
-import os
 import tempfile
 
 import pytest
 
-from unittest.mock import patch
 from stacklet.client.sinistral.config import StackletConfig
 from stacklet.client.sinistral.exceptions import ConfigValidationException
 
 
 def test_stacklet_config_empty():
-    temp = tempfile.NamedTemporaryFile(delete=False)
+    with tempfile.TemporaryDirectory() as temp:
+        with open(f"{temp}/config.json", "w") as f:
+            json.dump({}, f)
 
-    with open(temp.name, "w") as f:
-        json.dump({}, f)
-
-    with patch.dict(os.environ, {"STACKLET_CONFIG": temp.name}):
         with pytest.raises(ConfigValidationException):
-            StackletConfig()
-
-    os.unlink(temp.name)
+            StackletConfig(temp).validate()
 
 
 def test_stacklet_config_from_file():
-    temp = tempfile.NamedTemporaryFile(delete=False)
-
     config = {
         "api": "https://api.sinistral.acme.org",
         "region": "us-east-1",
@@ -35,12 +27,14 @@ def test_stacklet_config_from_file():
         "idp_id": "baz",
         "auth_url": "https://auth.sinistral.acme.org",
     }
+    config2 = dict(config)
+    # test backward compatibility
+    config2["api_url"] = config2.pop("api")
+    config2["cognito_region"] = config2.pop("region")
 
-    with open(temp.name, "w") as f:
-        json.dump(config, f)
+    with tempfile.TemporaryDirectory() as temp:
+        with open(f"{temp}/config.json", "w") as f:
+            json.dump(config, f)
 
-    with patch.dict(os.environ, {"STACKLET_CONFIG": temp.name}):
-        stacklet_config = StackletConfig.from_file(temp.name)
-        assert stacklet_config.to_json() == config
-
-    os.unlink(temp.name)
+        stacklet_config = StackletConfig(temp)
+        assert stacklet_config.to_dict() == config2

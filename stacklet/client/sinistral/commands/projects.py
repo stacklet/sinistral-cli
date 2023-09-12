@@ -248,3 +248,31 @@ class DeleteGroups(ClientCommand):
     params = {"--name": {"required": True}, "--group_type": {"required": True}}
     query_params = {"--group_name": {"required": True}}
     payload_params = {}
+
+
+@Projects.commands.register("get-credentials")
+class GetCredentials(ClientCommand):
+    """
+    Get current Project Credentials.
+    """
+
+    command = "get_credentials"
+    method = "get"
+    path = "/projects/{name}/credentials"
+    params = {"--name": {"required": True}}
+    query_params = {}
+    payload_params = {}
+
+
+@Projects.commands.register("regenerate-credentials")
+class RegenerateCredentials(ClientCommand):
+    """
+    Regenerate and return Project Credentials.
+    """
+
+    command = "regenerate_credentials"
+    method = "post"
+    path = "/projects/{name}/credentials"
+    params = {"--name": {"required": True}}
+    query_params = {}
+    payload_params = {}

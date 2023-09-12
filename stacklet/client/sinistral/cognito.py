@@ -3,6 +3,7 @@
 import logging
 
 import boto3
+import requests
 
 
 class CognitoUserManager:
@@ -27,7 +28,7 @@ class CognitoUserManager:
         return cls(
             user_pool_id=context.config.cognito_user_pool_id,
             user_pool_client_id=context.config.cognito_client_id,
-            region=context.config.region,
+            region=context.config.cognito_region,
         )
 
     def create_user(self, user, password, email, phone_number, permanent=True):
@@ -80,3 +81,25 @@ class CognitoUserManager:
         )
         self.log.debug("Authentication Success")
         return res["AuthenticationResult"]["AccessToken"]
+
+
+class CognitoClientAuth:
+    """
+    Manage Cognito client credentials based auth flow.
+    """
+
+    def __init__(self, ctx):
+        self.ctx = ctx
+
+    def get_access_token(self, auth_url, client_id, client_secret):
+        response = requests.post(
+            f"{auth_url}/oauth2/token",
+            data={
+                "grant_type": "client_credentials",
+                "client_id": client_id,
+                "client_secret": client_secret,
+            },
+        )
+        if response.status_code != 200:
+            self.ctx.fail(f"Unable to get access token:\n{response.text}")
+        return response.json()["access_token"]

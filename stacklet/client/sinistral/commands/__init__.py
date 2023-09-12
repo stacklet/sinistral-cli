@@ -10,9 +10,10 @@ import stacklet.client.sinistral.commands.policy_collections  # noqa
 import stacklet.client.sinistral.commands.projects  # noqa
 import stacklet.client.sinistral.commands.scans  # noqa
 import stacklet.client.sinistral.commands.group  # noqa
+import stacklet.client.sinistral.commands.org  # noqa
 
 from stacklet.client.sinistral.client import client_registry, parse_jsonschema
-from stacklet.client.sinistral.utils import default_options
+from stacklet.client.sinistral.utils import global_options
 
 
 commands = [run]
@@ -20,7 +21,7 @@ commands = [run]
 
 # Instantiate commands out of clients
 for k, v in client_registry.items():
-    group = default_options()(Group(name=k, short_help=f"{k} command"))
+    group = global_options(process=False)(Group(name=k, short_help=f"{k} command"))
     for i, j in v.commands.items():
         options = []
         if j.params:
@@ -36,6 +37,6 @@ for k, v in client_registry.items():
                 option = Option([f"--{name.replace('_', '-')}"], **_params)
                 options.append(option)
         command = Command(name=i, help=j.__doc__, callback=j.cli_run, params=options)
-        command = default_options()(command)
+        command = global_options()(command)
         group.add_command(command)
         commands.append(group)

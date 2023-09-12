@@ -53,7 +53,9 @@ def run(ctx, project, dryrun, *args, **kwargs):
             sys.exit(int(left_run.invoke(ctx)))
         raise click.UsageError("Either project or policy directory must be specified")
 
-    ctx.params["output"] = "sinistral"
+    # the overlap in these is confusing
+    ctx.obj["output"] = "raw"  # formatter (used in SinistralClient.make_request)
+    ctx.params["output"] = "sinistral"  # reporter (passed to c7n_left)
 
     # afaics there's no way for us to pass this info into the output
     # string like we do for other c7n outputs, e.g. s3://foo, if
