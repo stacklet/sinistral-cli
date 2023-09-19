@@ -276,3 +276,17 @@ class RegenerateCredentials(ClientCommand):
     params = {"--name": {"required": True}}
     query_params = {}
     payload_params = {}
+
+
+@Projects.commands.register("revoke-credentials")
+class RevokeCredentials(ClientCommand):
+    """
+    Revoke any existing Project Credentials.
+    """
+
+    command = "revoke_credentials"
+    method = "delete"
+    path = "/projects/{name}/credentials"
+    params = {"--name": {"required": True}}
+    query_params = {}
+    payload_params = {}
