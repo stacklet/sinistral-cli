@@ -24,10 +24,14 @@ class LeftWrapper(click.core.Command):
 
     def make_parser(self, ctx):
         for param in left_run.params:
-            # skip policy dir as we pull policies from the collection
-            # at runtime from sinistral
             if param.name == "policy_dir":
+                # skip policy dir as we pull policies from the collection
+                # at runtime from sinistral
                 param.required = False
+            if param.name == "directory":
+                # directory to scan is required, though, or it blows up
+                # during arg parsing
+                param.required = True
             self.params.append(param)
         return super().make_parser(ctx)
 
@@ -71,6 +75,10 @@ def run(ctx, project, dryrun, *args, **kwargs):
 
     results = []
     project_data = projects_client.get(name=SinistralFormat.project)
+
+    if not project_data.get("collections"):
+        click.echo("Project has no policy collections")
+        sys.exit(1)
 
     for c in project_data["collections"]:
         policies = policy_collections_client.get_policies(name=c)
