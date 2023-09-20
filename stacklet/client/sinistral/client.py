@@ -182,6 +182,8 @@ class SinistralClient:
     ):
         with self.ctx as context:
             token = context.get_access_token()
+            if not token:
+                raise Exception("Unauthorized, check credentials")
             executor = RestExecutor(context, token)
             func = getattr(executor, method)
             if isinstance(_json, str):

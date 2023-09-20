@@ -74,10 +74,14 @@ def run(ctx, project, dryrun, *args, **kwargs):
     policy_collections_client = sinistral.client("policy-collections")
 
     results = []
-    project_data = projects_client.get(name=SinistralFormat.project)
+    try:
+        project_data = projects_client.get(name=SinistralFormat.project)
+    except Exception as e:
+        click.echo(f"Unable to get project: {e}", err=True)
+        sys.exit(1)
 
     if not project_data.get("collections"):
-        click.echo("Project has no policy collections")
+        click.echo("Project has no policy collections", err=True)
         sys.exit(1)
 
     for c in project_data["collections"]:
