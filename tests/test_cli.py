@@ -28,6 +28,7 @@ def test_commands_present():
     assert "login" in result.output
     assert "configure" in result.output
     assert "show" in result.output
+    assert "dump" in result.output
 
 
 def test_cli_show():
