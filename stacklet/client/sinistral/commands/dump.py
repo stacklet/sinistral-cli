@@ -8,7 +8,6 @@ from c7n_left.cli import dump as left_dump
 
 
 class LeftWrapper(click.core.Command):
-
     def make_parser(self, ctx):
         for param in left_dump.params:
             self.params.append(param)
@@ -20,5 +19,3 @@ class LeftWrapper(click.core.Command):
 def dump(ctx, *args, **kwargs):
     """Dump the IaC resource graph and input variables"""
     sys.exit(left_dump.invoke(ctx))
-
-
