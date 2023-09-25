@@ -186,12 +186,12 @@ zipp = {version = "3.16.2", markers = "python_version >= \"3.8\" and python_vers
 
 [[package]]
 name = "c7n-left"
-version = "0.3.0"
+version = "0.3.3"
 description = "Custodian policies for IAAC definitions"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "c7n_left-0.3.0-py3-none-any.whl", hash = "sha256:22e125c9403f2c6c0e4cad36d72c99f6ce0e3c15f899e75a11f6dead9cf2f1a9"},
+    {file = "c7n_left-0.3.3-py3-none-any.whl", hash = "sha256:ade0d818293e1581982229b3fdecb7abb1fbaf9b9e21b6d2a9f46df900e41bc2"},
 ]
 
 [package.dependencies]
@@ -208,11 +208,13 @@ importlib-metadata = {version = "5.2.0", markers = "python_version >= \"3.8\" an
 jmespath = {version = "1.0.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 jsonschema = {version = "4.19.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 jsonschema-specifications = {version = "2023.7.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+lark = {version = "1.1.7", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 markdown-it-py = {version = "2.2.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 mdurl = {version = "0.1.2", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 pycparser = {version = "2.21", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 pygments = {version = "2.16.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 python-dateutil = {version = "2.8.2", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+python-hcl2 = {version = "4.3.2", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 pyyaml = {version = "6.0.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 referencing = {version = "0.30.2", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 rich = {version = "13.5.2", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
@@ -220,7 +222,7 @@ rpds-py = {version = "0.10.2", markers = "python_version >= \"3.8\" and python_v
 s3transfer = {version = "0.6.2", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 six = {version = "1.16.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 tabulate = {version = "0.9.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-tfparse = {version = "0.6.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+tfparse = {version = "0.6.2", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 urllib3 = {version = "1.26.16", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 zipp = {version = "3.16.2", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 
@@ -860,6 +862,23 @@ files = [
 referencing = ">=0.28.0"
 
 [[package]]
+name = "lark"
+version = "1.1.7"
+description = "a modern parsing library"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "lark-1.1.7-py3-none-any.whl", hash = "sha256:9e5dc5bbf93fa1840083707285262514a0ef8a6613874af7ea1cec60468d6e92"},
+    {file = "lark-1.1.7.tar.gz", hash = "sha256:be7437bf1f37ab08b355f29ff2571d77d777113d0a8c4352b0c513dced6c5a1e"},
+]
+
+[package.extras]
+atomic-cache = ["atomicwrites"]
+interegular = ["interegular (>=0.3.1,<0.4.0)"]
+nearley = ["js2py"]
+regex = ["regex"]
+
+[[package]]
 name = "markdown-it-py"
 version = "2.2.0"
 description = "Python port of markdown-it. Markdown parsing, done right!"
@@ -1366,6 +1385,20 @@ files = [
 six = ">=1.5"
 
 [[package]]
+name = "python-hcl2"
+version = "4.3.2"
+description = "A parser for HCL2"
+optional = false
+python-versions = ">=3.7.0"
+files = [
+    {file = "python-hcl2-4.3.2.tar.gz", hash = "sha256:7122661438be27ccd8b8f3db71969d8ef2cce3b3cf183e88f8172575e7405a65"},
+    {file = "python_hcl2-4.3.2-py3-none-any.whl", hash = "sha256:e958fe52ca0519e3500eb621caa16be6be9c27870cbcd1879d8c538fb85067ea"},
+]
+
+[package.dependencies]
+lark = ">=1,<2"
+
+[[package]]
 name = "python-jose"
 version = "3.3.0"
 description = "JOSE implementation in Python"
@@ -1708,19 +1741,19 @@ widechars = ["wcwidth"]
 
 [[package]]
 name = "tfparse"
-version = "0.6.1"
+version = "0.6.2"
 description = "Python HCL/Terraform parser via extension for AquaSecurity defsec"
 optional = false
 python-versions = "*"
 files = [
-    {file = "tfparse-0.6.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:9c2a78ba942732570919b97d2535dbe8aded0cd3c399b5ec34a7975203846fce"},
-    {file = "tfparse-0.6.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:7b289de7db814fde9b07050b0ae80f17f4470847878eb92da6360086460b2dcb"},
-    {file = "tfparse-0.6.1-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:877d3ef95bb7cbc7ddfced7addd85d6acd326a72cab45157993772bead179600"},
-    {file = "tfparse-0.6.1-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6750ae9b64f93e3423a24092cb38608420b7ef8169da5d843e73a03bdb795b1b"},
-    {file = "tfparse-0.6.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:df1ce46f45d97b8b5207687b008d51defd467424b9a613b5dda93db3433c8534"},
-    {file = "tfparse-0.6.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:87317b6e786ae3ea2ef6e5ab982f925ae38cd3c84c259378ad127c3b113e2d78"},
-    {file = "tfparse-0.6.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:330041600327e20ea9678a20491a2ae935a5dfb30501cfc6114f89fef1dd1e32"},
-    {file = "tfparse-0.6.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a9026d3c7c03d6ea9744b563bc51254ebe12ad16103b7101c88a521fffb77a7d"},
+    {file = "tfparse-0.6.2-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:f6a551b66394f1f82567ca34aca9bd87ff0a2cb3056f4b37a832c2506b8e7fc3"},
+    {file = "tfparse-0.6.2-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:445a4cd168bc096b89b2361c8446c4fe6b7c3c3df84ee4473ab0f2828f1c78dc"},
+    {file = "tfparse-0.6.2-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:86c342d746f0a4d9edbe703246cbe48adfccbe1a7284e34848c5cdc7674223fc"},
+    {file = "tfparse-0.6.2-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7253aec2a903796ed00149af84e2608198525fa78a4d20ce62ae5945294570d9"},
+    {file = "tfparse-0.6.2-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:84ac794dcfd1aa520b8b5e08e3e8f33b714663319da14e9bbf011a2b2017f762"},
+    {file = "tfparse-0.6.2-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:ab501687bc56130cd0d9ef3f0d7033de2c1a6cfe7b7174f11237847625e3b416"},
+    {file = "tfparse-0.6.2-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:687e5d097d0605fd5cd67ac8fbccbdfa88ea8ce0823fa01cc9e609e9d33e810c"},
+    {file = "tfparse-0.6.2-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:adccdd5a38c28d410fd557786ca98682c615fff8aa8b3637f698b59cfa9be9a3"},
 ]
 
 [package.dependencies]
@@ -1867,4 +1900,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4"
-content-hash = "3fb3dce24fa9c8e98c63bb548d9ccc0ac3fd2a000ea57ad1eb6c94757d12c2ac"
+content-hash = "e1fee7e311aa03ee4380edd9f8419842a43f2192aa060180796d4e7a3870895c"
