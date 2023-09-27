@@ -1,101 +1,133 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import pathlib
-from unittest.mock import patch, Mock
+from unittest.mock import ANY, call, patch, Mock
 
+import pytest
 from click.testing import CliRunner
 
 
 from .utils import (
-    get_project_response,
     get_policies_for_collection_response,
     create_scan_response,
     get_mock_response,
 )
 
 from stacklet.client.sinistral.cli import cli
-from stacklet.client.sinistral.executor import RestExecutor
 from stacklet.client.sinistral.context import StackletContext
 
 
-def test_run_command():
+@pytest.fixture(autouse=True)
+def mock_rest():
+    with patch("stacklet.client.sinistral.client.RestExecutor") as m:
+        yield m()
+
+
+@pytest.fixture
+def runner():
     runner = CliRunner()
-    result = runner.invoke(cli, ["run", "--help"])
+
+    def _invoke(*args):
+        result = runner.invoke(cli, args)
+        if result.exception and not isinstance(result.exception, SystemExit):
+            # silent exceptions in tests are hard to debug; raise for visibility
+            raise result.exception
+        return result
+
+    yield _invoke
+
+
+@pytest.fixture(autouse=True)
+def mock_write_token():
+    with patch.object(StackletContext, "_write_token", Mock()):
+        yield
+
+
+def test_run_command(runner):
+    result = runner("run", "--help")
     assert "policy-dir" in result.output
     assert "project" in result.output
 
 
-@patch.object(StackletContext, "_write_token", Mock())
-def test_submit_run():
+def test_passed(runner, mock_rest):
     path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/good"
-    runner = CliRunner()
-    with patch.object(
-        RestExecutor,
-        "get",
-        side_effect=[
-            get_mock_response(json=get_project_response),
-            get_mock_response(json=get_policies_for_collection_response),
-        ],
-    ):
-        with patch.object(
-            RestExecutor,
-            "post",
-            side_effect=[
-                get_mock_response(json=create_scan_response),
-            ],
-        ) as patched_post:
-            result = runner.invoke(cli, ["run", "--project", "foo", "-d", path])
-            if result.exception:
-                # silent exceptions in tests are hard to debug; raise for visibility
-                raise result.exception
+    mock_rest.get.side_effect = [
+        get_mock_response(json=get_policies_for_collection_response),
+    ]
+    mock_rest.post.side_effect = [
+        get_mock_response(json=create_scan_response),
+    ]
 
-            patched_post.assert_called_once()
-            # path
-            assert patched_post.mock_calls[0].args[0] == "/scans"
-            # query params
-            assert patched_post.mock_calls[0].args[1] == {}
-            # payload
-            assert patched_post.mock_calls[0].args[2]["project_name"] == "foo"
-            assert patched_post.mock_calls[0].args[2]["status"] == "PASSED"
-            assert len(patched_post.mock_calls[0].args[2]["results"]) == 0
+    result = runner("run", "--project", "foo", "-d", path)
+
+    assert result.exit_code == 0, f"Command failed: {result.output}"
+    assert mock_rest.post.call_args_list == [
+        call("/scans", {}, {"project_name": "foo", "status": "PASSED", "results": []}),
+    ]
 
 
-@patch.object(StackletContext, "_write_token", Mock())
-def test_submit_run_fail():
+def test_failed(runner, mock_rest):
     path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/bad"
-    runner = CliRunner()
-    with patch.object(
-        RestExecutor,
-        "get",
-        side_effect=[
-            get_mock_response(json=get_project_response),
-            get_mock_response(json=get_policies_for_collection_response),
-        ],
-    ):
-        with patch.object(
-            RestExecutor,
-            "post",
-            return_value=[
-                get_mock_response(json=create_scan_response),
-            ],
-        ) as patched_post:
-            runner.invoke(cli, ["run", "--project", "foo", "-d", path])
-            patched_post.assert_called_once()
-            # path
-            assert patched_post.mock_calls[0].args[0] == "/scans"
-            # query params
-            assert patched_post.mock_calls[0].args[1] == {}
-            # payload
-            assert patched_post.mock_calls[0].args[2]["project_name"] == "foo"
-            assert patched_post.mock_calls[0].args[2]["status"] == "FAILED"
-            assert len(patched_post.mock_calls[0].args[2]["results"]) == 1
-            assert (
-                patched_post.mock_calls[0].args[2]["results"][0]["policy"]["name"]
-                == "check-tags"
-            )
-            assert (
-                patched_post.mock_calls[0].args[2]["results"][0]["resource"][
-                    "__tfmeta"
-                ]["path"]
-                == "aws_sqs_queue.test_sqs"
-            )
+    mock_rest.get.side_effect = [
+        get_mock_response(json=get_policies_for_collection_response),
+    ]
+    mock_rest.post.side_effect = [
+        get_mock_response(json=create_scan_response),
+    ]
+
+    result = runner("run", "--project", "foo", "-d", path)
+
+    assert result.exit_code == 1
+    assert mock_rest.post.call_args_list == [
+        call(
+            "/scans", {}, {"project_name": "foo", "status": "FAILED", "results": [ANY]}
+        )
+    ]
+    scan_result = mock_rest.post.call_args[0][2]["results"][0]
+    assert scan_result["policy"]["name"] == "check-tags"
+    assert scan_result["resource"]["__tfmeta"]["path"] == "aws_sqs_queue.test_sqs"
+
+
+def test_no_policies(runner, mock_rest):
+    path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/good"
+    mock_rest.get.side_effect = [
+        get_mock_response(json=[]),
+    ]
+
+    result = runner("run", "--project", "foo", "-d", path)
+
+    assert result.exit_code == 1
+    assert not mock_rest.post.called
+
+
+def test_api_error(runner, mock_rest):
+    path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/good"
+    mock_rest.get.side_effect = [
+        Exception("test"),
+    ]
+
+    result = runner("run", "--project", "foo", "-d", path)
+
+    assert result.exit_code == 1
+    assert result.output.strip() == "test"
+    assert not mock_rest.post.called
+
+
+def test_project_auto_create(runner, mock_rest):
+    path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/good"
+    mock_rest.get.side_effect = [
+        Exception("Project foo not found"),
+        get_mock_response(json=get_policies_for_collection_response),
+    ]
+    mock_rest.post.side_effect = [
+        get_mock_response(json=None),
+        get_mock_response(json=create_scan_response),
+    ]
+
+    result = runner("run", "--project", "foo", "-d", path)
+
+    assert result.exit_code == 0, f"Command failed: {result.output}"
+    assert mock_rest.post.call_args_list == [
+        call("/projects", {}, {"name": "foo", "groups": {"read": []}}),
+        call("/scans", {}, {"project_name": "foo", "status": "PASSED", "results": []}),
+    ]
