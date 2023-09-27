@@ -53,6 +53,11 @@ class Create(ClientCommand):
                     "items": {"type": "string"},
                     "default": [],
                 },
+                "is_default": {
+                    "title": "Is Default",
+                    "type": "boolean",
+                    "default": False,
+                },
             },
         }
     }
@@ -84,6 +89,34 @@ class Delete(ClientCommand):
     params = {"--name": {"required": True}}
     query_params = {}
     payload_params = {}
+
+
+@PolicyCollections.commands.register("update")
+class Update(ClientCommand):
+    """
+    None
+    """
+
+    command = "update"
+    method = "patch"
+    path = "/policy-collections/{name}"
+    params = {"--name": {"required": True}}
+    query_params = {}
+    payload_params = {
+        "schema": {
+            "title": "UpdatePolicyCollectionInput",
+            "type": "object",
+            "properties": {
+                "is_default": {"title": "Is Default", "type": "boolean"},
+                "policies": {
+                    "title": "Policies",
+                    "uniqueItems": True,
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+            },
+        }
+    }
 
 
 @PolicyCollections.commands.register("get-policies")
