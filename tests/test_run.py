@@ -1,7 +1,7 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import pathlib
-from unittest.mock import ANY, call, patch, Mock
+from unittest.mock import ANY, call, patch
 
 import pytest
 from click.testing import CliRunner
@@ -37,9 +37,9 @@ def runner():
     yield _invoke
 
 
-@pytest.fixture(autouse=True)
-def mock_write_token():
-    with patch.object(StackletContext, "_write_token", Mock()):
+@pytest.fixture
+def mock_org_auth():
+    with patch.object(StackletContext, "is_org_auth", True):
         yield
 
 
@@ -113,7 +113,7 @@ def test_api_error(runner, mock_rest):
     assert not mock_rest.post.called
 
 
-def test_project_auto_create(runner, mock_rest):
+def test_project_auto_create(runner, mock_rest, mock_org_auth):
     path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/good"
     mock_rest.get.side_effect = [
         Exception("Project foo not found"),
@@ -131,3 +131,20 @@ def test_project_auto_create(runner, mock_rest):
         call("/projects", {}, {"name": "foo", "groups": {"read": []}}),
         call("/scans", {}, {"project_name": "foo", "status": "PASSED", "results": []}),
     ]
+
+
+def test_project_auto_create_non_org_auth(runner, mock_rest):
+    path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/good"
+    mock_rest.get.side_effect = [
+        Exception("Project foo not found"),
+        get_mock_response(json=get_policies_for_collection_response),
+    ]
+    mock_rest.post.side_effect = [
+        get_mock_response(json=None),
+        get_mock_response(json=create_scan_response),
+    ]
+
+    result = runner("run", "--project", "foo", "-d", path)
+
+    assert result.exit_code == 1
+    assert result.output.strip() == "Project foo not found"

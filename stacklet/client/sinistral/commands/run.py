@@ -80,9 +80,8 @@ def run(ctx, project, dryrun, *args, **kwargs):
         try:
             policies = projects_client.get_policies(name=project)
         except Exception as e:
-            # try to auto-create project if not found
-            if "not found" in str(e):
-                # TODO: should we support default user groups as well?
+            # try to auto-create project if not found, but only for org auth
+            if "not found" in str(e) and sinistral.ctx.is_org_auth:
                 projects_client.create(name=project, groups={"read": []})
                 policies = projects_client.get_policies(name=project)
             else:

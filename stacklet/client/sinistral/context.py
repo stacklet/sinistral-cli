@@ -28,6 +28,9 @@ class StackletContext:
         self.access_token_path = base_path / self.CREDENTIALS_FILE
         self.id_token_path = base_path / self.ID_FILE
 
+        self._is_org_auth = False
+        self._is_project_auth = False
+
     def get_access_token(self):
         if StackletContext._ACCESS_TOKEN:
             return StackletContext._ACCESS_TOKEN
@@ -96,7 +99,12 @@ class StackletContext:
             self.config.project_client_id,
             self.config.project_client_secret,
         )
+        self._is_project_auth = True
         return token
+
+    @property
+    def is_project_auth(self):
+        return self._is_project_auth
 
     def can_org_auth(self):
         return all(
@@ -113,7 +121,12 @@ class StackletContext:
             self.config.org_client_id,
             self.config.org_client_secret,
         )
+        self._is_org_auth = True
         return token
+
+    @property
+    def is_org_auth(self):
+        return self._is_org_auth
 
 
 class StackletCredentialWriter:
