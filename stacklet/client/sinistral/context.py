@@ -4,6 +4,8 @@ from pathlib import Path
 
 import click
 
+from stacklet.client.sinistral.cognito import CognitoClientAuth
+
 
 class StackletContext:
     """
@@ -12,6 +14,9 @@ class StackletContext:
 
     CREDENTIALS_FILE = "credentials"
     ID_FILE = "id"
+
+    # cache access token
+    _ACCESS_TOKEN = None
 
     def __init__(self, click_context):
         self._click_context = click_context
@@ -24,16 +29,24 @@ class StackletContext:
         self.id_token_path = base_path / self.ID_FILE
 
     def get_access_token(self):
+        if StackletContext._ACCESS_TOKEN:
+            return StackletContext._ACCESS_TOKEN
+        access_token = None
         if self.access_token_path.exists():
-            return self.access_token_path.read_text()
-        else:
-            return None
+            access_token = self.access_token_path.read_text()
+        elif self.can_project_auth():
+            access_token = self.do_project_auth()
+        elif self.can_org_auth():
+            access_token = self.do_org_auth()
+        StackletContext._ACCESS_TOKEN = access_token
+        return access_token
 
     def _write_token(self, token_path, token):
         token_path.parent.mkdir(parents=True, exist_ok=True)
         token_path.write_text(token)
 
     def write_access_token(self, token):
+        StackletContext._ACCESS_TOKEN = token
         self._write_token(self.access_token_path, token)
 
     def get_id_token(self):
@@ -76,6 +89,15 @@ class StackletContext:
             ]
         )
 
+    def do_project_auth(self) -> str:
+        client = CognitoClientAuth(self._click_context)
+        token = client.get_access_token(
+            self.config.auth_url,
+            self.config.project_client_id,
+            self.config.project_client_secret,
+        )
+        return token
+
     def can_org_auth(self):
         return all(
             [
@@ -83,6 +105,15 @@ class StackletContext:
                 self.config.org_client_secret,
             ]
         )
+
+    def do_org_auth(self) -> str:
+        client = CognitoClientAuth(self._click_context)
+        token = client.get_access_token(
+            self.config.auth_url,
+            self.config.org_client_id,
+            self.config.org_client_secret,
+        )
+        return token
 
 
 class StackletCredentialWriter:

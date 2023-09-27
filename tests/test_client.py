@@ -16,6 +16,7 @@ from stacklet.client.sinistral.client import (
     sinistral_client,
 )
 from stacklet.client.sinistral.executor import RestExecutor
+from stacklet.client.sinistral.context import StackletContext
 
 
 @pytest.fixture(autouse=True, scope="module")
@@ -24,9 +25,54 @@ def mock_current_context():
         ctx().obj = {
             "output": "raw",
             "formatter": None,
-            "config": MagicMock(),
+            "config": MagicMock(
+                project_client_id=None,
+                project_client_secret=None,
+                org_client_id=None,
+                org_client_secret=None,
+            ),
         }
         yield ctx
+
+
+@pytest.fixture(autouse=True, scope="module")
+def mock_access_token():
+    with patch.object(StackletContext, "_ACCESS_TOKEN", new="token"):
+        yield
+
+
+@pytest.fixture()
+def empty_access_token():
+    with patch.object(StackletContext, "_ACCESS_TOKEN", new=None):
+        yield
+
+
+@pytest.fixture()
+def mock_project_creds(mock_current_context):
+    mock_config = MagicMock(
+        project_client_id="client-id",
+        project_client_secret="client-secret",
+        org_client_id=None,
+        org_client_secret=None,
+    )
+    with patch.dict(mock_current_context().obj, config=mock_config):
+        with patch.object(StackletContext, "do_project_auth", return_value="token"):
+            with patch.object(StackletContext, "do_org_auth", return_value=None):
+                yield
+
+
+@pytest.fixture()
+def mock_org_creds(mock_current_context):
+    mock_config = MagicMock(
+        project_client_id=None,
+        project_client_secret=None,
+        org_client_id="client-id",
+        org_client_secret="client-secret",
+    )
+    with patch.dict(mock_current_context().obj, config=mock_config):
+        with patch.object(StackletContext, "do_project_auth", return_value=None):
+            with patch.object(StackletContext, "do_org_auth", return_value="token"):
+                yield
 
 
 sample_schema = {
@@ -207,6 +253,28 @@ def test_client_command_unauthorized():
     ):
         with pytest.raises(Exception):
             client.delete(name="foo")
+
+
+def test_client_command_auto_project_auth(empty_access_token, mock_project_creds):
+    client = sinistral_client().client("projects")
+    with patch.object(
+        RestExecutor, "get", return_value=get_mock_response(json={"foo": "bar"})
+    ):
+        res = client.list()
+        assert res == {"foo": "bar"}
+        assert StackletContext.do_project_auth.called
+        assert not StackletContext.do_org_auth.called
+
+
+def test_client_command_auto_org_auth(empty_access_token, mock_org_creds):
+    client = sinistral_client().client("projects")
+    with patch.object(
+        RestExecutor, "get", return_value=get_mock_response(json={"foo": "bar"})
+    ):
+        res = client.list()
+        assert res == {"foo": "bar"}
+        assert not StackletContext.do_project_auth.called
+        assert StackletContext.do_org_auth.called
 
 
 def test_client_command_other_error():

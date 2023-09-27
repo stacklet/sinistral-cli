@@ -5,7 +5,7 @@ import jwt
 
 from pathlib import Path
 
-from stacklet.client.sinistral.cognito import CognitoClientAuth, CognitoUserManager
+from stacklet.client.sinistral.cognito import CognitoUserManager
 from stacklet.client.sinistral.commands import commands
 from stacklet.client.sinistral.config import StackletConfig
 from stacklet.client.sinistral.context import StackletContext
@@ -149,22 +149,12 @@ def login(ctx, username, password, *args, **kwargs):
 
         # Otherwise, prefer non-interactive auth to interactive.
         if context.can_project_auth():
-            client = CognitoClientAuth(ctx)
-            token = client.get_access_token(
-                context.config.auth_url,
-                context.config.project_client_id,
-                context.config.project_client_secret,
-            )
+            token = context.do_project_auth()
             context.write_access_token(token)
             return
 
         if context.can_org_auth():
-            client = CognitoClientAuth(ctx)
-            token = client.get_access_token(
-                context.config.auth_url,
-                context.config.org_client_id,
-                context.config.org_client_secret,
-            )
+            token = context.do_org_auth()
             context.write_access_token(token)
             return
 
