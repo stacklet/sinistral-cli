@@ -40,3 +40,17 @@ class RegenerateCredentials(ClientCommand):
     params = {}
     query_params = {}
     payload_params = {}
+
+
+@Org.commands.register("revoke-credentials")
+class RevokeCredentials(ClientCommand):
+    """
+    Revoke existing Organization Credentials.
+    """
+
+    command = "revoke_credentials"
+    method = "delete"
+    path = "/org/credentials"
+    params = {}
+    query_params = {}
+    payload_params = {}
