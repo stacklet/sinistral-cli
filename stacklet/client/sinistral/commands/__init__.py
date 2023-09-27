@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from click.core import Group, Command, Option
 
+from .dump import dump
 from .run import run
 
 import stacklet.client.sinistral.commands.policy  # noqa
@@ -16,7 +17,7 @@ from stacklet.client.sinistral.client import client_registry, parse_jsonschema
 from stacklet.client.sinistral.utils import global_options
 
 
-commands = [run]
+commands = [run, dump]
 
 
 # Instantiate commands out of clients
