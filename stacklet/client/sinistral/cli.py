@@ -89,6 +89,13 @@ def show(ctx, *args, **kwargs):
             id_details = jwt.decode(id_token, options={"verify_signature": False})
             click.echo(context.fmt(id_details))
             click.echo()
+        access_token = context.get_access_token()
+        if access_token:
+            access_details = jwt.decode(
+                access_token, options={"verify_signature": False}
+            )
+            click.echo(context.fmt(access_details))
+            click.echo()
         click.echo(context.fmt(context.config.to_dict()))
 
 

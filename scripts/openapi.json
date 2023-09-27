@@ -1096,6 +1096,24 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Org"
+        ],
+        "summary": "Revoke Credentials",
+        "description": "Revoke existing Organization Credentials.",
+        "operationId": "revoke_org_credentials_org_credentials_delete",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
       }
     },
     "/projects": {
@@ -1760,6 +1778,50 @@
             "HTTPBearer": []
           }
         ]
+      },
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Revoke Credentials",
+        "description": "Revoke any existing Project Credentials.",
+        "operationId": "revoke_credentials_projects__name__credentials_delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
       }
     },
     "/": {
@@ -2132,7 +2194,7 @@
               "added": 0,
               "updated": 0,
               "removed": 0,
-              "started_at": "2023-09-11T22:49:18.302769"
+              "started_at": "2023-09-19T20:57:16.486859"
             }
           }
         }
@@ -2258,7 +2320,7 @@
               "added": 0,
               "updated": 0,
               "removed": 0,
-              "started_at": "2023-09-11T22:49:18.302297"
+              "started_at": "2023-09-19T20:57:16.486380"
             }
           }
         }
@@ -2338,7 +2400,6 @@
         "title": "Project",
         "required": [
           "name",
-          "client_id",
           "created_at",
           "updated_at"
         ],
