@@ -8,7 +8,8 @@ from unittest.mock import MagicMock, patch
 def test_output(patched_client):
     mock_context = MagicMock()
     mock_config = MagicMock()
-
+    mock_config.dryrun = False
+    mock_config.project = None
     s_format = SinistralFormat(mock_context, mock_config)
     s_format.results = []
     s_format.config.output_query = None

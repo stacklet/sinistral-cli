@@ -8,7 +8,9 @@ from tempfile import TemporaryDirectory
 import click
 import yaml
 
-from c7n_left.cli import run as left_run
+from c7n.config import Config
+from c7n_left.cli import get_config, run as left_run
+from c7n_left.output import MultiOutput, get_reporter
 
 from stacklet.client.sinistral.output import SinistralFormat
 from stacklet.client.sinistral.client import sinistral_client
@@ -57,16 +59,19 @@ def run(ctx, project, dryrun, *args, **kwargs):
             sys.exit(int(left_run.invoke(ctx)))
         raise click.UsageError("Either project or policy directory must be specified")
 
-    # the overlap in these is confusing
     ctx.obj["output"] = "raw"  # formatter (used in SinistralClient.make_request)
-    ctx.params["output"] = "sinistral"  # reporter (passed to c7n_left)
 
-    # afaics there's no way for us to pass this info into the output
-    # string like we do for other c7n outputs, e.g. s3://foo, if
-    # we did url lookup like sinistral://$project we could drop this
-    SinistralFormat.project = ctx.params.pop("project")
-    SinistralFormat.dryrun = ctx.params.pop("dryrun")
-    SinistralFormat.cli_ctx = ctx
+    ## Setup sinistral output format
+
+    # pop parameters specific to sinistral format
+    project = ctx.params.pop("project")
+    dryrun = ctx.params.pop("dryrun")
+    config = get_config(**ctx.params)
+    s_config = Config.empty(**config)
+    s_config.update({"project": project, "dryrun": dryrun})
+
+    formatter = SinistralFormat(None, s_config)
+    ctx.params["reporter"] = MultiOutput([get_reporter(config), formatter])
 
     sinistral = sinistral_client()
 
