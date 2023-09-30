@@ -61,7 +61,7 @@ def run(ctx, project, dryrun, *args, **kwargs):
 
     ctx.obj["output"] = "raw"  # formatter (used in SinistralClient.make_request)
 
-    ## Setup sinistral output format
+    # Setup sinistral output format
 
     # pop parameters specific to sinistral format
     project = ctx.params.pop("project")
