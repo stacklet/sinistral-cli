@@ -13,10 +13,13 @@ from stacklet.client.sinistral.client import sinistral_client
 class SinistralFormat(Json):
     project = None
     dryrun = None
-    cli_ctx = None
 
     def __init__(self, ctx, config):
         super().__init__(ctx, config)
+        if self.config.project and self.project is None:
+            self.project = self.config.project
+        if self.config.dryrun and self.dryrun is None:
+            self.dryrun = self.config.dryrun
 
     def on_execution_ended(self):
         formatted_results = [self.format_result(r) for r in self.results]
