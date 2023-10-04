@@ -80,7 +80,7 @@ def run(ctx, project, dryrun, *args, **kwargs):
 
     results = []
     try:
-        project_data = projects_client.get(name=SinistralFormat.project)
+        project_data = projects_client.get(name=project)
     except Exception as e:
         click.echo(f"Unable to get project: {e}", err=True)
         sys.exit(1)
