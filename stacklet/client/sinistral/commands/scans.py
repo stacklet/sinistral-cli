@@ -90,7 +90,10 @@ class Create(ClientCommand):
                                         "title": "Resource",
                                         "anyOf": [
                                             {"type": "string"},
-                                            {"type": "array", "items": {}},
+                                            {
+                                                "type": "array",
+                                                "items": {"type": "string"},
+                                            },
                                         ],
                                     },
                                     "description": {
