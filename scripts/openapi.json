@@ -2194,7 +2194,7 @@
               "added": 0,
               "updated": 0,
               "removed": 0,
-              "started_at": "2023-09-19T20:57:16.486859"
+              "started_at": "2023-10-06T19:35:05.372497"
             }
           }
         }
@@ -2320,7 +2320,7 @@
               "added": 0,
               "updated": 0,
               "removed": 0,
-              "started_at": "2023-09-19T20:57:16.486380"
+              "started_at": "2023-10-06T19:35:05.371730"
             }
           }
         }
@@ -2832,14 +2832,9 @@
       },
       "Severity": {
         "title": "Severity",
-        "enum": [
-          "HIGH",
-          "MEDIUM",
-          "LOW",
-          "UNKNOWN"
-        ],
         "type": "string",
-        "description": "An enumeration."
+        "description": "Severity of a policy violation.",
+        "pattern": "(?i)^(high|medium|low|unknown)$"
       },
       "Summary": {
         "title": "Summary",

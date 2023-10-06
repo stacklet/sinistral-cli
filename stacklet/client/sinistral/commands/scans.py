@@ -103,14 +103,9 @@ class Create(ClientCommand):
                                         "properties": {
                                             "severity": {
                                                 "title": "Severity",
-                                                "enum": [
-                                                    "HIGH",
-                                                    "MEDIUM",
-                                                    "LOW",
-                                                    "UNKNOWN",
-                                                ],
                                                 "type": "string",
-                                                "description": "An enumeration.",
+                                                "description": "Severity of a policy violation.",
+                                                "pattern": "(?i)^(high|medium|low|unknown)$",
                                             }
                                         },
                                     },
