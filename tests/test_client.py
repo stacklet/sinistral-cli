@@ -316,7 +316,8 @@ def test_client_command_uses_query_params():
         assert res == {"a": "policy"}
 
 
-def test_client_command_scan_create():
+@pytest.mark.parametrize("severity", ["HIGH", "high"])
+def test_client_command_scan_create(severity):
     client = sinistral_client().client("scans")
     with patch.object(
         RestExecutor, "post", return_value=get_mock_response(json={"id": "new-scan"})
@@ -332,7 +333,7 @@ def test_client_command_scan_create():
                         "description": "foo",
                         "filters": [],
                         "mode": {},
-                        "metadata": {"severity": "HIGH"},
+                        "metadata": {"severity": f"{severity}"},
                     },
                     "resource": {
                         "id": "foo",
