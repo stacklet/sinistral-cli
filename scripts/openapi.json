@@ -2194,7 +2194,7 @@
               "added": 0,
               "updated": 0,
               "removed": 0,
-              "started_at": "2023-10-06T20:10:54.534411"
+              "started_at": "2023-10-11T21:35:58.971771"
             }
           }
         }
@@ -2320,7 +2320,7 @@
               "added": 0,
               "updated": 0,
               "removed": 0,
-              "started_at": "2023-10-06T20:10:54.533561"
+              "started_at": "2023-10-11T21:35:58.971291"
             }
           }
         }
@@ -2515,6 +2515,7 @@
               }
             ],
             "default": {
+              "CRITICAL": 0,
               "HIGH": 0,
               "MEDIUM": 0,
               "LOW": 0,
@@ -2836,12 +2837,17 @@
         "title": "Severity",
         "type": "string",
         "description": "Severity of a policy violation.",
-        "pattern": "(?i)^(high|medium|low|unknown)$"
+        "pattern": "(?i)^(critical|high|medium|low|unknown)$"
       },
       "Summary": {
         "title": "Summary",
         "type": "object",
         "properties": {
+          "CRITICAL": {
+            "title": "Critical",
+            "type": "integer",
+            "default": 0
+          },
           "HIGH": {
             "title": "High",
             "type": "integer",

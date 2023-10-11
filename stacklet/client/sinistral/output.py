@@ -43,6 +43,7 @@ class SinistralFormat(Json):
             if not r["resource"].get("name"):
                 r["resource"]["name"] = r["resource"]["__tfmeta"]["path"]
             if not r["policy"].get("metadata", {}).get("severity").lower() in (
+                "critical",
                 "high",
                 "medium",
                 "low",

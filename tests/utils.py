@@ -46,7 +46,7 @@ create_scan_response = {
     "id": "278741d4-99a7-4ca7-80e2-1cbd49d8391b",
     "project_name": "foo",
     "status": "PASSED",
-    "summary": {"HIGH": 0, "MEDIUM": 0, "LOW": 0},
+    "summary": {"CRITICAL": 0, "HIGH": 0, "MEDIUM": 0, "LOW": 0},
     "trigger": "USER",
     "user_id": "foo@bar.com",
     "client_id": "none",
