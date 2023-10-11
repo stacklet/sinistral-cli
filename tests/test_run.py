@@ -109,7 +109,7 @@ def test_api_error(runner, mock_rest):
     result = runner("run", "--project", "foo", "-d", path)
 
     assert result.exit_code == 1
-    assert result.output.strip() == "test"
+    assert result.output.strip() == "Unable to get project: test"
     assert not mock_rest.post.called
 
 
@@ -147,4 +147,4 @@ def test_project_auto_create_non_org_auth(runner, mock_rest):
     result = runner("run", "--project", "foo", "-d", path)
 
     assert result.exit_code == 1
-    assert result.output.strip() == "Project foo not found"
+    assert result.output.strip() == "Unable to get project: Project foo not found"
