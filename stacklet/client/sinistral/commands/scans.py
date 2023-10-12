@@ -108,7 +108,7 @@ class Create(ClientCommand):
                                                 "title": "Severity",
                                                 "type": "string",
                                                 "description": "Severity of a policy violation.",
-                                                "pattern": "(?i)^(high|medium|low|unknown)$",
+                                                "pattern": "(?i)^(critical|high|medium|low|unknown)$",
                                             }
                                         },
                                     },
