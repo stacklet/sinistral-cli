@@ -17,14 +17,14 @@ class PolicyCollections(Client):
 @PolicyCollections.commands.register("list")
 class List(ClientCommand):
     """
-    List all policy collections
+    List all (or just defaults) policy collections
     """
 
     command = "list"
     method = "get"
     path = "/policy-collections"
     params = {}
-    query_params = {}
+    query_params = {"--only_defaults": {"required": False}}
     payload_params = {}
 
 

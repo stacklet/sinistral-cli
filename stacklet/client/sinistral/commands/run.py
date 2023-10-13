@@ -76,26 +76,21 @@ def run(ctx, project, dryrun, *args, **kwargs):
     sinistral = sinistral_client()
 
     projects_client = sinistral.client("projects")
-    policy_collections_client = sinistral.client("policy-collections")
-
-    results = []
     try:
-        project_data = projects_client.get(name=project)
+        policies = projects_client.get_policies(name=project, include_defaults=True)
     except Exception as e:
         click.echo(f"Unable to get project: {e}", err=True)
         sys.exit(1)
 
-    if not project_data.get("collections"):
+    if not policies:
         click.echo("Project has no policy collections", err=True)
         sys.exit(1)
 
-    for c in project_data["collections"]:
-        policies = policy_collections_client.get_policies(name=c)
-        raw_policies = [p["raw_policy"] for p in policies]
-        with TemporaryDirectory() as tempdir:
-            with open(f"{tempdir}/policy.yaml", "w+") as f:
-                yaml.dump({"policies": raw_policies}, f)
-                ctx.params["policy_dir"] = tempdir
-                results.append(int(left_run.invoke(ctx)))
-
+    raw_policies = [p["raw_policy"] for p in policies]
+    results = []
+    with TemporaryDirectory() as tempdir:
+        with open(f"{tempdir}/policy.yaml", "w+") as f:
+            yaml.dump({"policies": raw_policies}, f)
+            ctx.params["policy_dir"] = tempdir
+            results.append(int(left_run.invoke(ctx)))
     sys.exit(int(sorted(results)[-1]))
