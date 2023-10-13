@@ -7,8 +7,7 @@ from click.testing import CliRunner
 
 
 from .utils import (
-    get_project_response,
-    get_policies_for_collection_response,
+    get_policies_for_project_response,
     create_scan_response,
     get_mock_response,
 )
@@ -33,8 +32,7 @@ def test_submit_run():
         RestExecutor,
         "get",
         side_effect=[
-            get_mock_response(json=get_project_response),
-            get_mock_response(json=get_policies_for_collection_response),
+            get_mock_response(json=get_policies_for_project_response),
         ],
     ):
         with patch.object(
@@ -68,8 +66,7 @@ def test_submit_run_fail():
         RestExecutor,
         "get",
         side_effect=[
-            get_mock_response(json=get_project_response),
-            get_mock_response(json=get_policies_for_collection_response),
+            get_mock_response(json=get_policies_for_project_response),
         ],
     ):
         with patch.object(
