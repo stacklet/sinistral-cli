@@ -17,14 +17,14 @@ class PolicyCollections(Client):
 @PolicyCollections.commands.register("list")
 class List(ClientCommand):
     """
-    List all policy collections
+    List all (or just defaults) policy collections
     """
 
     command = "list"
     method = "get"
     path = "/policy-collections"
     params = {}
-    query_params = {}
+    query_params = {"--only_defaults": {"required": False}}
     payload_params = {}
 
 
@@ -52,6 +52,11 @@ class Create(ClientCommand):
                     "type": "array",
                     "items": {"type": "string"},
                     "default": [],
+                },
+                "is_default": {
+                    "title": "Is Default",
+                    "type": "boolean",
+                    "default": False,
                 },
             },
         }
@@ -84,6 +89,34 @@ class Delete(ClientCommand):
     params = {"--name": {"required": True}}
     query_params = {}
     payload_params = {}
+
+
+@PolicyCollections.commands.register("update")
+class Update(ClientCommand):
+    """
+    None
+    """
+
+    command = "update"
+    method = "patch"
+    path = "/policy-collections/{name}"
+    params = {"--name": {"required": True}}
+    query_params = {}
+    payload_params = {
+        "schema": {
+            "title": "UpdatePolicyCollectionInput",
+            "type": "object",
+            "properties": {
+                "is_default": {"title": "Is Default", "type": "boolean"},
+                "policies": {
+                    "title": "Policies",
+                    "uniqueItems": True,
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+            },
+        }
+    }
 
 
 @PolicyCollections.commands.register("get-policies")

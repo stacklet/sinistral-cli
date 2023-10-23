@@ -23,7 +23,7 @@ get_project_response = {
     "updated_at": "2023-02-17T14:40:49.394311+00:00",
 }
 
-get_policies_for_collection_response = [
+get_policies_for_project_response = [
     {
         "name": "check-tags",
         "source_name": "csd-policies",
