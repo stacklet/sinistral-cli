@@ -424,8 +424,20 @@
           "Policy Collections"
         ],
         "summary": "List",
-        "description": "List all policy collections",
+        "description": "List all (or just defaults) policy collections",
         "operationId": "get_policy_collections_policy_collections_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Only Defaults",
+              "type": "boolean",
+              "default": false
+            },
+            "name": "only_defaults",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -437,6 +449,16 @@
                   "items": {
                     "$ref": "#/components/schemas/PolicyCollection"
                   }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -544,6 +566,54 @@
             "in": "path"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Policy Collections"
+        ],
+        "summary": "Update",
+        "operationId": "update_policy_collection_policy_collections__name__patch",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Name",
+              "type": "string"
+            },
+            "name": "name",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePolicyCollectionInput"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -1209,6 +1279,16 @@
             },
             "name": "name",
             "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Include Default Collections",
+              "type": "boolean",
+              "default": false
+            },
+            "name": "include_default_collections",
+            "in": "query"
           }
         ],
         "responses": {
@@ -1357,6 +1437,16 @@
             },
             "name": "name",
             "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Include Defaults",
+              "type": "boolean",
+              "default": false
+            },
+            "name": "include_defaults",
+            "in": "query"
           }
         ],
         "responses": {
@@ -1522,6 +1612,16 @@
             },
             "name": "name",
             "in": "path"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Include Defaults",
+              "type": "boolean",
+              "default": false
+            },
+            "name": "include_defaults",
+            "in": "query"
           }
         ],
         "responses": {
@@ -2082,6 +2182,11 @@
             },
             "default": []
           },
+          "is_default": {
+            "title": "Is Default",
+            "type": "boolean",
+            "default": false
+          },
           "created_at": {
             "title": "Created At",
             "type": "string",
@@ -2114,6 +2219,11 @@
               "type": "string"
             },
             "default": []
+          },
+          "is_default": {
+            "title": "Is Default",
+            "type": "boolean",
+            "default": false
           }
         }
       },
@@ -2194,7 +2304,7 @@
               "added": 0,
               "updated": 0,
               "removed": 0,
-              "started_at": "2023-10-11T21:35:58.971771"
+              "started_at": "2023-10-13T19:14:36.359196"
             }
           }
         }
@@ -2320,7 +2430,7 @@
               "added": 0,
               "updated": 0,
               "removed": 0,
-              "started_at": "2023-10-11T21:35:58.971291"
+              "started_at": "2023-10-13T19:14:36.358730"
             }
           }
         }
@@ -2886,6 +2996,24 @@
         ],
         "type": "object",
         "properties": {
+          "policies": {
+            "title": "Policies",
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdatePolicyCollectionInput": {
+        "title": "UpdatePolicyCollectionInput",
+        "type": "object",
+        "properties": {
+          "is_default": {
+            "title": "Is Default",
+            "type": "boolean"
+          },
           "policies": {
             "title": "Policies",
             "uniqueItems": true,

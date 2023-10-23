@@ -79,7 +79,7 @@ class Get(ClientCommand):
     method = "get"
     path = "/projects/{name}"
     params = {"--name": {"required": True}}
-    query_params = {}
+    query_params = {"--include_default_collections": {"required": False}}
     payload_params = {}
 
 
@@ -146,7 +146,7 @@ class GetCollections(ClientCommand):
     method = "get"
     path = "/projects/{name}/collections"
     params = {"--name": {"required": True}}
-    query_params = {}
+    query_params = {"--include_defaults": {"required": False}}
     payload_params = {}
 
 
@@ -203,7 +203,7 @@ class GetPolicies(ClientCommand):
     method = "get"
     path = "/projects/{name}/policies"
     params = {"--name": {"required": True}}
-    query_params = {}
+    query_params = {"--include_defaults": {"required": False}}
     payload_params = {}
 
 
