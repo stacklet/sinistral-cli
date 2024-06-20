@@ -2,13 +2,13 @@
 
 [[package]]
 name = "argcomplete"
-version = "3.3.0"
+version = "3.4.0"
 description = "Bash tab completion for argparse"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "argcomplete-3.3.0-py3-none-any.whl", hash = "sha256:c168c3723482c031df3c207d4ba8fa702717ccb9fc0bfe4117166c1f537b4a54"},
-    {file = "argcomplete-3.3.0.tar.gz", hash = "sha256:fd03ff4a5b9e6580569d34b273f741e85cd9e072f3feeeee3eba4891c70eda62"},
+    {file = "argcomplete-3.4.0-py3-none-any.whl", hash = "sha256:69a79e083a716173e5532e0fa3bef45f793f4e61096cf52b5a42c0211c8b8aa5"},
+    {file = "argcomplete-3.4.0.tar.gz", hash = "sha256:c2abcdfe1be8ace47ba777d4fce319eb13bf8ad9dace8d085dcad6eded88057f"},
 ]
 
 [package.extras]
@@ -99,17 +99,17 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "boto3"
-version = "1.34.118"
+version = "1.34.128"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "boto3-1.34.118-py3-none-any.whl", hash = "sha256:e9edaf979fbe59737e158f2f0f3f0861ff1d61233f18f6be8ebb483905f24587"},
-    {file = "boto3-1.34.118.tar.gz", hash = "sha256:4eb8019421cb664a6fcbbee6152aa95a28ce8bbc1c4ee263871c09cdd58bf8ee"},
+    {file = "boto3-1.34.128-py3-none-any.whl", hash = "sha256:a048ff980a81cd652724a73bc496c519b336fabe19cc8bfc6c53b2ff6eb22c7b"},
+    {file = "boto3-1.34.128.tar.gz", hash = "sha256:43a6e99f53a8d34b3b4dbe424dbcc6b894350dc41a85b0af7c7bc24a7ec2cead"},
 ]
 
 [package.dependencies]
-botocore = ">=1.34.118,<1.35.0"
+botocore = ">=1.34.128,<1.35.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.10.0,<0.11.0"
 
@@ -118,13 +118,13 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.34.118"
+version = "1.34.128"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "botocore-1.34.118-py3-none-any.whl", hash = "sha256:e3f6c5636a4394768e81e33a16f5c6ae7f364f512415d423f9b9dc67fc638df4"},
-    {file = "botocore-1.34.118.tar.gz", hash = "sha256:0a3d1ec0186f8b516deb39474de3d226d531f77f92a0f56ad79b80219db3ae9e"},
+    {file = "botocore-1.34.128-py3-none-any.whl", hash = "sha256:db67fda136c372ab3fa432580c819c89ba18d28a6152a4d2a7ea40d44082892e"},
+    {file = "botocore-1.34.128.tar.gz", hash = "sha256:8d8e03f7c8c080ecafda72036eb3b482d649f8417c90b5dca33b7c2c47adb0c9"},
 ]
 
 [package.dependencies]
@@ -133,23 +133,23 @@ python-dateutil = ">=2.1,<3.0.0"
 urllib3 = {version = ">=1.25.4,<2.2.0 || >2.2.0,<3", markers = "python_version >= \"3.10\""}
 
 [package.extras]
-crt = ["awscrt (==0.20.9)"]
+crt = ["awscrt (==0.20.11)"]
 
 [[package]]
 name = "c7n"
-version = "0.9.37"
+version = "0.9.38"
 description = "Cloud Custodian - Policy Rules Engine"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "c7n-0.9.37-py3-none-any.whl", hash = "sha256:82dc49ab321f332a5a96459bb6ff3f7803b4b7326c72f03bf902f53e238db535"},
+    {file = "c7n-0.9.38-py3-none-any.whl", hash = "sha256:d7b3dbc18487179a6350ad60ad56c83c2e2eba21af04a16bbfd72bb4c56fd581"},
 ]
 
 [package.dependencies]
-argcomplete = {version = "3.3.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+argcomplete = {version = "3.4.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 attrs = {version = "23.2.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-boto3 = {version = "1.34.118", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-botocore = {version = "1.34.118", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+boto3 = {version = "1.34.128", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+botocore = {version = "1.34.128", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 docutils = {version = "0.18.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 importlib-metadata = {version = "6.11.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 jmespath = {version = "1.0.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
@@ -162,25 +162,25 @@ rpds-py = {version = "0.18.1", markers = "python_version >= \"3.8\" and python_v
 s3transfer = {version = "0.10.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 six = {version = "1.16.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 tabulate = {version = "0.9.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-urllib3 = {version = "1.26.18", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-zipp = {version = "3.19.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+urllib3 = {version = "1.26.19", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+zipp = {version = "3.19.2", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 
 [[package]]
 name = "c7n-left"
-version = "0.3.20"
+version = "0.3.22"
 description = "Custodian policies for IAAC definitions"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "c7n_left-0.3.20-py3-none-any.whl", hash = "sha256:c5b3ab78584fa084de3efd6693c8575197ea295e4ad0cbbdbdf69aa9c49fbecd"},
+    {file = "c7n_left-0.3.22-py3-none-any.whl", hash = "sha256:99f96438b5e68d816df7d0e3e8388711f55f23b4c699ff93de5b3c38b9fc7355"},
 ]
 
 [package.dependencies]
-argcomplete = {version = "3.3.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+argcomplete = {version = "3.4.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 attrs = {version = "23.2.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-boto3 = {version = "1.34.118", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-botocore = {version = "1.34.118", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-c7n = {version = "0.9.37", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+boto3 = {version = "1.34.128", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+botocore = {version = "1.34.128", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+c7n = {version = "0.9.38", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 cffi = {version = "1.16.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 click = {version = "8.1.7", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 colorama = {version = "0.4.6", markers = "python_version >= \"3.8\" and python_version < \"4.0\" and platform_system == \"Windows\""}
@@ -195,7 +195,7 @@ mdurl = {version = "0.1.2", markers = "python_version >= \"3.8\" and python_vers
 pycparser = {version = "2.22", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 pygments = {version = "2.18.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 python-dateutil = {version = "2.9.0.post0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-python-hcl2 = {version = "4.3.3", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+python-hcl2 = {version = "4.3.4", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 pyyaml = {version = "6.0.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 referencing = {version = "0.31.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 rich = {version = "13.7.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
@@ -203,9 +203,9 @@ rpds-py = {version = "0.18.1", markers = "python_version >= \"3.8\" and python_v
 s3transfer = {version = "0.10.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 six = {version = "1.16.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 tabulate = {version = "0.9.0", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-tfparse = {version = "0.6.8", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-urllib3 = {version = "1.26.18", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
-zipp = {version = "3.19.1", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+tfparse = {version = "0.6.9", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+urllib3 = {version = "1.26.19", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
+zipp = {version = "3.19.2", markers = "python_version >= \"3.8\" and python_version < \"4.0\""}
 
 [[package]]
 name = "certifi"
@@ -1369,13 +1369,13 @@ six = ">=1.5"
 
 [[package]]
 name = "python-hcl2"
-version = "4.3.3"
+version = "4.3.4"
 description = "A parser for HCL2"
 optional = false
 python-versions = ">=3.7.0"
 files = [
-    {file = "python-hcl2-4.3.3.tar.gz", hash = "sha256:03d1df5a025c7430ddde789695c845701269faae3bdbe37049201c0f57bbcbde"},
-    {file = "python_hcl2-4.3.3-py3-none-any.whl", hash = "sha256:8fda0b8769ceda87f2e06b1ecf63343a8e83c4f0a2b410798a81aa3b9689a25c"},
+    {file = "python-hcl2-4.3.4.tar.gz", hash = "sha256:ef1b9bad018bcfc1fe2792044974299e559145fe96e3ca298c1e5e9500c8de66"},
+    {file = "python_hcl2-4.3.4-py3-none-any.whl", hash = "sha256:00f4f0dfa177b1217a5478d5d36b4a70ec01228ad59fc9f2a79eadd4b16676cd"},
 ]
 
 [package.dependencies]
@@ -1720,26 +1720,26 @@ widechars = ["wcwidth"]
 
 [[package]]
 name = "tfparse"
-version = "0.6.8"
+version = "0.6.9"
 description = "Python HCL/Terraform parser via extension for AquaSecurity defsec"
 optional = false
 python-versions = "*"
 files = [
-    {file = "tfparse-0.6.8-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:57cb96950b5520489a186fa3b73a12b84f3a53cdd4f370df58be591629815d63"},
-    {file = "tfparse-0.6.8-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:bd1dfddc60619adbd0e2fa4b51a7449d1b6505ad0ec7618999388441d28e0c23"},
-    {file = "tfparse-0.6.8-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4807a113cd91f53d8087b48ea44ab2e1db63f0d134553666da64fa65c20256b0"},
-    {file = "tfparse-0.6.8-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:54668571c60010a1679669b1ec24d04e12320a0cfb202be27ecead322746393c"},
-    {file = "tfparse-0.6.8-cp310-cp310-win_amd64.whl", hash = "sha256:2733b1da48d1674009b03f122b705a2cad390ba492381a85a9fb29ccd98435e7"},
-    {file = "tfparse-0.6.8-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:3aabca2416a03c125f0bdbb5fc1465b70753bf49d2eeee1b3530d13d12602852"},
-    {file = "tfparse-0.6.8-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:9197b169a908a765884075a2038775657beb1de3f326477f58e838e619292b02"},
-    {file = "tfparse-0.6.8-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:6dbd583b5dc704c68ee65ffa9a2c5fa09217a8dd039bd18c118d37de35be622d"},
-    {file = "tfparse-0.6.8-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2908555addf21e751dbeece6dacacb5d2da59ab71c711145c32e0746f0bd207e"},
-    {file = "tfparse-0.6.8-cp311-cp311-win_amd64.whl", hash = "sha256:885114c36be9e05a5522bafe9634092e3808213294d39ba5ba87ffc8ca961f1b"},
-    {file = "tfparse-0.6.8-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:a4b1678dd704b872ed0b54ed2580b17610c35c3b6181bf24e4a4aebe9e1fc9e8"},
-    {file = "tfparse-0.6.8-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:4b3d50c79a37cb7c5e0982214313fa540dc4584b3bea37402de2b477b8d6de38"},
-    {file = "tfparse-0.6.8-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f4bfb1aed1a3e69d788744ee33b757ecedbbb520a4f3de6b5bee706dff13c534"},
-    {file = "tfparse-0.6.8-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5c4ad78276530bbe4bc9d5b8e98f9a276e302e5a78c63b1db54f38b390a009ee"},
-    {file = "tfparse-0.6.8-cp312-cp312-win_amd64.whl", hash = "sha256:040e5f29d52cb6bf86f04e7f1503cd8edda1dfdd415d5c0731e92fddc54bcd0a"},
+    {file = "tfparse-0.6.9-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:bd131e17ff0e21e637f1a5eaccc1bcc60f3fabdbaee4c8e0151632bd94fe0292"},
+    {file = "tfparse-0.6.9-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:0b514df7fe5e1f15f1721b3e117eac09234d953adffa43967d5a908135fa88bc"},
+    {file = "tfparse-0.6.9-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:45cd8b68ad7d82178e3e4964eedc2b71b6bab327c7e0c7ac4d13f42e79d4f9ab"},
+    {file = "tfparse-0.6.9-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:84a2c2e74dffaeac43ef56ee08b59e50dc12bfc8aed125ae77360257d8161ee6"},
+    {file = "tfparse-0.6.9-cp310-cp310-win_amd64.whl", hash = "sha256:6b2e7036fd3a12746d2b7674cfb232c5d9f2b8d387f3c12abc3c78077777c0ea"},
+    {file = "tfparse-0.6.9-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:fda8de849638eae7fb4cc86685522a03a9721415a6f0c009588794b384eb57b8"},
+    {file = "tfparse-0.6.9-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:ab7d5da78ed9db3b7729954d2e550cee7191c2710a3a8ec51c1941ee0dd361ab"},
+    {file = "tfparse-0.6.9-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c85922f0c20771a7619d2d58498b432ba5ab12c682829e2d1011e29040f0c7dc"},
+    {file = "tfparse-0.6.9-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d07989394ebd6b7dd532b7424f45eb33d0622007405bccc04e50612a4096d175"},
+    {file = "tfparse-0.6.9-cp311-cp311-win_amd64.whl", hash = "sha256:01840577f660c9d955e98d114b2b7a0501513310614471e6597a2394a8f022d0"},
+    {file = "tfparse-0.6.9-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:471868bf3117fb32045909a93f4e618400912b2d9daf998e5037fb0aa7a4d1ff"},
+    {file = "tfparse-0.6.9-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:76261806eb2b9a2d34126cbbf10913aa171520698ca9edc6f5c0b85f17bf4ad0"},
+    {file = "tfparse-0.6.9-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:7d571f1d49b57455d27657d76b44c03422d9c48127864cf7785e5bf16e3700e9"},
+    {file = "tfparse-0.6.9-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e5eade4c8218b9d112d4f42338b9a4ffbe280ea2041bc3affbc275b9380311c8"},
+    {file = "tfparse-0.6.9-cp312-cp312-win_amd64.whl", hash = "sha256:30b4c79359405171be50e484f163725bdd7599acb0c6bf1763056fe0947deb44"},
 ]
 
 [package.dependencies]
@@ -1784,13 +1784,13 @@ files = [
 
 [[package]]
 name = "urllib3"
-version = "1.26.18"
+version = "1.26.19"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
 files = [
-    {file = "urllib3-1.26.18-py2.py3-none-any.whl", hash = "sha256:34b97092d7e0a3a8cf7cd10e386f401b3737364026c45e622aa02903dffe0f07"},
-    {file = "urllib3-1.26.18.tar.gz", hash = "sha256:f8ecc1bba5667413457c529ab955bf8c67b45db799d159066261719e328580a0"},
+    {file = "urllib3-1.26.19-py2.py3-none-any.whl", hash = "sha256:37a0344459b199fce0e80b0d3569837ec6b6937435c5244e7fd73fa6006830f3"},
+    {file = "urllib3-1.26.19.tar.gz", hash = "sha256:3e3d753a8618b86d7de333b4223005f68720bcd6a7d2bcb9fbd2229ec7c1e429"},
 ]
 
 [package.extras]
@@ -1859,20 +1859,20 @@ files = [
 
 [[package]]
 name = "zipp"
-version = "3.19.1"
+version = "3.19.2"
 description = "Backport of pathlib-compatible object wrapper for zip files"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "zipp-3.19.1-py3-none-any.whl", hash = "sha256:2828e64edb5386ea6a52e7ba7cdb17bb30a73a858f5eb6eb93d8d36f5ea26091"},
-    {file = "zipp-3.19.1.tar.gz", hash = "sha256:35427f6d5594f4acf82d25541438348c26736fa9b3afa2754bcd63cdb99d8e8f"},
+    {file = "zipp-3.19.2-py3-none-any.whl", hash = "sha256:f091755f667055f2d02b32c53771a7a6c8b47e1fdbc4b72a8b9072b3eef8015c"},
+    {file = "zipp-3.19.2.tar.gz", hash = "sha256:bf1dcf6450f873a13e952a29504887c89e6de7506209e5b1bcc3460135d4de19"},
 ]
 
 [package.extras]
 doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
-test = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more-itertools", "pytest (>=6,!=8.1.*)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-ignore-flaky", "pytest-mypy", "pytest-ruff (>=0.2.1)"]
+test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more-itertools", "pytest (>=6,!=8.1.*)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-ignore-flaky", "pytest-mypy", "pytest-ruff (>=0.2.1)"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4"
-content-hash = "56a415e75239df21131c04e92ec8362346220e4a89a5bded6eea835cfcd7ea5d"
+content-hash = "051a257329011ea2b8bf68bd5df2a667cfc943d3e0665bad4d34e8a8c555cf8f"
