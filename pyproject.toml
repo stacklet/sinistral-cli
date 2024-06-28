@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "stacklet.client.sinistral"
-version = "0.2.8"
+version = "0.2.9"
 description = "Sinistral CLI"
 authors = ["Sonny Shi <sonny@stacklet.io>"]
 maintainers = ["Stacklet <hello@stacklet.io>"]
@@ -20,7 +20,7 @@ jmespath = "^1.0.1"
 pyjwt = "^2.6.0"
 pyrsistent = "^0.19.3"
 pyyaml = "^6.0"
-c7n-left = "^0.3.20"
+c7n-left = "^0.3.22"
 
 
 [tool.poetry.group.dev.dependencies]
