@@ -23,7 +23,6 @@ def populate_context(ctx, **kwargs):
     if not config or config.config_dir != config_dir:
         config = ctx.obj["config"] = StackletConfig(config_dir)
     config.update(ctx.params)
-    config.validate()
 
 
 def get_log_level(verbose):
