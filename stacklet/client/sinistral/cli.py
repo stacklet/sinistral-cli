@@ -9,7 +9,8 @@ from stacklet.client.sinistral.cognito import CognitoUserManager
 from stacklet.client.sinistral.commands import commands
 from stacklet.client.sinistral.config import StackletConfig
 from stacklet.client.sinistral.context import StackletContext
-from stacklet.client.sinistral.utils import global_options
+from stacklet.client.sinistral.formatter import Formatter
+from stacklet.client.sinistral.utils import populate_context
 
 import stacklet.client.sinistral.output  # noqa
 import stacklet.client.sinistral.client  # noqa
@@ -20,7 +21,63 @@ def main():
 
 
 @click.group()
-@global_options()
+@click.option(
+    "--config",
+    help="Directory containing the Sinistral config and token files",
+    default="~/.stacklet/sinistral",
+    envvar=["STACKLET_CONFIG", "SINISTRAL_CONFIG"],
+)
+@click.option(
+    "--auth-url",
+    help="Auth URL for most auth flows, except username & password",
+)
+@click.option(
+    "--cognito-user-pool-id",
+    help="Cognito user pool ID for the username & password auth flow",
+)
+@click.option(
+    "--cognito-region",
+    "--region",
+    help="Cognito region for the username & password auth flow",
+)
+@click.option(
+    "--cognito-client-id",
+    help="Cognito client ID for the SSO, or username & password auth flows",
+)
+@click.option(
+    "--project-client-id",
+    help="Project client ID for the Project Credentials auth flow",
+)
+@click.option(
+    "--project-client-secret",
+    help="Project client secret for the Project Credentials auth flow",
+)
+@click.option(
+    "--org-client-id",
+    help="Organization client ID for the Project Credentials auth flow",
+)
+@click.option(
+    "--org-client-secret",
+    help="Organization client secret for the Project Credentials auth flow",
+)
+@click.option(
+    "--api-url",
+    "--api",
+    help="URL for the Sinistral API endpoint",
+)
+@click.option(
+    "--output",
+    help="Output format",
+    type=click.Choice(list(Formatter.registry.keys()), case_sensitive=False),
+    default="yaml",
+)
+@click.option(
+    "-v",
+    "--verbose",
+    help="Verbosity level, increase verbosity by appending v, e.g. -vvv",
+    default=0,
+    count=True,
+)
 @click.pass_context
 def cli(ctx, **params):
     """
@@ -46,7 +103,7 @@ def cli(ctx, **params):
 
         $ sinistral projects get-projects --output json
     """
-    pass  # defer to subcommands
+    populate_context(ctx, **params)
 
 
 @cli.command(short_help="Configure sinistral cli")
@@ -77,7 +134,6 @@ def configure(config_dir, **kwargs):
 
 
 @cli.command()
-@global_options()
 @click.pass_context
 def show(ctx, *args, **kwargs):
     """
@@ -102,7 +158,6 @@ def show(ctx, *args, **kwargs):
 @cli.command(short_help="Login to Sinistral")
 @click.option("--username", required=False)
 @click.option("--password", hide_input=True, required=False)
-@global_options()
 @click.pass_context
 def login(ctx, username, password, *args, **kwargs):
     """

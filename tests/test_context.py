@@ -1,11 +1,13 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import tempfile
-
 from unittest.mock import Mock
+
+import pytest
 
 from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.config import StackletConfig
+from stacklet.client.sinistral.exceptions import ConfigValidationException
 
 
 def test_context():
@@ -58,3 +60,18 @@ def test_credential_write_no_parent_dirs():
         context = StackletContext(ctx)
         context.write_access_token("foo")
         assert context.get_access_token() == "foo"
+
+
+def test_validate_config_when_context_entered():
+    with tempfile.TemporaryDirectory() as temp:
+        ctx = Mock(
+            obj={
+                "config": StackletConfig(f"{temp}/nonexistant"),
+                "output": "yaml",
+                "formatter": None,
+            }
+        )
+        context = StackletContext(ctx)
+        with pytest.raises(ConfigValidationException):
+            with context:
+                assert False, "shouldn't get here"

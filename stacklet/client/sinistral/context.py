@@ -59,6 +59,9 @@ class StackletContext:
         self._write_token(self.id_token_path, token)
 
     def __enter__(self):
+        # validate the config only when the context is entered, to allow click
+        # to fully process command line options
+        self.config.validate()
         return self
 
     def __exit__(self, type, value, traceback):

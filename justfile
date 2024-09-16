@@ -12,7 +12,7 @@ install:
 	poetry run pre-commit install
 
 test *flags:
-	poetry run pytest --cov=stacklet tests {{ flags }}
+	poetry run pytest --cov=stacklet {{ flags }}
 
 # login to private package repository and configure tools
 pkg-login:
