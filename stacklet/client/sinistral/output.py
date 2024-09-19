@@ -42,14 +42,20 @@ class SinistralFormat(Json):
             r["resource"].setdefault("c7n:MatchedFilters", [])
             if not r["resource"].get("name"):
                 r["resource"]["name"] = r["resource"]["__tfmeta"]["path"]
-            if not r["policy"].get("metadata", {}).get("severity").lower() in (
+
+            metadata = r["policy"].get("metadata", {})
+            severity = metadata.get("severity", "").lower()
+
+            if severity not in (
                 "critical",
                 "high",
                 "medium",
                 "low",
                 "unknown",
             ):
-                r["policy"]["metadata"]["severity"] = "unknown"
+                metadata.update({"severity": "unknown"})
+                r["policy"]["metadata"] = metadata
+
         if self.dryrun:
             return
 
