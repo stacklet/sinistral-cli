@@ -8,6 +8,7 @@ import jmespath
 from c7n_left.output import Json, report_outputs, RichCli, JSONEncoder, MultiOutput
 
 from stacklet.client.sinistral.client import sinistral_client
+from codecov_cli.helpers.ci_adapters import get_ci_adapter
 
 
 class SinistralFormat(Json):
@@ -20,6 +21,28 @@ class SinistralFormat(Json):
             self.project = self.config.project
         if self.config.dryrun and self.dryrun is None:
             self.dryrun = self.config.dryrun
+
+    def get_ci_info(self):
+        properties_to_access = [
+            "service",
+            "build_url",
+            "build_code",
+            "job_code",
+            "pull_request_number",
+            "branch",
+            "commit_sha",
+        ]
+        adapter = get_ci_adapter()
+        data = {}
+        for prop in properties_to_access:
+            result = getattr(adapter, f"_get_{prop}")()
+
+            if result is None:
+                result = ""
+
+            data[prop] = result
+
+        return data
 
     def on_execution_ended(self):
         formatted_results = [self.format_result(r) for r in self.results]
@@ -61,9 +84,19 @@ class SinistralFormat(Json):
 
         sinistral = sinistral_client()
         scans_client = sinistral.client("scans")
+        ci_info = self.get_ci_info()
+
+        # We don't need to record CI info for local runs.
+        if ci_info["service"] == "local":
+            ci_info = None
+
         res = scans_client.create(
-            project_name=self.project, results=results, status=status
+            project_name=self.project,
+            results=results,
+            status=status,
+            ci_info=ci_info,
         )
+
         if res.get("id"):
             click.echo(f'Results submitted: id:{res["id"]}')
             pass
