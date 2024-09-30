@@ -23,6 +23,7 @@ def test_output(patched_client):
         "GITHUB_HEAD_REF": "stacklet-dev/test-branch",
         "GITHUB_ACTIONS": "true",
         "GITHUB_RUN_ID": "1337",
+        "GITHUB_WORKFLOW": "CI",
     }
     with MonkeyPatch.context() as mp:
         for k, v in envvars.items():
@@ -44,7 +45,7 @@ def test_output(patched_client):
             "build_code": "1337",
             "build_url": "https://github.com/stacklet/sinistral-cli/actions/runs/1337",
             "commit_sha": "abc123",
-            "job_code": "",
+            "job_code": "CI",
             "pull_request_number": "1337",
             "service": "github-actions",
         },
