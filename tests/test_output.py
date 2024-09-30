@@ -47,7 +47,9 @@ def test_output(patched_client):
             "commit_sha": "abc123",
             "job_code": "CI",
             "pull_request_number": "1337",
+            "repo": "stacklet/sinistral-cli",
             "service": "github-actions",
+            "repo_url": "https://github.com/stacklet/sinistral-cli",
         },
     }
 

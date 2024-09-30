@@ -8,6 +8,7 @@ import jmespath
 from c7n_left.output import Json, report_outputs, RichCli, JSONEncoder, MultiOutput
 
 from stacklet.client.sinistral.client import sinistral_client
+from urllib.parse import urlparse
 from codecov_cli.helpers.ci_adapters import get_ci_adapter
 
 
@@ -31,7 +32,11 @@ class SinistralFormat(Json):
             "pull_request_number",
             "branch",
             "commit_sha",
+            "slug",
         ]
+
+        key_map = {"slug": "repo"}
+
         adapter = get_ci_adapter()
         data = {}
         for prop in properties_to_access:
@@ -40,7 +45,21 @@ class SinistralFormat(Json):
             if result is None:
                 result = ""
 
-            data[prop] = result
+            key = key_map.get(prop) or prop
+            data[key] = result
+
+        # code-cov currently doesn't have a generic way to get the service
+        # url, so for now I'm going to parse out build_url but I plan on
+        # contributing the service URL code to them because they already
+        # know how to do it.  They use it to generate `build_url`.
+        if data["build_url"] is not None:
+            build_url = data["build_url"]
+            parsed_url = urlparse(build_url)
+            data[
+                "repo_url"
+            ] = f"{parsed_url.scheme}://{parsed_url.netloc}/{data['repo']}"
+        else:
+            data["repo_url"] = ""
 
         return data
 
