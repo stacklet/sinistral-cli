@@ -241,6 +241,14 @@ class Create(ClientCommand):
                                     "title": "CommitSHA",
                                     "type": "string",
                                 },
+                                "repo": {
+                                    "title": "Repo",
+                                    "type": "string",
+                                },
+                                "repo_url": {
+                                    "title": "RepoUrl",
+                                    "type": "string",
+                                },
                             },
                         },
                     ],
