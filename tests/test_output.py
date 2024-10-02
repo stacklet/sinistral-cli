@@ -1,5 +1,6 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
+from pytest import MonkeyPatch
 from stacklet.client.sinistral.output import SinistralFormat
 from unittest.mock import MagicMock, patch
 
@@ -14,7 +15,21 @@ def test_output(patched_client):
     s_format.results = []
     s_format.config.output_query = None
 
-    s_format.on_execution_ended()
+    envvars = {
+        "GITHUB_SERVER_URL": "https://github.com",
+        "GITHUB_REPOSITORY": "stacklet/sinistral-cli",
+        "GITHUB_SHA": "abc123",
+        "GITHUB_REF": "refs/pull/1337/merge",
+        "GITHUB_HEAD_REF": "stacklet-dev/test-branch",
+        "GITHUB_ACTIONS": "true",
+        "GITHUB_RUN_ID": "1337",
+        "GITHUB_WORKFLOW": "CI",
+    }
+    with MonkeyPatch.context() as mp:
+        for k, v in envvars.items():
+            mp.setenv(k, v)
+
+        s_format.on_execution_ended()
 
     # client instantiated
     assert patched_client.mock_calls[0].args == ()
@@ -25,6 +40,17 @@ def test_output(patched_client):
         "project_name": None,
         "results": [],
         "status": "PASSED",
+        "ci_info": {
+            "branch": "stacklet-dev/test-branch",
+            "build_code": "1337",
+            "build_url": "https://github.com/stacklet/sinistral-cli/actions/runs/1337",
+            "commit_sha": "abc123",
+            "job_code": "CI",
+            "pull_request_number": "1337",
+            "repo": "stacklet/sinistral-cli",
+            "service": "github-actions",
+            "repo_url": "https://github.com/stacklet/sinistral-cli",
+        },
     }
 
 

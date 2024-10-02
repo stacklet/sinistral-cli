@@ -207,6 +207,52 @@ class Create(ClientCommand):
                     "type": "string",
                     "description": "An enumeration.",
                 },
+                "ci_info": {
+                    "oneOf": [
+                        {"type": "null"},
+                        {
+                            "type": "object",
+                            "properties": {
+                                "service": {
+                                    "title": "Service",
+                                    "type": "string",
+                                },
+                                "build_url": {
+                                    "title": "BuildUrl",
+                                    "type": "string",
+                                },
+                                "build_code": {
+                                    "title": "BuildCode",
+                                    "type": "string",
+                                },
+                                "job_code": {
+                                    "title": "JobCode",
+                                    "type": "string",
+                                },
+                                "pull_request_number": {
+                                    "title": "PRNumber",
+                                    "type": "string",
+                                },
+                                "branch": {
+                                    "title": "Branch",
+                                    "type": "string",
+                                },
+                                "commit_sha": {
+                                    "title": "CommitSHA",
+                                    "type": "string",
+                                },
+                                "repo": {
+                                    "title": "Repo",
+                                    "type": "string",
+                                },
+                                "repo_url": {
+                                    "title": "RepoUrl",
+                                    "type": "string",
+                                },
+                            },
+                        },
+                    ],
+                },
             },
         }
     }

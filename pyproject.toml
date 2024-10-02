@@ -21,6 +21,7 @@ pyjwt = "^2.6.0"
 pyrsistent = "^0.19.3"
 pyyaml = "^6.0"
 c7n-left = "==0.3.27"
+codecov-cli = "^0.7.4"
 
 
 [tool.poetry.group.dev.dependencies]
