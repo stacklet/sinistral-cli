@@ -45,7 +45,7 @@ class SinistralFormat(Json):
             if result is None:
                 result = ""
 
-            key = key_map.get(prop) or prop
+            key = key_map.get(prop, prop)
             data[key] = result
 
         # code-cov currently doesn't have a generic way to get the service
