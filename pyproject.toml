@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "stacklet.client.sinistral"
-version = "0.3.0"
+version = "0.4.0"
 description = "Sinistral CLI"
 authors = ["Sonny Shi <sonny@stacklet.io>"]
 maintainers = ["Stacklet <hello@stacklet.io>"]
