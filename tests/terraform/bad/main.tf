@@ -15,3 +15,11 @@ module "sqs" {
     Environment = "dev"
   }
 }
+
+removed {
+  from = module.deprecated
+
+  lifecycle {
+    destroy = false
+  }
+}
