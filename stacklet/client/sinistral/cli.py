@@ -1,5 +1,6 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
+import sys
 import click
 import jwt
 
@@ -17,7 +18,15 @@ import stacklet.client.sinistral.client  # noqa
 
 
 def main():
-    cli(auto_envvar_prefix="SINISTRAL")
+
+    try:
+        cli(auto_envvar_prefix="SINISTRAL")
+    except Exception as error:
+        if is_debug():
+            raise error
+        else:
+            click.echo("Errors:")
+            click.echo(error)
 
 
 @click.group()
@@ -77,6 +86,9 @@ def main():
     help="Verbosity level, increase verbosity by appending v, e.g. -vvv",
     default=0,
     count=True,
+)
+@click.option(
+    "-d", "--debug", help="Debug output", is_flag=True, show_default=True, default=False
 )
 @click.pass_context
 def cli(ctx, **params):
@@ -226,6 +238,20 @@ def login(ctx, username, password, *args, **kwargs):
 
 for c in commands:
     cli.add_command(c)
+
+
+def is_debug():
+    """
+    Since we handle all errors before anything cli does, check if debug is on.
+    Still -d / --debug flag is valid flag we define for click so it can be used else where
+    """
+    argv = sys.argv.copy()
+    argv = argv[1:]
+    for arg in argv:
+        if arg in ["-d", "--debug"]:
+            return True
+
+    return False
 
 
 if __name__ == "__main__":
