@@ -27,6 +27,7 @@ def main():
         else:
             click.echo("Errors:")
             click.echo(error)
+            sys.exit(1)
 
 
 @click.group()
@@ -245,8 +246,7 @@ def is_debug():
     Since we handle all errors before anything cli does, check if debug is on.
     Still -d / --debug flag is valid flag we define for click so it can be used else where
     """
-    argv = sys.argv.copy()
-    argv = argv[1:]
+    argv = sys.argv[1:]
     for arg in argv:
         if arg in ["-d", "--debug"]:
             return True
