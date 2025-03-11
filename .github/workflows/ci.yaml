@@ -32,17 +32,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: wistia/parse-tool-versions@v1.0
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: poetry
-
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1
         with:
           version: ${{ env.POETRY_TOOL_VERSION }}
           virtualenvs-in-project: true
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: poetry
 
       - name: Install dependencies
         shell: bash
