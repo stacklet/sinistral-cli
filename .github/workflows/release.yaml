@@ -8,18 +8,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: wistia/parse-tool-versions@v1.0
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
+
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1
         with:
-          version: 1.5.1
+          version: ${{ env.POETRY_TOOL_VERSION }}
+          virtualenvs-in-project: true
+
       - name: Build a binary wheel and a source tarball
         run: poetry build
+
       - name: Store the distribution packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: python-package-distributions
           path: dist/
@@ -38,7 +44,7 @@ jobs:
       id-token: write # IMPORTANT: mandatory for trusted publishing
     steps:
       - name: Download all the dists
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: python-package-distributions
           path: dist/
@@ -61,7 +67,7 @@ jobs:
       id-token: write # IMPORTANT: mandatory for sigstore
     steps:
       - name: Download all the dists
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: python-package-distributions
           path: dist/
