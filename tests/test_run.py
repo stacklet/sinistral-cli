@@ -1,20 +1,20 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import pathlib
-from unittest.mock import patch, Mock
+
+from unittest.mock import Mock, patch
 
 from click.testing import CliRunner
 
+from stacklet.client.sinistral.cli import cli
+from stacklet.client.sinistral.context import StackletContext
+from stacklet.client.sinistral.executor import RestExecutor
 
 from .utils import (
-    get_policies_for_project_response,
     create_scan_response,
     get_mock_response,
+    get_policies_for_project_response,
 )
-
-from stacklet.client.sinistral.cli import cli
-from stacklet.client.sinistral.executor import RestExecutor
-from stacklet.client.sinistral.context import StackletContext
 
 
 def test_run_command():

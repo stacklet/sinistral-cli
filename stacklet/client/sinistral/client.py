@@ -3,15 +3,15 @@
 import json
 import sys
 
-from jsonschema import validate
 from functools import partial
 
 import click
 
+from jsonschema import validate
+
 from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.executor import RestExecutor
 from stacklet.client.sinistral.formatter import Formatter
-
 from stacklet.client.sinistral.registry import PluginRegistry
 
 

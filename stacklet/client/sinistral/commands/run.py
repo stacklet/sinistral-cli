@@ -9,11 +9,12 @@ import click
 import yaml
 
 from c7n.config import Config
-from c7n_left.cli import get_config, run as left_run
+from c7n_left.cli import get_config
+from c7n_left.cli import run as left_run
 from c7n_left.output import MultiOutput, get_reporter
 
-from stacklet.client.sinistral.output import SinistralFormat
 from stacklet.client.sinistral.client import sinistral_client
+from stacklet.client.sinistral.output import SinistralFormat
 
 
 log = logging.getLogger("sinistral.run")

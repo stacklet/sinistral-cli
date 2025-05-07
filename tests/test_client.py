@@ -7,16 +7,16 @@ from unittest.mock import MagicMock, patch
 import click
 import pytest
 
-from .utils import get_mock_response
-
 from stacklet.client.sinistral.client import (
-    validate_list,
-    validate_types,
     parse_jsonschema,
     sinistral_client,
+    validate_list,
+    validate_types,
 )
-from stacklet.client.sinistral.executor import RestExecutor
 from stacklet.client.sinistral.context import StackletContext
+from stacklet.client.sinistral.executor import RestExecutor
+
+from .utils import get_mock_response
 
 
 @pytest.fixture(autouse=True, scope="module")

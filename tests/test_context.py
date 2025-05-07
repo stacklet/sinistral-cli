@@ -1,12 +1,13 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import tempfile
+
 from unittest.mock import Mock
 
 import pytest
 
-from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.config import StackletConfig
+from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.exceptions import ConfigValidationException
 
 

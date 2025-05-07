@@ -3,6 +3,7 @@ import re
 
 from jsonref import replace_refs
 
+
 with open("scripts/openapi.json", "r") as f:
     openapi = replace_refs(json.load(f))
 

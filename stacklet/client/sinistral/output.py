@@ -1,15 +1,16 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
-import click
 import json
 
+from urllib.parse import urlparse
+
+import click
 import jmespath
 
-from c7n_left.output import Json, report_outputs, RichCli, JSONEncoder, MultiOutput
+from c7n_left.output import Json, JSONEncoder, MultiOutput, RichCli, report_outputs
+from codecov_cli.helpers.ci_adapters import get_ci_adapter
 
 from stacklet.client.sinistral.client import sinistral_client
-from urllib.parse import urlparse
-from codecov_cli.helpers.ci_adapters import get_ci_adapter
 
 
 class SinistralFormat(Json):

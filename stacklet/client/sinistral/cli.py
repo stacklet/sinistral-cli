@@ -1,10 +1,14 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import sys
+
+from pathlib import Path
+
 import click
 import jwt
 
-from pathlib import Path
+import stacklet.client.sinistral.client  # noqa
+import stacklet.client.sinistral.output  # noqa
 
 from stacklet.client.sinistral.cognito import CognitoUserManager
 from stacklet.client.sinistral.commands import commands
@@ -12,9 +16,6 @@ from stacklet.client.sinistral.config import StackletConfig
 from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.formatter import Formatter
 from stacklet.client.sinistral.utils import populate_context
-
-import stacklet.client.sinistral.output  # noqa
-import stacklet.client.sinistral.client  # noqa
 
 
 def main():
