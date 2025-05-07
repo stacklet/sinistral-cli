@@ -3,6 +3,7 @@
 """
 Handle configuration for the CLI
 """
+
 import json
 
 from pathlib import Path

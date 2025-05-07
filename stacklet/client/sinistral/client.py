@@ -177,9 +177,7 @@ class SinistralClient:
             return result()
         raise Exception(f"{name} client not found")
 
-    def make_request(
-        self, method, path, _json={}, output="raw", schema=None, q_params={}
-    ):
+    def make_request(self, method, path, _json={}, output="raw", schema=None, q_params={}):
         with self.ctx as context:
             token = context.get_access_token()
             if not token:

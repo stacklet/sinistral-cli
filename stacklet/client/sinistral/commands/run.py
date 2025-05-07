@@ -40,9 +40,7 @@ class LeftWrapper(click.core.Command):
 
 
 @click.command(name="run", cls=LeftWrapper)
-@click.option(
-    "--project", required=False, help="Either project or policy dir must be set."
-)
+@click.option("--project", required=False, help="Either project or policy dir must be set.")
 @click.option("--dryrun", is_flag=True)
 @click.pass_context
 def run(ctx, project, dryrun, *args, **kwargs):

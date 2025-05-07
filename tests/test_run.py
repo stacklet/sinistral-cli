@@ -87,12 +87,9 @@ def test_submit_run_fail():
             assert patched_post.mock_calls[0].args[2]["status"] == "FAILED"
             assert len(patched_post.mock_calls[0].args[2]["results"]) == 1
             assert (
-                patched_post.mock_calls[0].args[2]["results"][0]["policy"]["name"]
-                == "check-tags"
+                patched_post.mock_calls[0].args[2]["results"][0]["policy"]["name"] == "check-tags"
             )
             assert (
-                patched_post.mock_calls[0].args[2]["results"][0]["resource"][
-                    "__tfmeta"
-                ]["path"]
+                patched_post.mock_calls[0].args[2]["results"][0]["resource"]["__tfmeta"]["path"]
                 == "aws_sqs_queue.test_sqs"
             )

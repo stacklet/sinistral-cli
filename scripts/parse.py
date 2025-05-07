@@ -87,9 +87,7 @@ class {name}(Client):
 
     commands = PluginRegistry("commands")
 
-'''.format(
-        name=name, client_name=client_name
-    )
+'''.format(name=name, client_name=client_name)
 
 
 def format_imports():
@@ -120,9 +118,7 @@ if __name__ == "__main__":
                 continue
 
             command = summary.replace(" ", "")
-            path_params, query_params, payload_params = parse_params(
-                parameters, request_body
-            )
+            path_params, query_params, payload_params = parse_params(parameters, request_body)
 
             classes.setdefault(name, {})
             classes[name]["__class__"] = format_class(name)
@@ -140,9 +136,7 @@ if __name__ == "__main__":
 
     for k, v in classes.items():
         write_class = True
-        with open(
-            f"stacklet/client/sinistral/commands/{convert_to_snake(k)}.py", "w+"
-        ) as f:
+        with open(f"stacklet/client/sinistral/commands/{convert_to_snake(k)}.py", "w+") as f:
             f.writelines(
                 [
                     "# Copyright Stacklet, Inc.\n",

@@ -19,7 +19,6 @@ from stacklet.client.sinistral.utils import populate_context
 
 
 def main():
-
     try:
         cli(auto_envvar_prefix="SINISTRAL")
     except Exception as error:
@@ -89,9 +88,7 @@ def main():
     default=0,
     count=True,
 )
-@click.option(
-    "-d", "--debug", help="Debug output", is_flag=True, show_default=True, default=False
-)
+@click.option("-d", "--debug", help="Debug output", is_flag=True, show_default=True, default=False)
 @click.pass_context
 def cli(ctx, **params):
     """
@@ -128,14 +125,10 @@ def cli(ctx, **params):
     prompt="(SSO or user/pass auth) Cognito User Pool Client ID",
     default="",
 )
-@click.option(
-    "--cognito-user-pool-id", prompt="(user/pass auth) Cognito User Pool ID", default=""
-)
+@click.option("--cognito-user-pool-id", prompt="(user/pass auth) Cognito User Pool ID", default="")
 @click.option("--idp-id", prompt="(SSO) IDP ID", default="")
 @click.option("--auth-url", prompt="(SSO, Project, or Org auth) Auth Url", default="")
-@click.option(
-    "--config-dir", prompt="Config directory", default="~/.stacklet/sinistral"
-)
+@click.option("--config-dir", prompt="Config directory", default="~/.stacklet/sinistral")
 def configure(config_dir, **kwargs):
     """
     Interactively save a Stacklet Config file
@@ -161,9 +154,7 @@ def show(ctx, *args, **kwargs):
             click.echo()
         access_token = context.get_access_token()
         if access_token:
-            access_details = jwt.decode(
-                access_token, options={"verify_signature": False}
-            )
+            access_details = jwt.decode(access_token, options={"verify_signature": False})
             click.echo(context.fmt(access_details))
             click.echo()
         click.echo(context.fmt(context.config.to_dict()))
