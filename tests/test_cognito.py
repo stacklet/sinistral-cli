@@ -6,8 +6,10 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 import boto3
+
 from click.testing import CliRunner
 from moto import mock_cognitoidp
+
 from stacklet.client.sinistral.cli import cli
 from stacklet.client.sinistral.cognito import CognitoUserManager
 from stacklet.client.sinistral.config import StackletConfig

@@ -2,10 +2,10 @@ import sys
 
 import boto3
 import click
+import semver
 
 # in python 3.11 we should switch out to tomllib
 import toml
-import semver
 
 
 CODEARTIFACT_DOMAIN = "stacklet"
