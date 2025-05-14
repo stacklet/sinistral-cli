@@ -47,9 +47,7 @@ from stacklet.client.sinistral.context import StackletCredentialWriter
 class ClientRedirectServer(http.server.HTTPServer):
     query_params = {}
 
-    def __init__(
-        self, auth_url, server_address, RequestHandlerClass, bind_and_activate=True
-    ):
+    def __init__(self, auth_url, server_address, RequestHandlerClass, bind_and_activate=True):
         super().__init__(server_address, RequestHandlerClass, bind_and_activate)
         self.log = logging.getLogger("ClientRedirectServer")
         self.completed = False
@@ -61,14 +59,10 @@ class ClientRedirectServer(http.server.HTTPServer):
         # On Windows, HTTPServer by default doesn't throw error if the port is in-use
         # https://github.com/Azure/azure-cli/issues/10578
         if BrowserAuthenticator.is_windows():
-            self.log.debug(
-                "Windows is detected. Set HTTPServer.allow_reuse_address to False"
-            )
+            self.log.debug("Windows is detected. Set HTTPServer.allow_reuse_address to False")
             self.allow_reuse_address = False
         elif BrowserAuthenticator.is_wsl():
-            self.log.debug(
-                "WSL is detected. Set HTTPServer.allow_reuse_address to False"
-            )
+            self.log.debug("WSL is detected. Set HTTPServer.allow_reuse_address to False")
             self.allow_reuse_address = False
 
 

@@ -7,16 +7,16 @@ from unittest.mock import MagicMock, patch
 import click
 import pytest
 
-from .utils import get_mock_response
-
 from stacklet.client.sinistral.client import (
-    validate_list,
-    validate_types,
     parse_jsonschema,
     sinistral_client,
+    validate_list,
+    validate_types,
 )
-from stacklet.client.sinistral.executor import RestExecutor
 from stacklet.client.sinistral.context import StackletContext
+from stacklet.client.sinistral.executor import RestExecutor
+
+from .utils import get_mock_response
 
 
 @pytest.fixture(autouse=True, scope="module")
@@ -210,27 +210,21 @@ def test_sinistral_client_clients_instantiated():
 
 def test_client_command_get():
     client = sinistral_client().client("projects")
-    with patch.object(
-        RestExecutor, "get", return_value=get_mock_response(json={"foo": "bar"})
-    ):
+    with patch.object(RestExecutor, "get", return_value=get_mock_response(json={"foo": "bar"})):
         res = client.list()
         assert res == {"foo": "bar"}
 
 
 def test_client_command_post():
     client = sinistral_client().client("projects")
-    with patch.object(
-        RestExecutor, "post", return_value=get_mock_response(json={"created": True})
-    ):
+    with patch.object(RestExecutor, "post", return_value=get_mock_response(json={"created": True})):
         res = client.create(name="foo", collections=[], groups={})
         assert res == {"created": True}
 
 
 def test_client_command_put():
     client = sinistral_client().client("projects")
-    with patch.object(
-        RestExecutor, "put", return_value=get_mock_response(json={"updated": True})
-    ):
+    with patch.object(RestExecutor, "put", return_value=get_mock_response(json={"updated": True})):
         res = client.update(name="foo", collections=[], groups={})
         assert res == {"updated": True}
 
@@ -257,9 +251,7 @@ def test_client_command_unauthorized():
 
 def test_client_command_auto_project_auth(empty_access_token, mock_project_creds):
     client = sinistral_client().client("projects")
-    with patch.object(
-        RestExecutor, "get", return_value=get_mock_response(json={"foo": "bar"})
-    ):
+    with patch.object(RestExecutor, "get", return_value=get_mock_response(json={"foo": "bar"})):
         res = client.list()
         assert res == {"foo": "bar"}
         assert StackletContext.do_project_auth.called
@@ -268,9 +260,7 @@ def test_client_command_auto_project_auth(empty_access_token, mock_project_creds
 
 def test_client_command_auto_org_auth(empty_access_token, mock_org_creds):
     client = sinistral_client().client("projects")
-    with patch.object(
-        RestExecutor, "get", return_value=get_mock_response(json={"foo": "bar"})
-    ):
+    with patch.object(RestExecutor, "get", return_value=get_mock_response(json={"foo": "bar"})):
         res = client.list()
         assert res == {"foo": "bar"}
         assert not StackletContext.do_project_auth.called

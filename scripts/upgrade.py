@@ -2,9 +2,8 @@ import sys
 
 import boto3
 import click
-
-import tomlkit
 import semver
+import tomlkit
 
 
 CODEARTIFACT_DOMAIN = "stacklet"

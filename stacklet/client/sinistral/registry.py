@@ -28,6 +28,4 @@ class PluginRegistry:
         elif default in self._factories:
             return self._factories[default]
         else:
-            raise InvalidInputException(
-                f"Unknown {self.plugin_type} plugin: {name} or {default}"
-            )
+            raise InvalidInputException(f"Unknown {self.plugin_type} plugin: {name} or {default}")
