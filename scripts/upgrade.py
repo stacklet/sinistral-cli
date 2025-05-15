@@ -3,9 +3,7 @@ import sys
 import boto3
 import click
 import semver
-
-# in python 3.11 we should switch out to tomllib
-import toml
+import tomlkit
 
 
 CODEARTIFACT_DOMAIN = "stacklet"
@@ -26,7 +24,7 @@ def cli():
 def check_publish():
     client = boto3.client("codeartifact")
     with open("pyproject.toml") as f:
-        pyproject = toml.load(f)
+        pyproject = tomlkit.load(f)
 
     current = pyproject["tool"]["poetry"]["version"]
     current_parsed = semver.VersionInfo.parse(current)
@@ -69,7 +67,7 @@ def upgrade(bump_patch, bump_minor, bump_major):
         sys.exit(1)
 
     with open("pyproject.toml") as f:
-        pyproject = toml.load(f)
+        pyproject = tomlkit.load(f)
 
     current = pyproject["tool"]["poetry"]["version"]
     current_parsed = semver.VersionInfo.parse(current)
@@ -90,7 +88,7 @@ def upgrade(bump_patch, bump_minor, bump_major):
     pyproject["tool"]["poetry"]["version"] = upgraded
 
     with open("pyproject.toml", "w+") as f:
-        toml.dump(pyproject, f)
+        tomlkit.dump(pyproject, f)
 
 
 if __name__ == "__main__":
