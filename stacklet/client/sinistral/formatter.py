@@ -3,6 +3,7 @@
 import json
 
 import yaml
+
 from stacklet.client.sinistral.registry import PluginRegistry
 
 

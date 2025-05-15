@@ -9,11 +9,12 @@ import click
 import yaml
 
 from c7n.config import Config
-from c7n_left.cli import get_config, run as left_run
+from c7n_left.cli import get_config
+from c7n_left.cli import run as left_run
 from c7n_left.output import MultiOutput, get_reporter
 
-from stacklet.client.sinistral.output import SinistralFormat
 from stacklet.client.sinistral.client import sinistral_client
+from stacklet.client.sinistral.output import SinistralFormat
 
 
 log = logging.getLogger("sinistral.run")
@@ -39,9 +40,7 @@ class LeftWrapper(click.core.Command):
 
 
 @click.command(name="run", cls=LeftWrapper)
-@click.option(
-    "--project", required=False, help="Either project or policy dir must be set."
-)
+@click.option("--project", required=False, help="Either project or policy dir must be set.")
 @click.option("--dryrun", is_flag=True)
 @click.pass_context
 def run(ctx, project, dryrun, *args, **kwargs):

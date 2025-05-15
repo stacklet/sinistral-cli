@@ -1,15 +1,16 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
-import click
 import json
 
+from urllib.parse import urlparse
+
+import click
 import jmespath
 
-from c7n_left.output import Json, report_outputs, RichCli, JSONEncoder, MultiOutput
+from c7n_left.output import Json, JSONEncoder, MultiOutput, RichCli, report_outputs
+from codecov_cli.helpers.ci_adapters import get_ci_adapter
 
 from stacklet.client.sinistral.client import sinistral_client
-from urllib.parse import urlparse
-from codecov_cli.helpers.ci_adapters import get_ci_adapter
 
 
 class SinistralFormat(Json):
@@ -55,9 +56,7 @@ class SinistralFormat(Json):
         if data["build_url"] is not None:
             build_url = data["build_url"]
             parsed_url = urlparse(build_url)
-            data[
-                "repo_url"
-            ] = f"{parsed_url.scheme}://{parsed_url.netloc}/{data['repo']}"
+            data["repo_url"] = f"{parsed_url.scheme}://{parsed_url.netloc}/{data['repo']}"
         else:
             data["repo_url"] = ""
 
@@ -66,15 +65,11 @@ class SinistralFormat(Json):
     def on_execution_ended(self):
         formatted_results = [self.format_result(r) for r in self.results]
         if self.config.output_query:
-            formatted_results = jmespath.search(
-                self.config.output_query, formatted_results
-            )
+            formatted_results = jmespath.search(self.config.output_query, formatted_results)
 
         status = None
 
-        results = json.loads(
-            json.dumps({"results": formatted_results}, cls=JSONEncoder)
-        )["results"]
+        results = json.loads(json.dumps({"results": formatted_results}, cls=JSONEncoder))["results"]
 
         status = "PASSED" if not results else "FAILED"
 

@@ -3,11 +3,13 @@
 """
 Handle configuration for the CLI
 """
+
 import json
 
 from pathlib import Path
 
 import jsonschema
+
 from stacklet.client.sinistral.exceptions import ConfigValidationException
 
 

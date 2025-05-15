@@ -1,20 +1,20 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
 import pathlib
-from unittest.mock import patch, Mock
+
+from unittest.mock import Mock, patch
 
 from click.testing import CliRunner
 
+from stacklet.client.sinistral.cli import cli
+from stacklet.client.sinistral.context import StackletContext
+from stacklet.client.sinistral.executor import RestExecutor
 
 from .utils import (
-    get_policies_for_project_response,
     create_scan_response,
     get_mock_response,
+    get_policies_for_project_response,
 )
-
-from stacklet.client.sinistral.cli import cli
-from stacklet.client.sinistral.executor import RestExecutor
-from stacklet.client.sinistral.context import StackletContext
 
 
 def test_run_command():
@@ -87,12 +87,9 @@ def test_submit_run_fail():
             assert patched_post.mock_calls[0].args[2]["status"] == "FAILED"
             assert len(patched_post.mock_calls[0].args[2]["results"]) == 1
             assert (
-                patched_post.mock_calls[0].args[2]["results"][0]["policy"]["name"]
-                == "check-tags"
+                patched_post.mock_calls[0].args[2]["results"][0]["policy"]["name"] == "check-tags"
             )
             assert (
-                patched_post.mock_calls[0].args[2]["results"][0]["resource"][
-                    "__tfmeta"
-                ]["path"]
+                patched_post.mock_calls[0].args[2]["results"][0]["resource"]["__tfmeta"]["path"]
                 == "aws_sqs_queue.test_sqs"
             )

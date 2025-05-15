@@ -1,19 +1,19 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
-from click.core import Group, Command, Option
+from click.core import Command, Group, Option
+
+import stacklet.client.sinistral.commands.group  # noqa
+import stacklet.client.sinistral.commands.org  # noqa
+import stacklet.client.sinistral.commands.policy  # noqa
+import stacklet.client.sinistral.commands.policy_collections  # noqa
+import stacklet.client.sinistral.commands.policy_sources  # noqa
+import stacklet.client.sinistral.commands.projects  # noqa
+import stacklet.client.sinistral.commands.scans  # noqa
+
+from stacklet.client.sinistral.client import client_registry, parse_jsonschema
 
 from .dump import dump
 from .run import run
-
-import stacklet.client.sinistral.commands.policy  # noqa
-import stacklet.client.sinistral.commands.policy_sources  # noqa
-import stacklet.client.sinistral.commands.policy_collections  # noqa
-import stacklet.client.sinistral.commands.projects  # noqa
-import stacklet.client.sinistral.commands.scans  # noqa
-import stacklet.client.sinistral.commands.group  # noqa
-import stacklet.client.sinistral.commands.org  # noqa
-
-from stacklet.client.sinistral.client import client_registry, parse_jsonschema
 
 
 commands = [run, dump]

@@ -3,15 +3,15 @@
 import json
 import sys
 
-from jsonschema import validate
 from functools import partial
 
 import click
 
+from jsonschema import validate
+
 from stacklet.client.sinistral.context import StackletContext
 from stacklet.client.sinistral.executor import RestExecutor
 from stacklet.client.sinistral.formatter import Formatter
-
 from stacklet.client.sinistral.registry import PluginRegistry
 
 
@@ -177,9 +177,7 @@ class SinistralClient:
             return result()
         raise Exception(f"{name} client not found")
 
-    def make_request(
-        self, method, path, _json={}, output="raw", schema=None, q_params={}
-    ):
+    def make_request(self, method, path, _json={}, output="raw", schema=None, q_params={}):
         with self.ctx as context:
             token = context.get_access_token()
             if not token:
