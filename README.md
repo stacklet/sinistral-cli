@@ -3,8 +3,7 @@
 ## Setup
 
 ```
-$ poetry shell
-$ poetry install
+$ just install
 ```
 
 Create a config file at `~/.stacklet/sinistral/config.json`:
