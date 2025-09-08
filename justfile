@@ -2,19 +2,18 @@ default:
 	@just --list
 
 install:
-	poetry install
-	poetry run pre-commit install
+	uv sync
+	uv run pre-commit install
 
 test *flags:
-	poetry run pytest --cov=stacklet {{ flags }}
+	uv run pytest --cov=stacklet {{ flags }}
 
 pkg-prep bump="--bump-patch":
-	poetry run python scripts/upgrade.py upgrade {{bump}}
-	poetry update
-	poetry lock
-	git add justfile pyproject.toml poetry.lock
+	uv run python scripts/upgrade.py upgrade {{bump}}
+	uv lock --upgrade
+	git add justfile pyproject.toml uv.lock
 	git status
 
 generate:
-  poetry run python scripts/parse.py
+  uv run python scripts/parse.py
   black stacklet

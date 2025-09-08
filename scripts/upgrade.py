@@ -1,16 +1,8 @@
 import sys
 
-import boto3
 import click
 import semver
 import tomlkit
-
-
-CODEARTIFACT_DOMAIN = "stacklet"
-CODEARTIFACT_DOMAIN_OWNER = "653993915282"  # customer-delivery
-CODEARTIFACT_REPOSITORY = "stacklet.client.sinistral"
-CODEARTIFACT_FORMAT = "pypi"
-CODEARTIFACT_PACKAGE = "stacklet-client-sinistral"
 
 
 @click.group()
@@ -18,43 +10,6 @@ def cli():
     """
     stacklet-sinistral upgrade tools
     """
-
-
-@cli.command()
-def check_publish():
-    client = boto3.client("codeartifact")
-    with open("pyproject.toml") as f:
-        pyproject = tomlkit.load(f)
-
-    current = pyproject["tool"]["poetry"]["version"]
-    current_parsed = semver.VersionInfo.parse(current)
-
-    kwargs = {
-        "domain": CODEARTIFACT_DOMAIN,
-        "domainOwner": CODEARTIFACT_DOMAIN_OWNER,
-        "repository": CODEARTIFACT_REPOSITORY,
-        "format": CODEARTIFACT_FORMAT,
-        "package": CODEARTIFACT_PACKAGE,
-    }
-
-    try:
-        package_versions = client.list_package_versions(**kwargs)
-        versions = [v["version"] for v in package_versions["versions"]]
-    except client.exceptions.ResourceNotFoundException:
-        versions = []
-
-    # if our current version is already published we skip and exit 1
-    if current_parsed in versions:
-        click.echo(
-            f"{CODEARTIFACT_PACKAGE}=={current_parsed} already in codeartifact repo, skipping"
-        )
-        sys.exit(1)
-    else:
-        click.echo(
-            f"{CODEARTIFACT_PACKAGE}=={current_parsed} not in remote codeartifact repo,"
-            " OK to publish"
-        )
-        sys.exit(0)
 
 
 @cli.command()
@@ -69,7 +24,7 @@ def upgrade(bump_patch, bump_minor, bump_major):
     with open("pyproject.toml") as f:
         pyproject = tomlkit.load(f)
 
-    current = pyproject["tool"]["poetry"]["version"]
+    current = pyproject["project"]["version"]
     current_parsed = semver.VersionInfo.parse(current)
 
     major = current_parsed.major
@@ -84,8 +39,8 @@ def upgrade(bump_patch, bump_minor, bump_major):
         major += 1
 
     upgraded = ".".join([str(x) for x in (major, minor, patch)])
-    click.echo(f"stacklet-admin: {current_parsed} -> {upgraded}")
-    pyproject["tool"]["poetry"]["version"] = upgraded
+    click.echo(f"sinistral-cli: {current_parsed} -> {upgraded}")
+    pyproject["project"]["version"] = upgraded
 
     with open("pyproject.toml", "w+") as f:
         tomlkit.dump(pyproject, f)
