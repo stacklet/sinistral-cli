@@ -112,7 +112,7 @@ class SinistralFormat(Json):
         )
 
         if res.get("id"):
-            click.echo(f'Results submitted: id:{res["id"]}')
+            click.echo(f"Results submitted: id:{res['id']}")
             pass
 
 

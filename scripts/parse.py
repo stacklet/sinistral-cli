@@ -29,9 +29,9 @@ def parse_params(params, request_body):
 
     for i in params:
         if i["in"] == "path":
-            path_result.setdefault(f'--{i["name"]}', {"required": bool(i["required"])})
+            path_result.setdefault(f"--{i['name']}", {"required": bool(i["required"])})
         if i["in"] == "query":
-            query_result.setdefault(f'--{i["name"]}', {"required": bool(i["required"])})
+            query_result.setdefault(f"--{i['name']}", {"required": bool(i["required"])})
 
     return path_result, query_result, payload_result
 

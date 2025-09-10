@@ -1,18 +1,24 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.6.3
+    rev: v0.13.0
     hooks:
       # Run the linter.
-      - id: ruff
+      - id: ruff-check
       # Run the formatter.
       - id: ruff-format
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
-        exclude: ^tests/.*/fixtures/.*
       - id: end-of-file-fixer
-        exclude: ^tests/.*/fixtures/.*
       - id: debug-statements
+
+  # A hack to get dependabot to find security vulnerabilities in our dependencies
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.8.16
+    hooks:
+      - id: uv-export
+        files: ^(uv\.lock|pyproject\.toml|uv\.toml)$
+        args: ["--frozen", "--no-emit-project", "--no-hashes", "--output-file=requirements.txt", "--quiet"]
