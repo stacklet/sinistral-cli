@@ -8,7 +8,7 @@ from unittest.mock import Mock
 import boto3
 
 from click.testing import CliRunner
-from moto import mock_cognitoidp
+from moto import mock_aws
 
 from stacklet.client.sinistral.cli import cli
 from stacklet.client.sinistral.cognito import CognitoUserManager
@@ -20,7 +20,7 @@ class CognitoUserManagerTest(TestCase):
     runner = CliRunner()
     cli = cli
 
-    mock_cognitoidp = mock_cognitoidp()
+    mock_cognitoidp = mock_aws()
     region = "us-east-1"
 
     def setUp(self):

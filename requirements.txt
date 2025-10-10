@@ -4,53 +4,55 @@ argcomplete==3.6.2
     # via c7n
 asttokens==3.0.0
     # via stack-data
-attrs==25.3.0
+attrs==25.4.0
     # via
     #   jsonschema
     #   referencing
-boto3==1.39.4
+boto3==1.40.11
     # via
     #   c7n
     #   moto
     #   stacklet-client-sinistral
-botocore==1.39.10
+botocore==1.40.11
     # via
     #   boto3
     #   moto
     #   s3transfer
-c7n==0.9.46
+    #   stacklet-client-sinistral
+c7n==0.9.47
     # via c7n-left
-c7n-left==0.3.32
+c7n-left==0.3.33
     # via stacklet-client-sinistral
-certifi==2025.7.14
+certifi==2025.10.5
     # via
     #   requests
     #   sentry-sdk
-cffi==1.17.1
+cffi==2.0.0
     # via
     #   cryptography
     #   tfparse
 cfgv==3.4.0
     # via pre-commit
-charset-normalizer==3.4.2
+charset-normalizer==3.4.3
     # via requests
 click==8.2.1
     # via
     #   c7n-left
     #   codecov-cli
     #   stacklet-client-sinistral
-codecov-cli==11.1.0
+codecov-cli==11.2.3
     # via stacklet-client-sinistral
 colorama==0.4.6 ; sys_platform == 'win32'
     # via
     #   click
     #   ipython
     #   pytest
-coverage==7.9.2
+coverage==7.10.7
     # via pytest-cov
 cryptography==44.0.3
     # via
     #   c7n
+    #   joserfc
     #   moto
 decorator==5.2.1
     # via
@@ -64,11 +66,11 @@ exceptiongroup==1.3.0 ; python_full_version < '3.11'
     # via
     #   ipython
     #   pytest
-executing==2.2.0
+executing==2.2.1
     # via stack-data
-filelock==3.18.0
+filelock==3.20.0
     # via virtualenv
-identify==2.6.12
+identify==2.6.15
     # via pre-commit
 idna==3.10
     # via requests
@@ -77,8 +79,12 @@ ijson==3.4.0
 iniconfig==2.1.0
     # via pytest
 ipdb==0.13.13
-ipython==8.37.0
+ipython==8.37.0 ; python_full_version < '3.11'
     # via ipdb
+ipython==9.6.0 ; python_full_version >= '3.11'
+    # via ipdb
+ipython-pygments-lexers==1.1.1 ; python_full_version >= '3.11'
+    # via ipython
 jedi==0.19.2
     # via ipython
 jinja2==3.1.6
@@ -88,18 +94,20 @@ jmespath==1.0.1
     #   boto3
     #   botocore
     #   stacklet-client-sinistral
+joserfc==1.4.0
+    # via moto
 jsonref==1.1.0
-jsonschema==4.24.0
+jsonschema==4.25.1
     # via
     #   c7n
     #   stacklet-client-sinistral
-jsonschema-specifications==2025.4.1
+jsonschema-specifications==2025.9.1
     # via jsonschema
-lark==1.2.2
+lark==1.3.0
     # via python-hcl2
-markdown-it-py==3.0.0
+markdown-it-py==4.0.0
     # via rich
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   jinja2
     #   werkzeug
@@ -107,21 +115,23 @@ matplotlib-inline==0.1.7
     # via ipython
 mdurl==0.1.2
     # via markdown-it-py
-moto==4.2.14
+moto==5.1.14
 nodeenv==1.9.1
     # via pre-commit
 packaging==25.0
     # via pytest
-parso==0.8.4
+parso==0.8.5
     # via jedi
 pexpect==4.9.0 ; sys_platform != 'emscripten' and sys_platform != 'win32'
     # via ipython
-platformdirs==4.3.8
+platformdirs==4.5.0
     # via virtualenv
 pluggy==1.6.0
-    # via pytest
+    # via
+    #   pytest
+    #   pytest-cov
 pre-commit==4.3.0
-prompt-toolkit==3.0.51
+prompt-toolkit==3.0.52
     # via ipython
 ptyprocess==0.7.0 ; sys_platform != 'emscripten' and sys_platform != 'win32'
     # via pexpect
@@ -131,19 +141,21 @@ pyasn1==0.6.1
     # via
     #   python-jose
     #   rsa
-pycparser==2.22
+pycparser==2.23 ; implementation_name != 'PyPy'
     # via cffi
 pygments==2.19.2
     # via
     #   ipython
+    #   ipython-pygments-lexers
+    #   pytest
     #   rich
 pyjwt==2.10.1
     # via stacklet-client-sinistral
-pyrsistent==0.19.3
+pyrsistent==0.20.0
     # via stacklet-client-sinistral
-pytest==7.4.4
+pytest==8.4.2
     # via pytest-cov
-pytest-cov==4.1.0
+pytest-cov==7.0.0
 python-dateutil==2.9.0.post0
     # via
     #   botocore
@@ -162,7 +174,7 @@ referencing==0.36.2
     # via
     #   jsonschema
     #   jsonschema-specifications
-requests==2.32.4
+requests==2.32.5
     # via
     #   moto
     #   responses
@@ -171,19 +183,19 @@ responses==0.21.0
     # via
     #   codecov-cli
     #   moto
-rich==14.0.0
+rich==14.1.0
     # via c7n-left
-rpds-py==0.26.0
+rpds-py==0.27.1
     # via
     #   jsonschema
     #   referencing
 rsa==4.9.1
     # via python-jose
-ruff==0.13.0
+ruff==0.14.0
 s3transfer==0.13.1
     # via boto3
 semver==3.0.4
-sentry-sdk==2.34.1
+sentry-sdk==2.41.0
     # via codecov-cli
 six==1.17.0
     # via
@@ -195,9 +207,9 @@ tabulate==0.9.0
     # via c7n
 test-results-parser==0.5.4
     # via codecov-cli
-tfparse==0.6.17
+tfparse==0.6.18
     # via c7n-left
-tomli==2.2.1 ; python_full_version <= '3.11'
+tomli==2.3.0 ; python_full_version <= '3.11'
     # via
     #   coverage
     #   ipdb
@@ -207,12 +219,12 @@ traitlets==5.14.3
     # via
     #   ipython
     #   matplotlib-inline
-typing-extensions==4.14.1 ; python_full_version < '3.13'
+typing-extensions==4.15.0 ; python_full_version < '3.13'
     # via
     #   exceptiongroup
     #   ipython
     #   referencing
-    #   rich
+    #   virtualenv
 urllib3==2.5.0
     # via
     #   botocore
@@ -220,11 +232,11 @@ urllib3==2.5.0
     #   requests
     #   responses
     #   sentry-sdk
-virtualenv==20.32.0
+virtualenv==20.34.0
     # via pre-commit
-wcwidth==0.2.13
+wcwidth==0.2.14
     # via prompt-toolkit
 werkzeug==3.1.3
     # via moto
-xmltodict==0.14.2
+xmltodict==1.0.2
     # via moto
