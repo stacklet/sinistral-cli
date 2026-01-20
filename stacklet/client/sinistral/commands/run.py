@@ -65,7 +65,10 @@ def run(ctx, project, dryrun, *args, **kwargs):
     # pop parameters specific to sinistral format
     project = ctx.params.pop("project")
     dryrun = ctx.params.pop("dryrun")
+    err_invalid = ctx.params.pop("err_invalid", None)  # Remove parameter not accepted by get_config
     config = get_config(**ctx.params)
+    if err_invalid is not None:
+        ctx.params["err_invalid"] = err_invalid  # Restore for left_run.invoke
     s_config = Config.empty(**config)
     s_config.update({"project": project, "dryrun": dryrun})
 
