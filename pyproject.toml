@@ -7,10 +7,10 @@ requires-python = ">=3.10.2,<4"
 readme = "README.md"
 license = "Apache-2.0"
 dependencies = [
-    "c7n-left==0.3.34",
+    "c7n-left==0.3.35",
     # We pin to the exact versions used by c7n for compatibility purposes
-    "botocore==1.40.69",
-    "boto3==1.40.69",
+    "botocore==1.42.27",
+    "boto3==1.42.27",
     # Other dependencies
     "click>=8.1.3,<9",
     "codecov-cli>=11.1.0,<12",
