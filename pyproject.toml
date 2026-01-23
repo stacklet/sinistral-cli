@@ -3,7 +3,7 @@ name = "stacklet.client.sinistral"
 version = "0.5.34"
 description = "Sinistral CLI"
 maintainers = [ { name = "Stacklet Engineering", email = "foss+sinistral-cli@stacklet.io" } ]
-authors = [ { name = "Stacklet Engineering", email = "foss+sinitral-cli@stacklet.io" } ]
+authors = [ { name = "Stacklet Engineering", email = "foss+sinistral-cli@stacklet.io" } ]
 requires-python = ">=3.10.2,<4"
 readme = "README.md"
 license = "Apache-2.0"
