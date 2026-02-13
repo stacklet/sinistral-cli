@@ -4,6 +4,18 @@
 
 ### Changes
 
+### Fixes
+
+### Other
+
+---
+
+## v0.5.34
+
+### Features
+
+### Changes
+
 - **Dependency Update**: Updated to c7n 0.9.48
 
 ### Fixes
@@ -15,6 +27,23 @@
 - **GitHub Actions**: Bumped GitHub Actions dependencies and migrated to SHA pinning over tags for improved security
 - **Build System**: Migrated from poetry to uv for dependency management
 - **Requirements**: Added requirements.txt file for Dependabot tracking
+
+---
+
+## v0.5.33
+
+### Features
+
+### Changes
+
+- **Dependency Update**: Updated to c7n 0.9.48
+
+### Fixes
+
+### Other
+
+- Updated codecov-cli version
+- Cleaned up justfile, removing unused targets
 
 ---
 
