@@ -4,6 +4,16 @@
 
 ### Changes
 
+### Fixes
+
+### Other
+
+---
+
+## v0.5.34
+
+### Changes
+
 - **Dependency Update**: Updated to c7n 0.9.48
 
 ### Fixes
@@ -18,13 +28,20 @@
 
 ---
 
-## v0.5.32
-
-### Features
+## v0.5.33
 
 ### Changes
 
-### Fixes
+- **Dependency Update**: Updated to c7n 0.9.48
+
+### Other
+
+- Updated codecov-cli version
+- Cleaned up justfile, removing unused targets
+
+---
+
+## v0.5.32
 
 ### Other
 
@@ -35,13 +52,9 @@
 
 ## v0.5.30
 
-### Features
-
 ### Changes
 
 - **Dependency Update**: Updated c7n to 0.9.44
-
-### Fixes
 
 ### Other
 
@@ -50,8 +63,6 @@
 ---
 
 ## v0.5.0
-
-### Features
 
 ### Changes
 
@@ -73,8 +84,6 @@
 
 - **CI Environment Support**: Added support for grabbing CI information from the environment
 
-### Changes
-
 ### Fixes
 
 - **Metadata Handling**: Added error handling for lack of metadata
@@ -88,10 +97,6 @@
 
 ## v0.3.0
 
-### Features
-
-### Changes
-
 ### Fixes
 
 - **Dependency Pinning**: Explicit pin of upstream c7n-left version
@@ -103,10 +108,6 @@
 ---
 
 ## v0.2.7
-
-### Features
-
-### Changes
 
 ### Fixes
 
@@ -126,8 +127,6 @@
 - **Credential Management**: Added support for revoking project and organization credentials
 - **Default Policy Collections**: Added support for is_default flag on policy collections
 - **Critical Severity**: Added support for critical severity level
-
-### Changes
 
 ### Fixes
 
@@ -170,10 +169,6 @@
 
 - **SSO Login**: Added SSO login support
 - **Basic Commands**: Initial CLI commands for Sinistral platform interaction
-
-### Changes
-
-### Fixes
 
 ### Other
 
