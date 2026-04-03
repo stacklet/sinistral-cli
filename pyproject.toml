@@ -1,6 +1,6 @@
 [project]
 name = "stacklet.client.sinistral"
-version = "0.5.34"
+version = "0.5.36"
 description = "Sinistral CLI"
 maintainers = [ { name = "Stacklet Engineering", email = "foss+sinistral-cli@stacklet.io" } ]
 authors = [ { name = "Stacklet Engineering", email = "foss+sinistral-cli@stacklet.io" } ]
@@ -8,10 +8,10 @@ requires-python = ">=3.10.2,<4"
 readme = "README.md"
 license = "Apache-2.0"
 dependencies = [
-    "c7n-left==0.3.35",
+    "c7n-left==0.3.36",
     # We pin to the exact versions used by c7n for compatibility purposes
-    "botocore==1.42.27",
-    "boto3==1.42.27",
+    "botocore==1.42.59",
+    "boto3==1.42.59",
     # Other dependencies
     "click>=8.1.3,<9",
     "codecov-cli>=11.1.0,<12",
