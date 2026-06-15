@@ -10,6 +10,27 @@
 
 ---
 
+## v0.5.36
+
+### Changes
+
+- **Dependency Update**: Upgraded c7n to 0.9.50 and c7n-left to 0.3.36
+- **Dependency Update**: Bumped boto3/botocore to 1.42.59 to stay in sync with c7n's pinned versions
+
+---
+
+## v0.5.35
+
+### Changes
+
+- **Dependency Update**: Upgraded all dependencies to pull in CVE fixes
+
+### Other
+
+- **Supply Chain Security**: Hardened the build and release pipeline to reduce supply-chain risk in published artifacts
+
+---
+
 ## v0.5.34
 
 ### Changes
@@ -18,7 +39,7 @@
 
 ### Fixes
 
-- **JMESPath Error**: Fixed c7n_left usage to resolve JMESPath errors
+- **JMESPath Error**: Fixed c7n-left usage to resolve JMESPath errors
 
 ### Other
 
