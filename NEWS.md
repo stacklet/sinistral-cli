@@ -8,8 +8,6 @@
 
 ### Other
 
-- **GitHub Actions**: Bumped GitHub Actions dependencies ([#76](https://github.com/stacklet/sinistral-cli/pull/76), [#77](https://github.com/stacklet/sinistral-cli/pull/77))
-
 ---
 
 ## v0.5.36
@@ -18,6 +16,10 @@
 
 - **Dependency Update**: Upgraded c7n to 0.9.50 and c7n-left to 0.3.36 ([#75](https://github.com/stacklet/sinistral-cli/pull/75))
 - **Dependency Update**: Bumped boto3/botocore to 1.42.59 to stay in sync with c7n's pinned versions ([#75](https://github.com/stacklet/sinistral-cli/pull/75))
+
+### Other
+
+- **GitHub Actions**: Bumped GitHub Actions dependencies ([#76](https://github.com/stacklet/sinistral-cli/pull/76), [#77](https://github.com/stacklet/sinistral-cli/pull/77))
 
 ---
 
