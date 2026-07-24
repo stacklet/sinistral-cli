@@ -1,5 +1,6 @@
 # Copyright Stacklet, Inc.
 # SPDX-License-Identifier: Apache-2.0
+import copy
 import logging
 import sys
 
@@ -26,7 +27,15 @@ class LeftWrapper(click.core.Command):
     """
 
     def make_parser(self, ctx):
+        existing = {param.name for param in self.params}
         for param in left_run.params:
+            if param.name in existing:
+                # make_parser runs on every invocation; the run command is a
+                # module-level singleton, so skip params already appended.
+                continue
+            # Copy so the required-field tweaks below don't mutate the
+            # Parameter objects owned by c7n-left's own run command.
+            param = copy.copy(param)
             if param.name == "policy_dir":
                 # skip policy dir as we pull policies from the collection
                 # at runtime from sinistral

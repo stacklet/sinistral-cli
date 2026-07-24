@@ -1,12 +1,18 @@
-## Next Release
+## v0.5.37
 
 ### Features
 
 ### Changes
 
+- **Dependency Update**: Upgraded c7n-left to 0.3.37 and bumped boto3/botocore to 1.43.3 to stay in sync with c7n's pinned versions
+
 ### Fixes
 
+- **Run Command**: Removed duplicate CLI option registration in the `run` command that emitted repeated Click warnings
+
 ### Other
+
+- **Developer Tooling**: Pinned the development interpreter to Python 3.12 via `.python-version` (matching `.tool-versions`) and filtered an upstream c7n deprecation warning from test output
 
 ---
 
