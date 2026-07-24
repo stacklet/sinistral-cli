@@ -1,0 +1,4 @@
+# Matches .tool-versions (python 3.12.10). Keep the two in sync, and off
+# 3.14: transitive dep test-results-parser (via codecov-cli) ships no 3.14
+# wheels and its sdist fails to build there (pyo3 0.22 maxes out at 3.13).
+3.12
