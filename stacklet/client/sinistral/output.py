@@ -7,7 +7,9 @@ from urllib.parse import urlparse
 import click
 import jmespath
 
-from c7n_left.output import Json, JSONEncoder, MultiOutput, RichCli, report_outputs
+from c7n_left.output import (
+    Json, JSONEncoder, MultiOutput, GithubFormat, GitlabSAST, RichCli, report_outputs
+)
 from codecov_cli.helpers.ci_adapters import get_ci_adapter
 
 from stacklet.client.sinistral.client import sinistral_client
@@ -123,4 +125,4 @@ class SinistralOutput(MultiOutput):
     """
 
     def __init__(self, ctx, config):
-        super().__init__([SinistralFormat(ctx, config), RichCli(ctx, config)])
+        super().__init__([SinistralFormat(ctx, config), RichCli(ctx, config), GithubFormat(ctx, config), GitlabSAST(ctx, config)])
