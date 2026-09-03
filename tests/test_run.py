@@ -93,3 +93,47 @@ def test_submit_run_fail():
                 patched_post.mock_calls[0].args[2]["results"][0]["resource"]["__tfmeta"]["path"]
                 == "aws_sqs_queue.test_sqs"
             )
+
+
+@patch.object(StackletContext, "_write_token", Mock())
+def test_submit_run_nested_module_file_path():
+    """Resources in a non-root module whose for_each is built from a
+    path.module file read must still reach policy evaluation.
+
+    Path-based functions used to resolve relative to the module directory,
+    so composing them with the project-root-relative path.module produced a
+    duplicated module prefix. The read returned null, the for_each expanded
+    to nothing, and the resource never entered the graph, which made a
+    non-compliant configuration report as a silent pass.
+    """
+    path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/nested-module"
+    runner = CliRunner()
+    with patch.object(
+        RestExecutor,
+        "get",
+        side_effect=[
+            get_mock_response(json=get_policies_for_project_response),
+        ],
+    ):
+        with patch.object(
+            RestExecutor,
+            "post",
+            return_value=get_mock_response(json=create_scan_response),
+        ) as patched_post:
+            result = runner.invoke(cli, ["run", "--project", "foo", "-d", path])
+            # a policy violation exits non-zero, so SystemExit is expected here;
+            # anything else is a real error, and silent exceptions in tests are
+            # hard to debug, so raise for visibility
+            if result.exception is not None and not isinstance(result.exception, SystemExit):
+                raise result.exception
+
+            patched_post.assert_called_once()
+            payload = patched_post.mock_calls[0].args[2]
+            # the whole point: a skipped resource leaves this PASSED with no results
+            assert payload["status"] == "FAILED"
+            assert len(payload["results"]) == 1
+            resource = payload["results"][0]["resource"]
+            # violations inside a module are reported against the module block,
+            # with the expanded resource instances in refs
+            assert resource["__tfmeta"]["path"] == "module.a"
+            assert resource["__tfmeta"]["refs"] == ['module.a.aws_sqs_queue.x["queue-1"]']

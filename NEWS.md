@@ -1,3 +1,22 @@
+## v0.5.38
+
+### Features
+
+### Changes
+
+- **Dependency Update**: Upgraded c7n-left to 0.3.38 (c7n 0.9.52) and bumped boto3/botocore to 1.43.78 to stay in sync with c7n's pinned versions
+
+### Fixes
+
+- **Terraform Scanning**: Resources inside nested modules that build a `for_each` collection from `file("${path.module}/...")` are now discovered and evaluated. The path was previously resolved relative to the module directory rather than the project root, so the file read returned null, the `for_each` expanded to nothing, and such resources were silently skipped ([tfparse#282](https://github.com/cloud-custodian/tfparse/issues/282))
+
+### Other
+
+- **GitHub Actions**: Bumped GitHub Actions dependencies ([#82](https://github.com/stacklet/sinistral-cli/pull/82), [#83](https://github.com/stacklet/sinistral-cli/pull/83))
+- **Dependency Update**: Refreshed transitive and development dependencies to current releases
+
+---
+
 ## v0.5.37
 
 ### Features
