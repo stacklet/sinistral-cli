@@ -8,7 +8,7 @@
 
 ### Fixes
 
-- **Terraform Scanning**: Resources inside nested modules that build a `for_each` collection from `file("${path.module}/...")` are now discovered and evaluated. The path was previously resolved relative to the scan root rather than the project root, so the file read returned null, the `for_each` expanded to nothing, and such resources were silently skipped ([tfparse#282](https://github.com/cloud-custodian/tfparse/issues/282))
+- **Terraform Scanning**: Resources inside nested modules that build a `for_each` collection from `file("${path.module}/...")` are now discovered and evaluated. The path was previously resolved relative to the module directory rather than the project root, so the file read returned null, the `for_each` expanded to nothing, and such resources were silently skipped ([tfparse#282](https://github.com/cloud-custodian/tfparse/issues/282))
 
 ### Other
 
