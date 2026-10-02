@@ -137,3 +137,47 @@ def test_submit_run_nested_module_file_path():
             # with the expanded resource instances in refs
             assert resource["__tfmeta"]["path"] == "module.a"
             assert resource["__tfmeta"]["refs"] == ['module.a.aws_sqs_queue.x["queue-1"]']
+
+
+@patch.object(StackletContext, "_write_token", Mock())
+def test_submit_run_foreach_module_output():
+    """each.value.<attr> must resolve when the for_each collection contains a
+    module output reference.
+
+    The collection itself used to resolve, but each.value bindings inside the
+    resource body kept an unresolved reference marker. A policy checking that
+    attribute then saw the marker rather than the module's real value, so a
+    compliant resource was reported as a violation.
+    """
+    path = str(pathlib.Path(__file__).parent.resolve()) + "/terraform/foreach-module-output"
+    runner = CliRunner()
+    with patch.object(
+        RestExecutor,
+        "get",
+        side_effect=[
+            get_mock_response(json=get_policies_for_project_response),
+        ],
+    ):
+        with patch.object(
+            RestExecutor,
+            "post",
+            return_value=get_mock_response(json=create_scan_response),
+        ) as patched_post:
+            result = runner.invoke(cli, ["run", "--project", "foo", "-d", path])
+            # a policy violation exits non-zero, so SystemExit is expected here;
+            # anything else is a real error, and silent exceptions in tests are
+            # hard to debug, so raise for visibility
+            if result.exception is not None and not isinstance(result.exception, SystemExit):
+                raise result.exception
+
+            patched_post.assert_called_once()
+            payload = patched_post.mock_calls[0].args[2]
+            assert payload["status"] == "FAILED"
+            # only the instance with static, Environment-less tags violates; the
+            # module-sourced instance must resolve to its real tags and pass
+            assert len(payload["results"]) == 1
+            resource = payload["results"][0]["resource"]
+            # unresolved, the for_each never expanded and this was the bare
+            # resource address with an each.value.tags marker for tags
+            assert resource["__tfmeta"]["path"] == 'aws_sqs_queue.x["untagged"]'
+            assert resource["tags"] == {"Team": "platform"}
