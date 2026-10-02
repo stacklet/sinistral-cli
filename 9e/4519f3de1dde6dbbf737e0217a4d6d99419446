@@ -1,0 +1,24 @@
+tests/test_run.py
+  s_ea560e2ef49489::t_5329e8799a862c 175-183
+  s_ea560e2ef49489::t_d9c43498f49e9e 140-174
+tests/terraform/foreach-module-output/main.tf
+  s_ea560e2ef49489::t_8e4792e832e5ab 1-31
+tests/terraform/foreach-module-output/tags/main.tf
+  s_ea560e2ef49489::t_419c9530ca39a1 1-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9e4519f3de1dde6dbbf737e0217a4d6d99419446",
+  "prompts": {},
+  "sessions": {
+    "s_ea560e2ef49489": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac0b131d-745f-4774-a938-f9acc99c7042",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "AJ Kerrigan <aj@stacklet.io>"
+    }
+  }
+}
