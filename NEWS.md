@@ -1,3 +1,23 @@
+## v0.5.39
+
+### Features
+
+### Changes
+
+- **Dependency Update**: Upgraded c7n-left to 0.3.39 (c7n 0.9.53, tfparse 0.6.22, python-hcl2 8.1.4) and bumped boto3/botocore to 1.43.103 to stay in sync with c7n's pinned versions
+
+### Fixes
+
+- **Terraform Scanning**: `each.value.<attr>` inside a `for_each` resource now resolves when the collection contains a module output reference. Previously the attribute stayed an unresolved reference marker, so policies matching on it could not see the real value ([tfparse#283](https://github.com/cloud-custodian/tfparse/issues/283))
+- **Terraform Scanning**: References from resources to `data` source attributes are now tracked ([tfparse#277](https://github.com/cloud-custodian/tfparse/issues/277))
+
+### Other
+
+- **GitHub Actions**: Bumped GitHub Actions dependencies ([#85](https://github.com/stacklet/sinistral-cli/pull/85))
+- **Dependency Update**: Refreshed transitive and development dependencies to current releases
+
+---
+
 ## v0.5.38
 
 ### Features
