@@ -41,6 +41,12 @@ dev = [
     "tomlkit>=0.13.2,<0.14",
 ]
 
+[tool.uv]
+exclude-newer = "7 days"
+# TEMPORARY: no cooldown for certifi, to take 2026.10.19 early.
+# Remove on the next certifi upgrade.
+exclude-newer-package = { certifi = false }
+
 [tool.hatch.build.targets.sdist]
 include = ["stacklet"]
 
