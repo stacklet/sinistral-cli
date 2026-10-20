@@ -1,6 +1,6 @@
 [project]
 name = "stacklet.client.sinistral"
-version = "0.5.39"
+version = "0.5.39.1"
 description = "Sinistral CLI"
 maintainers = [ { name = "Stacklet Engineering", email = "foss+sinistral-cli@stacklet.io" } ]
 authors = [ { name = "Stacklet Engineering", email = "foss+sinistral-cli@stacklet.io" } ]

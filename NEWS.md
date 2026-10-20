@@ -1,3 +1,17 @@
+## v0.5.39.1
+
+### Features
+
+### Changes
+
+- **Dependency Update**: Upgraded certifi to 2026.10.19 to fix [GHSA-6q48-6c7w-9gw2](https://github.com/advisories/GHSA-6q48-6c7w-9gw2)
+
+### Fixes
+
+- **Dump**: `sinistral dump` now loads the Terraform provider before it runs, so it no longer fails with `AttributeError: 'NoneType' object has no attribute 'initialize'`
+
+### Other
+
 ## v0.5.39
 
 ### Features
