@@ -1,6 +1,6 @@
 [project]
 name = "stacklet.client.sinistral"
-version = "0.5.39"
+version = "0.5.39.1"
 description = "Sinistral CLI"
 maintainers = [ { name = "Stacklet Engineering", email = "foss+sinistral-cli@stacklet.io" } ]
 authors = [ { name = "Stacklet Engineering", email = "foss+sinistral-cli@stacklet.io" } ]
@@ -32,12 +32,12 @@ dev = [
     "ipdb>=0.13.13,<0.14",
     "jsonref>=1.1.0,<2",
     "moto[cognitoidp]>=5,<6",
+    "packaging>=26,<27",
     "pre-commit>=4.3.0,<5",
     "pytest-cov>=7,<8",
     "pytest>=8,<9",
     "python-jose>=3.3.0,<4",
     "ruff>=0.13.0",
-    "semver>=3.0.4,<4",
     "tomlkit>=0.13.2,<0.14",
 ]
 
